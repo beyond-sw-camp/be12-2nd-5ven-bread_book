@@ -77,7 +77,7 @@ onMounted(async () => {
 
                     <div class="flex items-center mb-6 -mt-4">
                         <div class="flex ml-auto">
-                            <router-link class="inline-flex text-xs sm:text-sm text-blue-500 hover:text-blue-700">비밀번호를 잊으셨나요?</router-link>
+                            <router-link to="/findIdPw" class="inline-flex text-xs sm:text-sm text-blue-500 hover:text-blue-700">비밀번호를 잊으셨나요?</router-link>
                         </div>
                     </div>
 
