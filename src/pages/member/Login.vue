@@ -36,7 +36,7 @@ onMounted(async () => {
                 </div>
             </div>
             <div class="mt-10">
-                <form action="/index" method="post">
+                <form action="/index">
                     <div class="flex flex-col mb-6">
                         <label for="email" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Id:</label>
                         <div class="relative">
