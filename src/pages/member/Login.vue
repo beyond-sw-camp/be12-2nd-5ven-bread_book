@@ -36,7 +36,7 @@ onMounted(async () => {
                 </div>
             </div>
             <div class="mt-10">
-                <form action="/index">
+                <form action="/index" method="post">
                     <div class="flex flex-col mb-6">
                         <label for="email" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Id:</label>
                         <div class="relative">
@@ -77,7 +77,7 @@ onMounted(async () => {
 
                     <div class="flex items-center mb-6 -mt-4">
                         <div class="flex ml-auto">
-                            <a href="/findIdPw" class="inline-flex text-xs sm:text-sm text-blue-500 hover:text-blue-700">비밀번호를 잊으셨나요?</a>
+                            <router-link class="inline-flex text-xs sm:text-sm text-blue-500 hover:text-blue-700">비밀번호를 잊으셨나요?</router-link>
                         </div>
                     </div>
 
