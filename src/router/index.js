@@ -13,7 +13,7 @@ import MyProduct from '../pages/mypage/MyProduct.vue';
 
 const checkLogin = async (from, to, next) => {
   const memberStore = useMemberStore();
-  await memberStore.loginCheck();
+  // await memberStore.loginCheck();
   if(memberStore.isLogin) {
     return next();
   }
