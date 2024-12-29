@@ -12,6 +12,8 @@ import ChatRoomList from '../pages/chat/ChatRoomList.vue';
 import Myproduct_home from '../pages/mypage/Myproduct_home.vue';
 import MystoreReviews from '../pages/mypage/MystoreReviews.vue';
 import Myproductstores from '../pages/mypage/Myproductstores.vue';
+import paymentList from '../pages/payment/paymentList.vue'
+import paymentDetails from '../pages/payment/paymentDetails.vue'
 
 
 const checkLogin = async (from, to, next) => {
@@ -25,6 +27,7 @@ const checkLogin = async (from, to, next) => {
 }
 
 const routes = [
+
   {
     path: '/',
     name: 'Home',
@@ -74,6 +77,8 @@ const routes = [
     props: true,
     meta: { showHeader: true, showFooter: true },
   },
+  { path: '/paymentList', component: paymentList },
+  { path: '/paymentDetails/:num', component: paymentDetails },
 
   //Myproduct_home 내 스토어들, 내 스토어의 리뷰들을 볼 수 있는 라우터 경로
   { path: "/myproduct_home", name: "Myproduct_home", component: Myproduct_home, 
