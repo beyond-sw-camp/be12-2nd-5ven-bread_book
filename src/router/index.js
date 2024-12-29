@@ -1,11 +1,12 @@
 import { createWebHistory, createRouter } from 'vue-router';
 import { useMemberStore } from '../stores/useMemberStore';
 
+import Home from "../pages/home/Home.vue";
 import LoginView from "../pages/member/Login.vue"
 import Signup from '../pages/member/Signup.vue';
 import SignupSuccess from '../pages/member/SignupSuccess.vue';
 import findIdPw from '../pages/member/findIdPw.vue';
-import Review from '../pages/member/Review.vue';
+import Review from '../pages/review/Review.vue';
 import Chat from '../pages/chat/Chat.vue';
 import ChatRoomList from '../pages/chat/ChatRoomList.vue';
 import Myproduct_home from '../pages/mypage/Myproduct_home.vue';
@@ -26,13 +27,56 @@ const checkLogin = async (from, to, next) => {
 }
 
 const routes = [
-  { path: '/login', component: LoginView },
-  { path: '/signup', component: Signup},
-  { path: '/signupSuccess', component: SignupSuccess},
-  { path: '/findIdPw', component: findIdPw},
-  { path: '/review', component: Review},
-  { path: '/chat', component: Chat},
-  { path: '/chat/:id', component: ChatRoomList, props: true },
+
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+    meta: { showHeader: true, showFooter: true },
+  },
+  {
+    path: '/login',
+    name: 'LoginView',
+    component: LoginView,
+    meta: { showHeader: false, showFooter: false }
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: Signup,
+    meta: { showHeader: false, showFooter: false }
+  },
+  {
+    path: '/signupSuccess',
+    name: 'SignupSuccess',
+    component: SignupSuccess,
+    meta: { showHeader: false, showFooter: false }
+  },
+  {
+    path: '/findIdPw',
+    name: 'findIdPw',
+    component: findIdPw,
+    meta: { showHeader: false, showFooter: false }
+  },
+  {
+    path: '/review',
+    name: 'Review',
+    component: Review,
+    meta: { showHeader: false, showFooter: false },
+  },
+  {
+    path: '/chat',
+    name: 'Chat',
+    component: Chat,
+    meta: { showHeader: true, showFooter: true },
+  },
+  {
+    path: '/chat/:id',
+    name: 'ChatRoomList',
+    component: ChatRoomList,
+    props: true,
+    meta: { showHeader: true, showFooter: true },
+  },
   { path: '/paymentList', component: paymentList },
   { path: '/paymentDetails/:num', component: paymentDetails },
 
