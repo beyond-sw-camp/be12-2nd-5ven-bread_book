@@ -1,15 +1,14 @@
 <script setup>
+import Header from "./pages/common/Header.vue";
+import Footer from "./pages/common/Footer.vue";
+import { useRoute } from 'vue-router';
+const route = useRoute();
 </script>
 
 <template>
-  <!-- <router-link to="/login">login</router-link>
-  <br/> -->
-  <router-link to="/chat">chat</router-link>
-  <br/>
-  <router-link to="/myproduct_home/myproductstores">myproduct_home</router-link>
-  <br/>
-  
+  <Header v-if="route.meta.showHeader"></Header>
   <router-view></router-view>
+  <Footer v-if="route.meta.showFooter"></Footer>
 </template>
 
 <style scoped>
