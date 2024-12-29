@@ -1,5 +1,19 @@
 <script setup>
-
+import { ref } from 'vue';
+const score = ref(0)
+const checkScore = ref(0)
+const checkFlag = ref(false);
+const checkStar = (index) => {
+    checkFlag.value = true;
+    checkScore.value = index
+}
+const hoverStar = (index) => {
+    console.log(index)
+    score.value = index
+}
+const outStar = (index) => {
+    score.value = 0
+}
 </script>
 
 <template>
@@ -35,11 +49,11 @@
                     </div>
                 </div>
                 <div class="mt-4 flex gap-1">
-                    <i class="far fa-star text-gray-300 text-xl"></i>
-                    <i class="far fa-star text-gray-300 text-xl"></i>
-                    <i class="far fa-star text-gray-300 text-xl"></i>
-                    <i class="far fa-star text-gray-300 text-xl"></i>
-                    <i class="far fa-star text-gray-300 text-xl"></i>
+                    <div class="star" v-for="index in 5" :key="index" @click="checkStar(index)" @mouseover="hoverStar(index)" @mouseleave="outStar()">
+                        <i v-if="index<=score && index>checkScore" class="fas fa-star text-gray-300 text-xl"></i>
+                        <i v-else-if="index<=checkScore" class="fas fa-star text-black-300 text-xl"></i>
+                        <i v-else class="far fa-star text-gray-300 text-xl"></i>
+                    </div>
                 </div>
             </div>
 
@@ -63,8 +77,8 @@
                         class="border border-gray-300 rounded-lg flex flex-col items-center justify-center w-16 h-16 text-gray-400 cursor-pointer">
                         <i class="fas fa-plus"></i>
                     </label>
-                    <!-- <input type="file" id="image-upload" accept="image/*" multiple onchange="previewImages(event)"> -->
-                    <input type="image" src="">
+                    <input type="file" id="image-upload" accept="image/*" multiple onchange="previewImages(event)">
+                    <!-- <input type="file" src=""> -->
                 </div>
             </div>
         </div>
@@ -84,7 +98,7 @@
     <!-- Footer -->
     <footer class="fixed bottom-0 left-0 right-0 bg-white shadow-md z-50">
         <div class="w-full max-w-[894px] mx-auto px-4 py-4 flex justify-between items-center">
-            <p class="text-sm text-gray-500">예상 적립금 <span class="font-bold text-black">0/1,000원</span></p>
+            <p class="text-sm text-gray-500"> <span class="font-bold text-black"></span></p>
             <button class="bg-black text-white text-sm font-bold py-3 px-8 rounded-lg">등록하기</button>
         </div>
     </footer>

@@ -5,7 +5,7 @@ import LoginView from "../pages/member/Login.vue"
 import Signup from '../pages/member/Signup.vue';
 import SignupSuccess from '../pages/member/SignupSuccess.vue';
 import findIdPw from '../pages/member/findIdPw.vue';
-import Review from '../pages/member/Review.vue';
+import Review from '../pages/review/Review.vue';
 import Chat from '../pages/chat/Chat.vue';
 import ChatRoomList from '../pages/chat/ChatRoomList.vue';
 import MyProduct from '../pages/mypage/MyProduct.vue';
