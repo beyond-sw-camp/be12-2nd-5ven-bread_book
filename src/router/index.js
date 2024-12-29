@@ -1,17 +1,18 @@
 import { createWebHistory, createRouter } from 'vue-router';
 import { useMemberStore } from '../stores/useMemberStore';
 
-import Home from "../pages/home/Home.vue";
-import LoginView from "../pages/member/Login.vue"
-import Signup from '../pages/member/Signup.vue';
-import SignupSuccess from '../pages/member/SignupSuccess.vue';
-import findIdPw from '../pages/member/findIdPw.vue';
-import Review from '../pages/review/Review.vue';
-import Chat from '../pages/chat/Chat.vue';
-import ChatRoomList from '../pages/chat/ChatRoomList.vue';
-import Myproduct_home from '../pages/mypage/Myproduct_home.vue';
-import MystoreReviews from '../pages/mypage/MystoreReviews.vue';
-import Myproductstores from '../pages/mypage/Myproductstores.vue';
+import Home from "/src/pages/home/Home.vue";
+import LoginView from "/src/pages/member/Login.vue"
+import Signup from '/src/pages/member/Signup.vue';
+import SignupSuccess from '/src/pages/member/SignupSuccess.vue';
+import findIdPw from '/src/pages/member/findIdPw.vue';
+import Review from '/src/pages/review/Review.vue';
+import Chat from '/src/pages/chat/Chat.vue';
+import ChatRoomList from '/src/pages/chat/ChatRoomList.vue';
+import Myproduct_home from '/src/pages/mypage/Myproduct_home.vue';
+import MystoreReviews from '/src/pages/mypage/MystoreReviews.vue';
+import Myproductstores from '/src/pages/mypage/Myproductstores.vue';
+import SearchResult from "../pages/home/SearchResult.vue";
 
 
 const checkLogin = async (from, to, next) => {
@@ -30,6 +31,12 @@ const routes = [
     name: 'Home',
     component: Home,
     meta: { showHeader: true, showFooter: true },
+  },
+  {
+    path: '/result', // * 향후 수정 필요 - 데이터에 따라 URI가 바뀌어야 한다.
+    name: 'SearchResult',
+    component: SearchResult,
+    meta: { showHeader: true, showFooter: true},
   },
   {
     path: '/login',
@@ -74,6 +81,7 @@ const routes = [
     props: true,
     meta: { showHeader: true, showFooter: true },
   },
+
 
   //Myproduct_home 내 스토어들, 내 스토어의 리뷰들을 볼 수 있는 라우터 경로
   { path: "/myproduct_home", name: "Myproduct_home", component: Myproduct_home, 
