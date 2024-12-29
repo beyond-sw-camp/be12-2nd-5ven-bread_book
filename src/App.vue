@@ -8,7 +8,7 @@
   <br/>
   <router-link to="/myproduct_home/myproductstores">myproduct_home</router-link>
   <br/>
-  
+  <router-link to="/paymentList">주문목록록</router-link>
   <router-view></router-view>
 </template>
 
