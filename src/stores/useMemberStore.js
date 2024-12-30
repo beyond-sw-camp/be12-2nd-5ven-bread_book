@@ -16,6 +16,9 @@ export const useMemberStore = defineStore('member', {
             //     this.isLogin = true;
             // }
             return isLogin;
+        }, 
+        logout() {
+            this.isLogin = false;
         }
     }
 })
