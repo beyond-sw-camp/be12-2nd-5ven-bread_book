@@ -3,6 +3,9 @@ import axios from 'axios';
 
 export const useMemberStore = defineStore('member', {
     state: () => ({member: {}, isLogin: false}),
+    persist: {
+        storage: sessionStorage,
+    },
     actions: {
         async fetchMemberWithId(id, pw) {
             const response = await axios.post("/api/login", {id:id, pw:pw});
@@ -10,15 +13,16 @@ export const useMemberStore = defineStore('member', {
             this.isLogin = true;
             return response;
         },
-        async loginCheck() {
+        loginCheck() {
             // const result = await axios.get("/api/user/auth/check", { withCredentials: true });
             // if (result.data.isSuccess) {
             //     this.isLogin = true;
             // }
-            return isLogin;
+            return this.isLogin;
         }, 
-        logout() {
+        async logout() {
             this.isLogin = false;
+            await axios.post("/api/logout");
         }
     }
 })

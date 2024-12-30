@@ -1,10 +1,21 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import { useMemberStore } from "/src/stores/useMemberStore.js";
+
 const isMenuOpen = ref(true);
 const memberStore = useMemberStore();
-const isLogin = memberStore.loginCheck();
-const isLogout = !isLogin;
+
+const isLogin = ref(false);
+const isLogout = ref(true);
+isLogin.value = memberStore.loginCheck();
+isLogout.value = !isLogin.value;
+
+// 로그아웃 함수 작성...
+function logout() {
+  memberStore.logout();
+  isLogin.value=memberStore.loginCheck();
+  isLogout.value = !isLogin.value;
+}
 
 function toggleMenu() {
   isMenuOpen.value = !isMenuOpen.value; // 상태 변경
@@ -40,24 +51,27 @@ onUnmounted(() => {
       <!--  오른쪽 - 로그인 버튼 & 외원가입 버튼    -->
       <div class="mt-2 sm:mt-0 sm:flex md:order-2">
         <!-- Login Button -->
-        <button v-if="isLogout" type="button"
+        <router-link to="/login"
+                     v-if="isLogout" type="button"
                 class="rounded mr-3 hidden border border-blue-700 py-1.5 px-6 text-center text-sm font-medium text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 md:inline-block rounded-lg">
-          <router-link to="/login" v-if="isLogin">로그인</router-link>
-        </button>
+          <span>로그인</span>
+        </router-link>
         <button v-if="isLogin" type="button"
                 class="rounded mr-3 hidden border border-blue-700 py-1.5 px-6 text-center text-sm font-medium text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 md:inline-block rounded-lg"
-                @click="memberStore.logout()"
+                @click="logout"
         >로그아웃
         </button>
         <!--  Signup Button  -->
-        <button v-if="isLogout" type="button"
+        <router-link to="/signup"
+                     v-if="isLogout" type="button"
                 class="rounded mr-3 hidden bg-blue-700 py-1.5 px-6 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg">
-          <router-link to="/signup">회원가입</router-link>
-        </button>
-        <button v-if="isLogin" type="button"
+          <span>회원가입</span>
+        </router-link>
+        <router-link to="/myproduct_home"
+                     v-if="isLogin" type="button"
                 class="rounded mr-3 hidden bg-blue-700 py-1.5 px-6 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg">
-          <router-link to="/myproduct_home">마이페이지</router-link>
-        </button>
+          <span>마이페이지</span>
+        </router-link>
         <!--  Toggle Button for Narrow Window    -->
         <!--   좁은 창 전용 메뉴 토글 버튼    -->
         <button @click="toggleMenu"

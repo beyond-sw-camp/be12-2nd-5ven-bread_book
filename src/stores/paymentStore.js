@@ -48,7 +48,7 @@ export const usePaymentStore = defineStore('payment', {
             const response = await axios.post(
                 "https://f1e8f15e-347b-4505-af07-9aeb8e9ff91b.mock.pstmn.io/orderList/"+id
             );
-            this.order = response.data;
+            return response.data;
         },
 
         async pays() {
