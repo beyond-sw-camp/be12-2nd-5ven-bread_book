@@ -40,7 +40,7 @@ watch(
 
                 <div class="product-details wrap">
                     <router-link :to="`/paymentDetails/${pay.orders_id}`">
-                        <img :src="pay.book_image" alt="">
+                        <img :src="pay.book_image" class="w-20 h-20 object-contain" alt="">
                         <div class="product-details-information">
                             <strong>{{pay.amount}}원</strong>
                             <div class="product-details-name">{{ pay.title }}</div>
@@ -73,7 +73,6 @@ watch(
     align-items: center;
     padding: 16px 20px;
     font-size: 14px;
-    ;
 }
 
 #paymentStatus {
@@ -93,7 +92,6 @@ watch(
 .product-details img {
     width: 65px;
     height: 65px;
-    border-radius: 5px;
 }
 
 .product-details-information {

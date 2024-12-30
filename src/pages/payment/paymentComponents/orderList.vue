@@ -40,7 +40,7 @@ watch(
 
                 <div class="product-details wrap">
                     <router-link :to="`/paymentDetails/${order.orders_id}`">
-                        <img :src="order.book_image" alt="">
+                        <img :src="order.book_image" class="w-20 h-20 object-contain" alt="">
                         <div class="product-details-information">
                             <strong>{{order.amount}}원</strong>
                             <div class="product-details-name">{{ order.title }}</div>
@@ -106,7 +106,6 @@ watch(
 .product-details img {
     width: 65px;
     height: 65px;
-    border-radius: 5px;
 }
 
 .product-details-information {

@@ -46,7 +46,7 @@ onMounted(async () => {
 
             <hr>
             <div class="product wrap">
-                <img :src="details.book_image" alt="">
+                <img :src="details.book_image" class="w-20 h-20 object-contain" alt="">
 
                 <div class="product-details">
                     <div class="product-details name">{{ details.title }}</div>
