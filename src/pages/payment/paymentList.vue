@@ -4,6 +4,9 @@ import orderList from './paymentComponents/orderList.vue';
 import payList from './paymentComponents/payList.vue';
 import { usePaymentStore } from "../../stores/paymentStore";
 import { onMounted,computed } from 'vue';
+import { useLoadingStore } from "../../stores/useLoadingStore"
+
+const loadingStore = useLoadingStore(); //추가
 
 
 // Pinia 스토어에서 상태 가져오기
@@ -14,13 +17,15 @@ const chooseMenu = computed(() => paymentStore.statusMenu);
 
 
 onMounted(async () => {
+    loadingStore.startLoading(); //데이터 로드 전에 loadingStore.startLoading() 호출.
     await paymentStore.pays();
     await paymentStore.orders();
+    loadingStore.stopLoading(); // 데이터 로드 후 loadingStore.stopLoading()호출.
 });
 </script>
 
 <template>
-    <div style="display: flex; justify-content: center;">
+    <div style="display: flex; justify-content: center; margin-top: 50px;">
         <div class="container">
             <div class="title">
                 <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img">

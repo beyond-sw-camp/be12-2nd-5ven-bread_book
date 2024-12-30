@@ -85,14 +85,22 @@ const routes = [
     props: true,
     meta: { showHeader: true, showFooter: true },
   },
+  { path: '/paymentList/:id', 
+    name: 'paymentList',
+    component: paymentList,
+    meta: { showHeader: true, showFooter: true },
+  },
+  { path: '/paymentDetails/:id',
+    name: 'paymentDetails',
+    component: paymentDetails,
+    meta: { showHeader: true, showFooter: true },  
+  },
   {
     path: '/productregister',
     name: 'ProductRegister',
     component: ProductRegister,
     meta: { showHeader: true, showFooter: true },
   },
-  { path: '/paymentList', component: paymentList },
-  { path: '/paymentDetails/:num', component: paymentDetails },
 
 
   //Myproduct_home 내 스토어들, 내 스토어의 리뷰들을 볼 수 있는 라우터 경로
