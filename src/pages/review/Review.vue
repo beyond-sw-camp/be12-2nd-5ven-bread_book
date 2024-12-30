@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { usePaymentStore } from '../../stores/paymentStore';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 const score = ref(0);
 const checkScore = ref(0);
 const checkFlag = ref(false);
@@ -18,18 +18,22 @@ const outStar = (index) => {
 
 const paymentStore = usePaymentStore();
 const route = useRoute();
+const router = useRouter();
 const product = ref({});
 onMounted(async () => {
     const res = await paymentStore.order(route.params.id);
     product.value = res;
 })
+const goBack = () => {
+    router.go(-1);
+}
 </script>
 
 <template>
     <header class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
         <div class="w-full max-w-[894px] mx-auto flex items-center px-4 py-6 border-b">
             <!-- Add href attribute for navigation -->
-            <router-link to="/paymentList" class="text-xl font-bold">←</router-link>
+            <button @click="goBack" class="text-xl font-bold">←</button>
             <h1 class="text-lg font-bold ml-4">후기 작성</h1>
         </div>
     </header>

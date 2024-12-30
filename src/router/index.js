@@ -17,6 +17,7 @@ import SearchResult from "../pages/home/SearchResult.vue";
 import paymentList from "../pages/payment/paymentList.vue";
 import paymentDetails from "../pages/payment/paymentDetails.vue";
 import ProductRegister from '../pages/productRegister/ProductRegister.vue';
+import ChangePw from '../pages/member/ChangePw.vue';
 
 
 const checkLogin = async (from, to, next) => {
@@ -65,6 +66,12 @@ const routes = [
     path: '/find_id_pw',
     name: 'findIdPw',
     component: findIdPw,
+    meta: { showHeader: false, showFooter: false }
+  },
+  {
+    path: '/change_pw',
+    name: 'changeIdPw',
+    component: ChangePw,
     meta: { showHeader: false, showFooter: false }
   },
   {
