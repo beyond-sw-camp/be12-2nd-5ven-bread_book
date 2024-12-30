@@ -17,6 +17,14 @@ export const useMemberStore = defineStore('member', {
                 this.isLogin = true;
             }
             return result.data;
+            // const result = await axios.get("/api/user/auth/check", { withCredentials: true });
+            // if (result.data.isSuccess) {
+            //     this.isLogin = true;
+            // }
+            return isLogin;
+        }, 
+        logout() {
+            this.isLogin = false;
         }
     }
 })
