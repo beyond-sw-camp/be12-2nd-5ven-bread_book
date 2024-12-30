@@ -27,7 +27,7 @@ const checkLogin = async (from, to, next) => {
     return next();
   }
 
-  next("/user/login");
+  next("/login");
 }
 
 const routes = [
@@ -85,13 +85,15 @@ const routes = [
     path: '/review/:id',
     name: 'Review',
     component: Review,
-    meta: { showHeader: true, showFooter: true },
+    meta: { showHeader: false, showFooter: false },
+    beforeEnter: checkLogin,
   },
   {
     path: '/chat',
     name: 'Chat',
     component: Chat,
     meta: { showHeader: true, showFooter: true },
+    beforeEnter: checkLogin,
   },
   {
     path: '/chat/:id',
@@ -99,22 +101,26 @@ const routes = [
     component: ChatRoomList,
     props: true,
     meta: { showHeader: true, showFooter: true },
+    beforeEnter: checkLogin,
   },
   { path: '/paymentList/:id', 
     name: 'paymentList',
     component: paymentList,
     meta: { showHeader: true, showFooter: true },
+    beforeEnter: checkLogin,
   },
   { path: '/paymentDetails/:id',
     name: 'paymentDetails',
     component: paymentDetails,
     meta: { showHeader: true, showFooter: true },  
+    beforeEnter: checkLogin,
   },
   {
     path: '/productregister',
     name: 'ProductRegister',
     component: ProductRegister,
     meta: { showHeader: true, showFooter: true },
+    beforeEnter: checkLogin,
   },
 
 
@@ -127,6 +133,7 @@ const routes = [
        },
     ],
     meta: { showHeader: true, showFooter: true },
+    beforeEnter: checkLogin,
   }
 ]
 
