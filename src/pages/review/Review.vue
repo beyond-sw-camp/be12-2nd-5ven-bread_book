@@ -1,5 +1,7 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { usePaymentStore } from '../../stores/paymentStore';
+import { useRoute } from 'vue-router';
 const score = ref(0)
 const checkScore = ref(0)
 const checkFlag = ref(false);
@@ -14,6 +16,14 @@ const hoverStar = (index) => {
 const outStar = (index) => {
     score.value = 0
 }
+
+const paymentStore = usePaymentStore();
+const route = useRoute();
+
+onMounted(async () => {
+    const response = await paymentStore.order(route.params.id);
+    console.log(response);
+})
 </script>
 
 <template>

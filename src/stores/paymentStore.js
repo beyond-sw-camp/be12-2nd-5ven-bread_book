@@ -44,6 +44,13 @@ export const usePaymentStore = defineStore('payment', {
             this.ordersList = response.data;
         },
 
+        async order(id) {
+            const response = await axios.post(
+                "https://f1e8f15e-347b-4505-af07-9aeb8e9ff91b.mock.pstmn.io/orderList/"+id
+            );
+            this.order = response.data;
+        },
+
         async pays() {
             const response = await axios.post(
                 "https://ab70cf08-b170-4dd5-8dc0-5aa1c09ae618.mock.pstmn.io/payList"

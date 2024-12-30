@@ -66,7 +66,7 @@ const routes = [
     meta: { showHeader: false, showFooter: false }
   },
   {
-    path: '/review',
+    path: '/review/:id',
     name: 'Review',
     component: Review,
     meta: { showHeader: false, showFooter: false },
