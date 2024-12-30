@@ -92,7 +92,9 @@ export default {
                       class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
                       to="/myproduct_home"
                     >
-                      <span class="mr-2">내 거래 내역</span>
+                      <span class="mr-2">
+                        <router-link :to="`/paymentList/${user.userid}`">내 거래 내역</router-link>
+                      </span>
                     </router-link>
                   </div>
                 </div>

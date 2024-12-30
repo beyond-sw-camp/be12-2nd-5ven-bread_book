@@ -20,7 +20,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div style="display: flex; justify-content: center;">
+    <div style="display: flex; justify-content: center; margin-top: 50px;">
         <div class="container">
             <div class="title">
                 <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img">
