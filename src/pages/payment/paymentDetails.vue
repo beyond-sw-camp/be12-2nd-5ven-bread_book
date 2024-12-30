@@ -1,7 +1,7 @@
 <script setup>
 import { ref,onMounted } from "vue";
 import { usePaymentStore } from "../../stores/paymentStore";
-// import { useLoadingStore } from "../../stores/"
+import { useLoadingStore } from "../../stores/useLoadingStore"
 
 const loadingStore = useLoadingStore(); //추가
 
@@ -12,18 +12,18 @@ const details = ref({});
 
 // 비동기 함수 실행 - 컴포넌트가 마운트될 때 호출
 onMounted(async () => {
-    // loadingStore.startLoading(); //데이터 로드 전에 loadingStore.startLoading() 호출.
+    loadingStore.startLoading(); //데이터 로드 전에 loadingStore.startLoading() 호출.
     const response = await paymentStore.paymentDetails();  // 비동기 작업
     console.log(response);
     details.value=response;    
-    // loadingStore.stopLoading(); // 데이터 로드 후 loadingStore.stopLoading()호출.
+    loadingStore.stopLoading(); // 데이터 로드 후 loadingStore.stopLoading()호출.
 });
 </script>
 
 <template>
 <div class="body">
     <div class="container">
-        <router-link to="/paymentList" class="title">
+        <router-link :to="`/paymentList/${details.member_id}`" class="title">
             <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img">
                 <path
                     d="M14.265 19.537a.9.9 0 1 0 1.27-1.274l-8.362-8.34 8.365-8.387A.9.9 0 0 0 14.263.264l-9 9.024a.902.902 0 0 0 .002 1.273l9 8.976z"
@@ -96,6 +96,7 @@ onMounted(async () => {
 
 <style lang="css" scoped>
 .body {
+    margin: 100px 0px 50px;
     display: flex;
     justify-content: center;
 }
