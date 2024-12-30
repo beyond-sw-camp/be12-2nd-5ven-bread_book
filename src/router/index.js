@@ -54,13 +54,13 @@ const routes = [
     meta: { showHeader: false, showFooter: false }
   },
   {
-    path: '/signupSuccess',
+    path: '/signup_success',
     name: 'SignupSuccess',
     component: SignupSuccess,
     meta: { showHeader: false, showFooter: false }
   },
   {
-    path: '/findIdPw',
+    path: '/find_id_pw',
     name: 'findIdPw',
     component: findIdPw,
     meta: { showHeader: false, showFooter: false }
