@@ -1,18 +1,31 @@
-<script>
-import { ref } from "vue";
+<script setup>
+import { ref, onMounted, onUnmounted } from "vue";
 
-export default {
-  name: "Header",
-  setup() {
-    const isMenuOpen = ref(false);
-    // Toggle menu state 토글 버튼 상태
-    const toggleMenu = () => {
-      isMenuOpen.value = !isMenuOpen.value;
-    };
-    return { isMenuOpen, toggleMenu };
-  },
-};
+const isMenuOpen = ref(true);
+
+function toggleMenu() {
+  isMenuOpen.value = !isMenuOpen.value; // 상태 변경
+  console.log("Menu toggled:", isMenuOpen.value); // 상태 확인
+}
+// 화면 크기 변경 감지 함수
+function updateMenuStateBasedOnScreenWidth() {
+  const isSmallScreen = window.innerWidth < 768; // 768px 미만
+  isMenuOpen.value = !isSmallScreen;
+}
+
+// 컴포넌트 마운트 시 이벤트 리스너 등록
+onMounted(() => {
+  updateMenuStateBasedOnScreenWidth(); // 초기 화면 크기에 따라 상태 설정
+  window.addEventListener("resize", updateMenuStateBasedOnScreenWidth); // 화면 크기 변경 감지
+});
+
+// 컴포넌트 언마운트 시 이벤트 리스너 해제
+onUnmounted(() => {
+  window.removeEventListener("resize", updateMenuStateBasedOnScreenWidth);
+});
+
 </script>
+
 
 <template>
   <nav class="fixed top-0 left-0 z-20 w-full border-b border-gray-200 bg-white py-2.5 px-6 sm:px-4">
@@ -79,4 +92,5 @@ export default {
       </div>
     </div>
   </nav>
+
 </template>
