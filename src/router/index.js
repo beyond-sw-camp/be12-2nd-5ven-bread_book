@@ -6,6 +6,7 @@ import LoginView from "/src/pages/member/Login.vue"
 import Signup from '/src/pages/member/Signup.vue';
 import SignupSuccess from '/src/pages/member/SignupSuccess.vue';
 import findIdPw from '/src/pages/member/findIdPw.vue';
+import ProductDetail from "/src/pages/productDetail/ProductDetail.vue";
 import Review from '/src/pages/review/Review.vue';
 import Chat from '/src/pages/chat/Chat.vue';
 import ChatRoomList from '/src/pages/chat/ChatRoomList.vue';
@@ -65,6 +66,13 @@ const routes = [
     name: 'findIdPw',
     component: findIdPw,
     meta: { showHeader: false, showFooter: false }
+  },
+  {
+    // * 수정 필요 - product_detail / :id에 맞게 이동시키기
+    path: '/product_detail',
+    name: 'ProductDetail',
+    component: ProductDetail,
+    meta: { showHeader: true, showFooter: true},
   },
   {
     path: '/review/:id',

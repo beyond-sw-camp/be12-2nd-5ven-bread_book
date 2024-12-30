@@ -44,37 +44,40 @@ onMounted(() => {
             :key="book.id"
             class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300"
         >
-          <div class="flex flex-col justify-between h-full">
-            <div>
-              <div
-                  class="relative flex items-end overflow-hidden rounded-xl"
-                  style="max-width: 18rem; max-height: 22rem; min-height: 22rem;">
-                <!-- @click="" 클릭 이벤트로 링크 추가하기 -->
+          <router-link to="/product_detail">
+            <div class="flex flex-col justify-between h-full">
+              <div>
+                <div
+                    class="relative flex items-end overflow-hidden rounded-xl"
+                    style="max-width: 18rem; max-height: 22rem; min-height: 22rem;">
+                  <!-- @click="" 클릭 이벤트로 링크 추가하기 -->
 
-                <img
-                    :src="book.imgSrc"
-                    :alt="book.alt"
-                    style="width: 100%; height: 22rem; object-fit: cover;"
-                />
+                  <img
+                      :src="book.imgSrc"
+                      :alt="book.alt"
+                      style="width: 100%; height: 22rem; object-fit: cover;"
+                  />
+                </div>
+                <h2 class="mt-2 text-slate-700 truncate">{{ book.author }} {{ book.title }}</h2>
+                <p class="mt-1 text-sm text-slate-400 truncate">
+                  {{ book.publisher }}, {{ book.publication_date }}
+                </p>
               </div>
-              <h2 class="mt-2 text-slate-700 truncate">{{ book.author }} {{ book.title }}</h2>
-              <p class="mt-1 text-sm text-slate-400 truncate">
-                {{ book.publisher }}, {{ book.publication_date }}
-              </p>
-            </div>
-            <div class="mt-1 p-2">
-              <div class="mt-3 flex items-end justify-between">
-                <p class="text-lg font-bold text-blue-500">{{ book.price }}원</p>
-                <button
-                    id="wishBtn"
-                    class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600"
-                >
-                  <img id="starIcon" src="/src/assets/icon/white-star.svg" alt="찜" />
-                  <span class="text-sm">찜하기</span>
-                </button>
+              <div class="mt-1 p-2">
+                <div class="mt-3 flex items-end justify-between">
+                  <p class="text-lg font-bold text-blue-500">{{ book.price }}원</p>
+                  <button
+                      id="wishBtn"
+                      class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600"
+                  >
+                    <img id="starIcon" src="/src/assets/icon/white-star.svg" alt="찜" />
+                    <span class="text-sm">찜하기</span>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </router-link>
+
         </article>
       </div>
     </section>
