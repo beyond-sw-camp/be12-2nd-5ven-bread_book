@@ -1,11 +1,18 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 
 const show = ref(false);
 show.value = false;
 const toggleShow = () => {
     show.value = !show.value;
+}
+
+const signup = () => {
+    // await memberStore.signup();
+    router.push('/signup_success');
 }
 </script>
 
@@ -19,7 +26,7 @@ const toggleShow = () => {
                 <h2 class="text-center text-2xl font-bold tracking-wide text-gray-800">회원가입</h2>
                 <p class="text-center text-sm text-gray-600 mt-2">이미 계정이 있으신가요? <router-link to="/login" class="text-blue-600 hover:text-blue-700 hover:underline" title="Sign In">로그인</router-link></p>
 
-                <form action="/signupSuccess" class="my-8 text-sm">
+                <form action="/" @submit.prevent="signup" class="my-8 text-sm">
                     <div class="flex flex-col my-4">
                         <label for="name" class="text-gray-700">이름</label>
                         <input type="text" name="name" id="name" class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900" placeholder="이름 입력">

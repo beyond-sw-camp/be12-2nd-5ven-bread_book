@@ -1,5 +1,15 @@
 <script setup>
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
+const find_id = () => {
+    // await memberStore.signup();
+    router.push('/');
+}
+const find_pw = () => {
+    // await memberStore.signup();
+    router.push('/change_pw');
+}
 </script>
 
 <template>
@@ -12,7 +22,7 @@
                 </div>
             </div>
             <div class="mt-10">
-                <form action="#">
+                <form action="/" @submit.prevent="find_id">
                     <div class="flex flex-col mb-6">
                         <label for="email" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">이름:</label>
                         <div class="relative">
@@ -29,6 +39,8 @@
                                 class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
                                 placeholder="이름" />
                         </div>
+                    </div>
+                    <div class="flex flex-col mb-6">
                         <label for="email" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">이메일:</label>
                         <div class="relative">
                             <div
@@ -40,7 +52,7 @@
                                 </svg>
                             </div>
 
-                            <input id="email" name="email"
+                            <input id="email_for_id" name="email"
                                 class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
                                 placeholder="이메일" />
                         </div>
@@ -65,7 +77,25 @@
                 </div>
             </div>
             <div class="mt-10">
-                <form action="#">
+                <form action="/" @submit.prevent="find_pw">
+                    <div class="flex flex-col mb-6">
+                        <label for="password"
+                            class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">ID:</label>
+                        <div class="relative">
+                            <div
+                                class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
+                                <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
+                                </svg>
+                            </div>
+
+                            <input id="id" type="text" name="id"
+                                class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
+                                placeholder="ID" />
+                        </div>
+                    </div>
                     <div class="flex flex-col mb-6">
                         <label for="password"
                             class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">이메일:</label>
@@ -79,7 +109,7 @@
                                 </svg>
                             </div>
 
-                            <input id="password" type="password" name="password"
+                            <input id="email_for_pw" type="email" name="email"
                                 class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
                                 placeholder="이메일" />
                         </div>
