@@ -98,8 +98,8 @@ onUnmounted(() => {
                          aria-current="page">홈</router-link>
           </li>
           <li>
-            <router-link to="/myproduct_home"
-                         class="block rounded py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-100 md:p-0 md:hover:bg-transparent md:hover:text-blue-700">내상품</router-link>
+            <router-link to="/myproduct_home/myproductstores"
+               class="block rounded py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-100 md:p-0 md:hover:bg-transparent md:hover:text-blue-700">내상품</router-link>
           </li>
           <li>
             <!--  수정필요 - 상품판매 페이지 router link 추가하기  -->
