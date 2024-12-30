@@ -1,7 +1,21 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
+import { useMemberStore } from "/src/stores/useMemberStore.js";
 
 const isMenuOpen = ref(true);
+const memberStore = useMemberStore();
+
+const isLogin = ref(false);
+const isLogout = ref(true);
+isLogin.value = memberStore.loginCheck();
+isLogout.value = !isLogin.value;
+
+// 로그아웃 함수 작성...
+function logout() {
+  memberStore.logout();
+  isLogin.value=memberStore.loginCheck();
+  isLogout.value = !isLogin.value;
+}
 
 function toggleMenu() {
   isMenuOpen.value = !isMenuOpen.value; // 상태 변경
@@ -37,18 +51,27 @@ onUnmounted(() => {
       <!--  오른쪽 - 로그인 버튼 & 외원가입 버튼    -->
       <div class="mt-2 sm:mt-0 sm:flex md:order-2">
         <!-- Login Button -->
-        <button type="button"
+        <router-link to="/login"
+                     v-if="isLogout" type="button"
                 class="rounded mr-3 hidden border border-blue-700 py-1.5 px-6 text-center text-sm font-medium text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 md:inline-block rounded-lg">
-          <!--          onclick="window.location.href='./login.html';"-->
-          <router-link to="/login">로그인</router-link>
+          <span>로그인</span>
+        </router-link>
+        <button v-if="isLogin" type="button"
+                class="rounded mr-3 hidden border border-blue-700 py-1.5 px-6 text-center text-sm font-medium text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 md:inline-block rounded-lg"
+                @click="logout"
+        >로그아웃
         </button>
         <!--  Signup Button  -->
-        <button type="button"
+        <router-link to="/signup"
+                     v-if="isLogout" type="button"
                 class="rounded mr-3 hidden bg-blue-700 py-1.5 px-6 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg">
-          <!--          onclick="window.location.href='./signup.html';"-->
-          <router-link to="/signup"> 회원가입</router-link>
-
-        </button>
+          <span>회원가입</span>
+        </router-link>
+        <router-link to="/myproduct_home"
+                     v-if="isLogin" type="button"
+                class="rounded mr-3 hidden bg-blue-700 py-1.5 px-6 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg">
+          <span>마이페이지</span>
+        </router-link>
         <!--  Toggle Button for Narrow Window    -->
         <!--   좁은 창 전용 메뉴 토글 버튼    -->
         <button @click="toggleMenu"
@@ -71,8 +94,8 @@ onUnmounted(() => {
             class="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:text-sm md:font-medium">
           <li>
             <router-link to="/"
-               class="block rounded bg-blue-700 py-2 pl-3 pr-4 text-white md:bg-transparent md:p-0 md:text-blue-700"
-               aria-current="page">홈</router-link>
+                         class="block rounded bg-blue-700 py-2 pl-3 pr-4 text-white md:bg-transparent md:p-0 md:text-blue-700"
+                         aria-current="page">홈</router-link>
           </li>
           <li>
             <router-link to="/myproduct_home/myproductstores"
@@ -81,12 +104,12 @@ onUnmounted(() => {
           <li>
             <!--  수정필요 - 상품판매 페이지 router link 추가하기  -->
             <router-link to="/"
-               class="block rounded py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-100 md:p-0 md:hover:bg-transparent md:hover:text-blue-700">
+                         class="block rounded py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-100 md:p-0 md:hover:bg-transparent md:hover:text-blue-700">
               판매하기</router-link>
           </li>
           <li>
             <router-link to="/chat"
-               class="block rounded py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-100 md:p-0 md:hover:bg-transparent md:hover:text-blue-700">채팅하기</router-link>
+                         class="block rounded py-2 pl-3 pr-4 text-gray-700 hover:bg-gray-100 md:p-0 md:hover:bg-transparent md:hover:text-blue-700">채팅하기</router-link>
           </li>
         </ul>
       </div>

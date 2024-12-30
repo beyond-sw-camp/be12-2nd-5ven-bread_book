@@ -15,6 +15,7 @@ import Myproductstores from '/src/pages/mypage/Myproductstores.vue';
 import SearchResult from "../pages/home/SearchResult.vue";
 import paymentList from "../pages/payment/paymentList.vue";
 import paymentDetails from "../pages/payment/paymentDetails.vue";
+import ProductRegister from '../pages/productRegister/ProductRegister.vue';
 
 
 const checkLogin = async (from, to, next) => {
@@ -84,8 +85,22 @@ const routes = [
     props: true,
     meta: { showHeader: true, showFooter: true },
   },
-  { path: '/paymentList', component: paymentList },
-  { path: '/paymentDetails/:num', component: paymentDetails },
+  { path: '/paymentList/:id', 
+    name: 'paymentList',
+    component: paymentList,
+    meta: { showHeader: true, showFooter: true },
+  },
+  { path: '/paymentDetails/:id',
+    name: 'paymentDetails',
+    component: paymentDetails,
+    meta: { showHeader: true, showFooter: true },  
+  },
+  {
+    path: '/productregister',
+    name: 'ProductRegister',
+    component: ProductRegister,
+    meta: { showHeader: true, showFooter: true },
+  },
 
 
   //Myproduct_home 내 스토어들, 내 스토어의 리뷰들을 볼 수 있는 라우터 경로
