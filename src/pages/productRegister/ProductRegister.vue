@@ -20,8 +20,9 @@ const handleFileChange = (event) => {
   const files = Array.from(event.target.files);
   if (files.length > 0) {
     images.value = files.map((file) => ({
-      file,
-      preview: URL.createObjectURL(file),
+      file, // 파일 객체 추가
+      name: file.name, // 파일 이름 추가
+      preview: URL.createObjectURL(file), // 미리보기 URL
     }));
   }
 };
@@ -66,24 +67,30 @@ const selectSubSubCategory = (subSubCategory) => {
 
 // 상품 등록 핸들러
 const handleRegister = async () => {
-  const productData = {
-    productName: productName.value,
-    mainCategory: selectedMainCategory.value,
-    subCategory: selectedSubCategory.value,
-    subSubCategory: selectedSubSubCategory.value,
-    condition: condition.value,
-    description: description.value,
-    price: parseFloat(price.value), // 숫자형으로 변환
-    shipping: shipping.value,
-    directDeal: directDeal.value,
-    quantity: parseInt(quantity.value, 10), // 숫자형으로 변환
-    images: images.value.map((file) => file.name), // 파일 이름만 전송
-  };
+  const formData = new FormData();
+
+  formData.append("productName", productName.value);
+  formData.append("mainCategory", selectedMainCategory.value);
+  formData.append("subCategory", selectedSubCategory.value);
+  formData.append("subSubCategory", selectedSubSubCategory.value);
+  formData.append("condition", condition.value);
+  formData.append("description", description.value);
+  formData.append("price", parseFloat(price.value)); // 숫자형으로 변환
+  formData.append("shipping", shipping.value);
+  formData.append("directDeal", directDeal.value);
+  formData.append("quantity", parseInt(quantity.value, 10)); // 숫자형으로 변환
+
+  // 이미지 파일 추가
+  images.value.forEach((imgObj, index) => {
+    formData.append(`images`, imgObj.file);
+  });
 
   try {
     loadingStore.startLoading();
-    const response = await productRegisterStore.registerProduct(productData); // POST 요청
+    const response = await productRegisterStore.registerProduct(formData); // POST 요청
     console.log("상품 등록 성공:", response);
+    console.log("이미지 데이터 확인:", images.value);
+
     alert("상품이 성공적으로 등록되었습니다!");
   } catch (error) {
     console.error("상품 등록 실패:", error);
@@ -92,6 +99,7 @@ const handleRegister = async () => {
     loadingStore.stopLoading();
   }
 };
+
 </script>
 
 

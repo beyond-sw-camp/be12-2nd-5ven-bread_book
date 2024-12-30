@@ -35,14 +35,14 @@ export const useProductRegisterStore = defineStore("productRegister", {
     selectSubSubCategory(subSubCategory) {
       this.selectedSubSubCategory = subSubCategory;
     },
-    async registerProduct(productData) {
+    async registerProduct(formData) {
       try {
         const response = await axios.post(
           "https://72fe67fb-06cb-478f-b472-e8cfc2559991.mock.pstmn.io/api/productRegister",
-          productData,
+          formData,
           {
             headers: {
-              "Content-Type": "application/json",
+              "Content-Type": "multipart/form-data",
             },
           }
         );
