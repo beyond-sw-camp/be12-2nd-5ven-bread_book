@@ -119,7 +119,7 @@ function hidePaymentModal() {
       </div>
 
       <!-- Chat Input -->
-      <footer v-if="selectedChatRoom" class="bg-white border-t border-gray-300 p-4 absolute bottom-0 w-3/4">
+      <footer v-if="selectedChatRoom" class="bg-white border-t border-gray-300 p-4 absolute -bottom-2 w-3/4">
         <div class="flex items-center">
           <input
             type="text"
