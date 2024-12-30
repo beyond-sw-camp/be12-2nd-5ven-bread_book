@@ -1,6 +1,9 @@
 <script setup>
 import { ref,onMounted } from "vue";
 import { usePaymentStore } from "../../stores/paymentStore";
+// import { useLoadingStore } from "../../stores/"
+
+const loadingStore = useLoadingStore(); //추가
 
 const paymentStore = usePaymentStore();
 
@@ -9,9 +12,11 @@ const details = ref({});
 
 // 비동기 함수 실행 - 컴포넌트가 마운트될 때 호출
 onMounted(async () => {
+    // loadingStore.startLoading(); //데이터 로드 전에 loadingStore.startLoading() 호출.
     const response = await paymentStore.paymentDetails();  // 비동기 작업
     console.log(response);
     details.value=response;    
+    // loadingStore.stopLoading(); // 데이터 로드 후 loadingStore.stopLoading()호출.
 });
 </script>
 

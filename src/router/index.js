@@ -1,6 +1,20 @@
 import { createWebHistory, createRouter } from 'vue-router';
 import { useMemberStore } from '../stores/useMemberStore';
 
+import Home from "/src/pages/home/Home.vue";
+import LoginView from "/src/pages/member/Login.vue"
+import Signup from '/src/pages/member/Signup.vue';
+import SignupSuccess from '/src/pages/member/SignupSuccess.vue';
+import findIdPw from '/src/pages/member/findIdPw.vue';
+import Review from '/src/pages/review/Review.vue';
+import Chat from '/src/pages/chat/Chat.vue';
+import ChatRoomList from '/src/pages/chat/ChatRoomList.vue';
+import Myproduct_home from '/src/pages/mypage/Myproduct_home.vue';
+import MystoreReviews from '/src/pages/mypage/MystoreReviews.vue';
+import Myproductstores from '/src/pages/mypage/Myproductstores.vue';
+import SearchResult from "../pages/home/SearchResult.vue";
+import paymentList from "../pages/payment/paymentList.vue";
+import paymentDetails from "../pages/payment/paymentDetails.vue";
 import LoginView from "../pages/member/Login.vue"
 import Signup from '../pages/member/Signup.vue';
 import SignupSuccess from '../pages/member/SignupSuccess.vue';
