@@ -10,12 +10,12 @@ export const useMemberStore = defineStore('member', {
             this.isLogin = true;
             return response;
         },
-        async loginCheck() {
+        loginCheck() {
             // const result = await axios.get("/api/user/auth/check", { withCredentials: true });
             // if (result.data.isSuccess) {
             //     this.isLogin = true;
             // }
-            return isLogin;
+            return this.isLogin;
         }, 
         logout() {
             this.isLogin = false;
