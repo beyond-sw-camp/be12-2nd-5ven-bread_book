@@ -43,10 +43,7 @@ export default {
 </script>
 
 <template>
-  <div class="bg-white">
-    <!-- header -->
-
-    <!-- title -->
+  <div class="pt-16 bg-white">
 
     <!-- 상단버튼 -->
     <main class="my-8">
