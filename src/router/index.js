@@ -13,6 +13,8 @@ import Myproduct_home from '/src/pages/mypage/Myproduct_home.vue';
 import MystoreReviews from '/src/pages/mypage/MystoreReviews.vue';
 import Myproductstores from '/src/pages/mypage/Myproductstores.vue';
 import SearchResult from "../pages/home/SearchResult.vue";
+import paymentList from "../pages/payment/paymentList.vue";
+import paymentDetails from "../pages/payment/paymentDetails.vue";
 
 
 const checkLogin = async (from, to, next) => {
