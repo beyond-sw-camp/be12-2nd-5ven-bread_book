@@ -16,6 +16,21 @@ const directDeal = ref("");
 const quantity = ref(1);
 const images = ref([]);
 
+const handleFileChange = (event) => {
+  const files = Array.from(event.target.files);
+  if (files.length > 0) {
+    images.value = files.map((file) => ({
+      file,
+      preview: URL.createObjectURL(file),
+    }));
+  }
+};
+
+const removeImage = () => {
+  images.value = [];
+};
+
+
 // 카테고리 선택 값
 const selectedMainCategory = ref(null);
 const selectedSubCategory = ref(null);
@@ -91,21 +106,32 @@ const handleRegister = async () => {
         <div class="flex items-start mb-6 border-t border-gray-300 pt-4">
           <label class="text-2xl font-semibold text-gray-700 w-1/4">상품 이미지 <small>(0/12)</small></label>
           <div class="w-3/4">
-            <div
-              class="w-64 h-64 border border-gray-300 rounded-md flex items-center justify-center bg-indigo-50 text-gray-700 cursor-pointer">
-              <label for="file-upload" class="w-full h-full flex flex-col items-center justify-center">
+            <!-- 업로드 박스 -->
+            <div class="w-64 h-64 border border-gray-300 rounded-md bg-indigo-50 text-gray-700 cursor-pointer relative"
+              :class="{
+                'bg-cover bg-center bg-no-repeat': images.length > 0
+              }" :style="{
+        backgroundImage: images.length > 0 ? `url(${images[0].preview})` : ''
+      }">
+              <!-- 업로드 아이콘 및 텍스트 -->
+              <label v-if="images.length === 0" for="file-upload"
+                class="w-full h-full flex flex-col items-center justify-center absolute top-0 left-0">
                 <img src="../../assets/icon/upload-minimalistic-svgrepo-com.svg" alt="업로드 아이콘" class="w-16 h-16 mb-2" />
                 <span class="text-sm font-medium">이미지 업로드</span>
                 <small class="text-xs text-gray-500">(jpg, jpeg, png)</small>
-                <input id="file-upload" type="file" accept="image/jpg, image/jpeg, image/png" multiple class="hidden"
-                  @change="images.value = Array.from($event.target.files)" />
               </label>
+              <input id="file-upload" type="file" accept="image/jpg, image/jpeg, image/png" class="hidden"
+                @change="handleFileChange" />
+
+              <!-- 이미지 제거 버튼 -->
+              <button v-if="images.length > 0" @click="removeImage"
+                class="absolute bottom-2 right-2 bg-red-500 text-white rounded-full px-3 py-1 text-xs shadow-md hover:bg-red-600">
+                ✕
+              </button>
             </div>
-            <p class="mt-2 text-sm text-gray-500">
-              상품 이미지는 PC에서는 1:1, 모바일에서는 1:1.23 비율로 보여집니다.
-            </p>
           </div>
         </div>
+
 
         <!-- 상품명 -->
         <div class="flex items-start mb-6 border-t border-gray-300 pt-4">
@@ -129,8 +155,7 @@ const handleRegister = async () => {
                 <h4 class="font-bold mb-2">메인 카테고리</h4>
                 <ul>
                   <li v-for="category in mainCategories" :key="category">
-                    <button
-                      @click="selectMainCategory(category)"
+                    <button @click="selectMainCategory(category)"
                       :class="{ 'bg-red-100 text-red-500 font-bold': selectedMainCategory === category }"
                       class="px-4 py-2 rounded-md w-full text-left">
                       {{ category }}
@@ -143,8 +168,7 @@ const handleRegister = async () => {
                 <h4 class="font-bold mb-2">서브 카테고리</h4>
                 <ul>
                   <li v-for="subCategory in subCategories" :key="subCategory">
-                    <button
-                      @click="selectSubCategory(subCategory)"
+                    <button @click="selectSubCategory(subCategory)"
                       :class="{ 'bg-red-100 text-red-500 font-bold': selectedSubCategory === subCategory }"
                       class="px-4 py-2 rounded-md w-full text-left">
                       {{ subCategory }}
@@ -157,8 +181,7 @@ const handleRegister = async () => {
                 <h4 class="font-bold mb-2">세부 카테고리</h4>
                 <ul>
                   <li v-for="subSubCategory in subSubCategories" :key="subSubCategory">
-                    <button
-                      @click="selectSubSubCategory(subSubCategory)"
+                    <button @click="selectSubSubCategory(subSubCategory)"
                       :class="{ 'bg-red-100 text-red-500 font-bold': selectedSubSubCategory === subSubCategory }"
                       class="px-4 py-2 rounded-md w-full text-left">
                       {{ subSubCategory }}
@@ -181,9 +204,12 @@ const handleRegister = async () => {
           <label class="text-2xl font-semibold text-gray-700 w-1/4">상품 상태</label>
           <div class="w-3/4 space-y-2">
             <div><label><input type="radio" name="condition" value="new" v-model="condition" /> 새 상품 (미사용)</label></div>
-            <div><label><input type="radio" name="condition" value="like-new" v-model="condition" /> 사용감 없음</label></div>
-            <div><label><input type="radio" name="condition" value="used-light" v-model="condition" /> 사용감 적음</label></div>
-            <div><label><input type="radio" name="condition" value="used-heavy" v-model="condition" /> 사용감 많음</label></div>
+            <div><label><input type="radio" name="condition" value="like-new" v-model="condition" /> 사용감 없음</label>
+            </div>
+            <div><label><input type="radio" name="condition" value="used-light" v-model="condition" /> 사용감 적음</label>
+            </div>
+            <div><label><input type="radio" name="condition" value="used-heavy" v-model="condition" /> 사용감 많음</label>
+            </div>
           </div>
         </div>
 
@@ -191,8 +217,7 @@ const handleRegister = async () => {
         <div class="flex items-start mb-6 border-t border-gray-300 pt-4">
           <label for="description" class="text-2xl font-semibold text-gray-700 w-1/4">설명</label>
           <div class="w-3/4">
-            <textarea id="description" v-model="description" rows="5"
-              placeholder="브랜드, 모델명, 구매 시기 등을 입력해주세요."
+            <textarea id="description" v-model="description" rows="5" placeholder="브랜드, 모델명, 구매 시기 등을 입력해주세요."
               class="w-full p-2 border border-gray-300 rounded-md"></textarea>
           </div>
         </div>
