@@ -7,14 +7,18 @@ export const useMemberStore = defineStore('member', {
         async fetchMemberWithId(id, pw) {
             const response = await axios.post("/api/login", {id:id, pw:pw});
             this.member = response.data;
+            this.isLogin = true;
             return response;
         },
         async loginCheck() {
-            const result = await axios.get("/api/user/auth/check", { withCredentials: true });
-            if (result.data.isSuccess) {
-                this.isLogin = true;
-            }
-            return result.data;
+            // const result = await axios.get("/api/user/auth/check", { withCredentials: true });
+            // if (result.data.isSuccess) {
+            //     this.isLogin = true;
+            // }
+            return isLogin;
+        }, 
+        logout() {
+            this.isLogin = false;
         }
     }
 })

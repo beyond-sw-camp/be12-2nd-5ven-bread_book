@@ -18,9 +18,6 @@ export default {
     this.fetchData();
   },
   methods: {
-    followUser() {
-      alert("팔로우되었습니다.");
-    },
     async fetchData() {
       try {
         // Postman에서 데이터를 가져오는 Axios 요청
@@ -31,9 +28,7 @@ export default {
         this.user = response.data.user; // 사용자 데이터 저장
 
         this.products = response.data.products; // 제품 데이터 저장
-        console.log(this.products);
         this.review = response.data.products; //리뷰 추후에 수정
-        console.log(this.review);
       } catch (error) {
         console.error("API 호출 오류:", error);
       }
@@ -43,10 +38,7 @@ export default {
 </script>
 
 <template>
-  <div class="bg-white">
-    <!-- header -->
-
-    <!-- title -->
+  <div class="pt-16 bg-white">
 
     <!-- 상단버튼 -->
     <main class="my-8">
@@ -87,25 +79,21 @@ export default {
                     ★ ★ ★ ★ ★
                   </div>
 
-                  <!-- 상품 및 팔로워 -->
                   <div
                     class="flex justify-center md:justify-start mt-4 md:mt-0 space-x-4"
                   >
                     <a href="#" class="text-blue-500 hover:underline">
                       상품 <b>{{ user.products }}</b>
                     </a>
-                    <a href="#" class="text-blue-500 hover:underline">
-                      팔로워 <b>{{ user.followers }}</b>
-                    </a>
                   </div>
                   <!-- 팔로우 버튼 -->
                   <div class="mt-4 md:mt-0">
-                    <button
+                    <router-link
                       class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-                      @click="followUser"
+                      to="/myproduct_home"
                     >
-                      <span class="mr-2">👤</span> 팔로우
-                    </button>
+                      <span class="mr-2">내 거래 내역</span>
+                    </router-link>
                   </div>
                 </div>
               </div>
@@ -137,14 +125,14 @@ export default {
             <!-- 상점 통계 -->
             <div class="mt-4 grid grid-cols-3 gap-4 text-sm text-gray-600">
               <div class="flex items-center">
-                <img src="#" alt="아이콘" class="w-4 h-4 mr-2" />
+                <img src="https://cdn-icons-png.flaticon.com/512/420/420199.png" alt="아이콘" class="w-4 h-4 mr-2" />
                 <span>상점오픈일</span>
                 <span class="ml-auto text-gray-500"
                   >{{ user.store_open_days }} 일 전</span
                 >
               </div>
               <div class="flex items-center">
-                <img src="#" alt="아이콘" class="w-4 h-4 mr-2" />
+                <img src="https://cdn-icons-png.flaticon.com/512/420/420199.png" alt="아이콘" class="w-4 h-4 mr-2" />
                 <span>상점방문수</span>
                 <span class="ml-auto text-gray-500"
                   >{{ user.store_visits }} 명</span
