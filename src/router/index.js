@@ -85,7 +85,7 @@ const routes = [
     path: '/review/:id',
     name: 'Review',
     component: Review,
-    meta: { showHeader: false, showFooter: false },
+    meta: { showHeader: true, showFooter: true },
   },
   {
     path: '/chat',
