@@ -2,27 +2,26 @@
 import { onMounted, ref } from 'vue';
 import { usePaymentStore } from '../../stores/paymentStore';
 import { useRoute } from 'vue-router';
-const score = ref(0)
-const checkScore = ref(0)
+const score = ref(0);
+const checkScore = ref(0);
 const checkFlag = ref(false);
 const checkStar = (index) => {
     checkFlag.value = true;
-    checkScore.value = index
+    checkScore.value = index;
 }
 const hoverStar = (index) => {
-    console.log(index)
-    score.value = index
+    score.value = index;
 }
 const outStar = (index) => {
-    score.value = 0
+    score.value = 0;
 }
 
 const paymentStore = usePaymentStore();
 const route = useRoute();
-
+const product = ref({});
 onMounted(async () => {
-    const response = await paymentStore.order(route.params.id);
-    console.log(response);
+    const res = await paymentStore.order(route.params.id);
+    product.value = res;
 })
 </script>
 
@@ -30,7 +29,7 @@ onMounted(async () => {
     <header class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
         <div class="w-full max-w-[894px] mx-auto flex items-center px-4 py-6 border-b">
             <!-- Add href attribute for navigation -->
-            <a href="javascript:history.back()" class="text-xl font-bold">←</a>
+            <router-link to="/paymentList" class="text-xl font-bold">←</router-link>
             <h1 class="text-lg font-bold ml-4">후기 작성</h1>
         </div>
     </header>
@@ -41,7 +40,7 @@ onMounted(async () => {
         <div class="bg-white rounded-lg shadow-md p-4">
             <!-- Tabs -->
             <div class="border-b">
-                <a href="/guidelines" class="flex justify-between items-center w-full py-3 text-sm text-gray-700">
+                <a href="#" class="flex justify-between items-center w-full py-3 text-sm text-gray-700">
                     작성시 유의사항
                     <i class="fas fa-chevron-right text-gray-400"></i>
                 </a>
@@ -51,11 +50,11 @@ onMounted(async () => {
             <div class="mt-4">
                 <h2 class="text-sm font-bold mb-4">이 상품 어떠셨나요?</h2>
                 <div class="flex items-start gap-4">
-                    <img src="https://placehold.co/100x100" alt="Product Image" class="w-20 h-20 object-cover border">
+                    <img :src="product.book_image" alt="Product Image" class="w-20 h-20 object-contain border">
                     <div>
-                        <p class="text-sm font-semibold">아르메데스</p>
-                        <p class="text-sm text-gray-500">히트 기모 발열 내의 세트 AR-23+24</p>
-                        <p class="text-sm text-gray-500">블랙 - XL</p>
+                        <p class="text-sm font-semibold">{{ product.title }}</p>
+                        <p class="text-sm text-gray-500">{{ product.username }}</p>
+                        <p class="text-sm text-gray-500">{{ product.amount }}원</p>
                     </div>
                 </div>
                 <div class="mt-4 flex gap-1">
@@ -79,18 +78,18 @@ onMounted(async () => {
             </div>
 
             <!-- Photo Attachment -->
-            <div class="mt-4">
-                <h2 class="text-sm font-bold mb-2">사진 첨부</h2>
-                <div class="grid grid-cols-5 gap-4" id="image-preview-container">
+            <!-- <div class="mt-4"> -->
+                <!-- <h2 class="text-sm font-bold mb-2">사진 첨부</h2> -->
+                <!-- <div class="grid grid-cols-5 gap-4" id="image-preview-container"> -->
                     <!-- First Image Upload Box -->
-                    <label for="image-upload"
-                        class="border border-gray-300 rounded-lg flex flex-col items-center justify-center w-16 h-16 text-gray-400 cursor-pointer">
-                        <i class="fas fa-plus"></i>
-                    </label>
-                    <input type="file" id="image-upload" accept="image/*" multiple onchange="previewImages(event)">
+                    <!-- <label for="image-upload" -->
+                        <!-- class="border border-gray-300 rounded-lg flex flex-col items-center justify-center w-16 h-16 text-gray-400 cursor-pointer"> -->
+                        <!-- <i class="fas fa-plus"></i> -->
+                    <!-- </label> -->
+                    <!-- <input type="file" id="image-upload" accept="image/*" multiple onchange="previewImages(event)"> -->
                     <!-- <input type="file" src=""> -->
-                </div>
-            </div>
+                <!-- </div> -->
+            <!-- </div> -->
         </div>
 
         <!-- Agreement Section -->
