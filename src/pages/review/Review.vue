@@ -1,10 +1,11 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { usePaymentStore } from '../../stores/paymentStore';
 import { useRoute, useRouter } from 'vue-router';
 const score = ref(0);
 const checkScore = ref(0);
 const checkFlag = ref(false);
+const reviewText = ref('');
 const checkStar = (index) => {
     checkFlag.value = true;
     checkScore.value = index;
@@ -16,6 +17,9 @@ const outStar = (index) => {
     score.value = 0;
 }
 
+const los = computed(() => {
+    return reviewText.value.length;
+})
 const paymentStore = usePaymentStore();
 const route = useRoute();
 const router = useRouter();
@@ -30,13 +34,6 @@ const goBack = () => {
 </script>
 
 <template>
-    <header class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
-        <div class="w-full max-w-[894px] mx-auto flex items-center px-4 py-6 border-b">
-            <!-- Add href attribute for navigation -->
-            <button @click="goBack" class="text-xl font-bold">←</button>
-            <h1 class="text-lg font-bold ml-4">후기 작성</h1>
-        </div>
-    </header>
 
     <!-- Scrollable Content Wrapper -->
     <main class="flex-grow pt-[72px] pb-[72px] w-full max-w-[894px] mx-auto overflow-y-auto px-4">
@@ -73,11 +70,11 @@ const goBack = () => {
             <!-- Review Text -->
             <div class="mt-4">
                 <h2 class="text-sm font-bold mb-2">어떤 점이 좋았나요?</h2>
-                <textarea class="w-full h-28 border border-gray-300 rounded-lg p-3 text-sm text-gray-500"
+                <textarea v-model="reviewText" class="w-full h-28 border border-gray-300 rounded-lg p-3 text-sm text-gray-500"
                     placeholder="다른 회원들이 도움받을 수 있도록 상품에 대한 의견을 자세히 공유해주세요."></textarea>
                 <div class="flex justify-between text-sm mt-1">
                     <span class="text-gray-400">20자 이상</span>
-                    <span class="text-gray-400">0/500</span>
+                    <span class="text-gray-400">{{ los }}/500</span>
                 </div>
             </div>
 
@@ -106,15 +103,11 @@ const goBack = () => {
                 </label>
             </div>
         </div>
+        <div class="relative">
+            <button class="bg-black text-white text-sm font-bold py-3 px-8 rounded-lg absolute right-0">등록하기</button>
+        </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="fixed bottom-0 left-0 right-0 bg-white shadow-md z-50">
-        <div class="w-full max-w-[894px] mx-auto px-4 py-4 flex justify-between items-center">
-            <p class="text-sm text-gray-500"> <span class="font-bold text-black"></span></p>
-            <button class="bg-black text-white text-sm font-bold py-3 px-8 rounded-lg">등록하기</button>
-        </div>
-    </footer>
 </template>
 
 <style scoped>
