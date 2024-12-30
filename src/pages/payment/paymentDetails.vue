@@ -3,7 +3,7 @@ import { ref,onMounted } from "vue";
 import { usePaymentStore } from "../../stores/paymentStore";
 // import { useLoadingStore } from "../../stores/"
 
-const loadingStore = useLoadingStore(); //추가
+// const loadingStore = useLoadingStore(); //추가
 
 const paymentStore = usePaymentStore();
 
@@ -23,7 +23,7 @@ onMounted(async () => {
 <template>
 <div class="body">
     <div class="container">
-        <router-link to="/paymentList" class="title">
+        <router-link :to="`/paymentList/${details.member_id}`" class="title">
             <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img">
                 <path
                     d="M14.265 19.537a.9.9 0 1 0 1.27-1.274l-8.362-8.34 8.365-8.387A.9.9 0 0 0 14.263.264l-9 9.024a.902.902 0 0 0 .002 1.273l9 8.976z"
@@ -96,6 +96,7 @@ onMounted(async () => {
 
 <style lang="css" scoped>
 .body {
+    margin: 100px 0px 50px;
     display: flex;
     justify-content: center;
 }
