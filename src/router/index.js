@@ -46,6 +46,7 @@ const routes = [
       { path: "mystoreReviews", name: 'MystoreReviews', component: MystoreReviews,
        },
     ],
+    meta: { showHeader: true, showFooter: true },
   }
 ]
 
