@@ -49,6 +49,62 @@ const routes = [
   { path: '/chat', component: Chat},
   { path: '/chat/:id', component: ChatRoomList, props: true },
   { path: '/myhome', component: MyProduct},
+
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+    meta: { showHeader: true, showFooter: true },
+  },
+  {
+    path: '/result', // * 향후 수정 필요 - 데이터에 따라 URI가 바뀌어야 한다.
+    name: 'SearchResult',
+    component: SearchResult,
+    meta: { showHeader: true, showFooter: true},
+  },
+  {
+    path: '/login',
+    name: 'LoginView',
+    component: LoginView,
+    meta: { showHeader: false, showFooter: false }
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: Signup,
+    meta: { showHeader: false, showFooter: false }
+  },
+  {
+    path: '/signupSuccess',
+    name: 'SignupSuccess',
+    component: SignupSuccess,
+    meta: { showHeader: false, showFooter: false }
+  },
+  {
+    path: '/findIdPw',
+    name: 'findIdPw',
+    component: findIdPw,
+    meta: { showHeader: false, showFooter: false }
+  },
+  {
+    path: '/review/:id',
+    name: 'Review',
+    component: Review,
+    meta: { showHeader: false, showFooter: false },
+  },
+  {
+    path: '/chat',
+    name: 'Chat',
+    component: Chat,
+    meta: { showHeader: true, showFooter: true },
+  },
+  {
+    path: '/chat/:id',
+    name: 'ChatRoomList',
+    component: ChatRoomList,
+    props: true,
+    meta: { showHeader: true, showFooter: true },
+  },
   { path: '/paymentList', component: paymentList },
   { path: '/paymentDetails/:num', component: paymentDetails },
 
