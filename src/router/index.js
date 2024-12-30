@@ -28,6 +28,7 @@ import Myproductstores from '../pages/mypage/Myproductstores.vue';
 import paymentList from '../pages/payment/paymentList.vue'
 import paymentDetails from '../pages/payment/paymentDetails.vue'
 import MyProduct from '../pages/mypage/MyProduct.vue';
+import ProductRegister from '../pages/productRegister/ProductRegister.vue';
 
 
 const checkLogin = async (from, to, next) => {
@@ -103,6 +104,12 @@ const routes = [
     name: 'ChatRoomList',
     component: ChatRoomList,
     props: true,
+    meta: { showHeader: true, showFooter: true },
+  },
+  {
+    path: '/productregister',
+    name: 'ProductRegister',
+    component: ProductRegister,
     meta: { showHeader: true, showFooter: true },
   },
   { path: '/paymentList', component: paymentList },

@@ -9,14 +9,13 @@ export const useProductRegisterStore = defineStore("productRegister", {
     selectedSubSubCategory: null,
   }),
   actions: {
-    // Mock API에서 카테고리 데이터를 가져오기
     async fetchCategories() {
       try {
         const response = await axios.get(
           "https://72fe67fb-06cb-478f-b472-e8cfc2559991.mock.pstmn.io/api/productRegister"
         );
         if (response.data) {
-          this.categories = response.data; // JSON 데이터 저장
+          this.categories = response.data;
         } else {
           console.error("Unexpected data structure:", response.data);
         }
@@ -36,16 +35,31 @@ export const useProductRegisterStore = defineStore("productRegister", {
     selectSubSubCategory(subSubCategory) {
       this.selectedSubSubCategory = subSubCategory;
     },
+    async registerProduct(productData) {
+      try {
+        const response = await axios.post(
+          "https://72fe67fb-06cb-478f-b472-e8cfc2559991.mock.pstmn.io/api/productRegister",
+          productData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("상품 등록 성공:", response.data);
+        return response.data;
+      } catch (error) {
+        console.error("상품 등록 실패:", error);
+        throw error;
+      }
+    },
   },
   getters: {
-    // 최상위 카테고리
     mainCategories: (state) => Object.keys(state.categories),
-    // 선택된 메인 카테고리의 서브 카테고리
     subCategories: (state) =>
       state.selectedMainCategory
         ? Object.keys(state.categories[state.selectedMainCategory] || {})
         : [],
-    // 선택된 서브 카테고리의 서브-서브 카테고리
     subSubCategories: (state) =>
       state.selectedSubCategory
         ? state.categories[state.selectedMainCategory][state.selectedSubCategory] || []
