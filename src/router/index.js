@@ -83,7 +83,7 @@ const routes = [
   },
   {
     // * 수정 필요 - product_detail / :id에 맞게 이동시키기
-    path: '/product_detail',
+    path: '/product_detail/:id',
     name: 'ProductDetail',
     component: ProductDetail,
     meta: { showHeader: true, showFooter: true},

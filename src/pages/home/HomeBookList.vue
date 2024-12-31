@@ -34,7 +34,7 @@ function goToDetailPage(bookId) {
           :key="book.id"
           class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300"
       >
-        <router-link to="/product_detail">
+        <router-link :to="`/product_detail/${book.id}`">
           <div class="flex flex-col justify-between h-full">
             <div>
               <div
