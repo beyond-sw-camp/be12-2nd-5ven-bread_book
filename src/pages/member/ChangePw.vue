@@ -1,11 +1,19 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 
 const show = ref(false);
 show.value = false;
 const toggleShow = () => {
     show.value = !show.value;
+}
+
+const signup = () => {
+    // await memberStore.signup();
+    router.push('/login');
 }
 </script>
 
@@ -17,7 +25,7 @@ const toggleShow = () => {
 
                 <h2 class="text-center text-2xl font-bold tracking-wide text-gray-800">비밀번호 재설정</h2>
 
-                <form class="my-8 text-sm">
+                <form class="my-8 text-sm" @submit.prevent="signup">
 
                     <div class="flex flex-col my-4">
                         <label for="password" class="text-gray-700">현재 비밀번호</label>
