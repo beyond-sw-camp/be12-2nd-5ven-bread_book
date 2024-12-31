@@ -39,7 +39,6 @@ export const useProductReview = defineStore('useProductReview', {
                     throw new Error('서버에서 유효한 데이터를 응답받지 못했습니다.');
                 }
                 this.reviews = response.data.reviews;
-                console.log(this.reviews);
             } catch (error) {
                 console.error('데이터를 가져오는 중 오류 발생:', error.message);
                 this.reivews = [];// 오류 발생 시 기본값 설정

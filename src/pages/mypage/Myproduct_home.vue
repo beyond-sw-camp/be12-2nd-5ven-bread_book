@@ -49,7 +49,7 @@ export default {
                 <div class="mt-4 md:mt-0" style="margin-left: 15px">
                   <router-link
                     class="px-2 py-1 bg-transparent border border-bleak text-bleak rounded hover:bg-bleak hover:bg-opacity-20 transition duration-300"
-                    to="/myproduct_home"
+                    to="/paymentList/test1"
                   >
                     <span class="mr-2">내 거래 내역</span>
                   </router-link>
