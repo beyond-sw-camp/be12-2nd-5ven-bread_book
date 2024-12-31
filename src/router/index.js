@@ -18,6 +18,7 @@ import paymentList from "../pages/payment/paymentList.vue";
 import paymentDetails from "../pages/payment/paymentDetails.vue";
 import ProductRegister from '../pages/productRegister/ProductRegister.vue';
 import ChangePw from '../pages/member/ChangePw.vue';
+import Terms from '../pages/member/Terms.vue';
 
 
 const checkLogin = async (from, to, next) => {
@@ -73,6 +74,12 @@ const routes = [
     name: 'changeIdPw',
     component: ChangePw,
     meta: { showHeader: false, showFooter: false }
+  },
+  {
+    path: '/terms',
+    name: 'tersm',
+    component: Terms,
+    meta: { showHeader: true, showFooter: true }
   },
   {
     // * 수정 필요 - product_detail / :id에 맞게 이동시키기
