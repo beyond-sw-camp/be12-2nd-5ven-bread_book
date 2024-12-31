@@ -63,13 +63,13 @@ export const usePaymentStore = defineStore('payment', {
             if (paymentId==="4"){
                 console.log("test");
                 const response = await axios.post(
-                    "http://www.breadbook.kro.kr:3000/back/paymentDetails/4"
+                    "https://www.breadbook.kro.kr:3000/back/paymentDetails/4"
                 );
 
                 return this.details = response.data;
             }else if(paymentId==='1'){
                 const response = await axios.post(
-                    "http://www.breadbook.kro.kr:3000/back/paymentDetails/1"
+                    "https://www.breadbook.kro.kr:3000/back/paymentDetails/1"
                 );
 
                 return this.details = response.data;
