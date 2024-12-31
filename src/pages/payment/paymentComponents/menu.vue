@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { usePaymentStore } from "../../../stores/paymentStore";
+import { usePaymentStore } from "../../../stores/usePaymentStore";
 
 let statusMenu = 'sell';
 const paymentStore = usePaymentStore();

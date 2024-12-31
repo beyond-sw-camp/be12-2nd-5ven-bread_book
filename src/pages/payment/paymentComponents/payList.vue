@@ -1,6 +1,6 @@
 <script setup>
 import { watch,onMounted,ref } from "vue";
-import { usePaymentStore } from "../../../stores/paymentStore";
+import { usePaymentStore } from "../../../stores/usePaymentStore";
 
 const paymentStore = usePaymentStore();
 const option = ref("");
