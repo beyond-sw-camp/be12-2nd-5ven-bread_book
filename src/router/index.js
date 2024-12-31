@@ -99,7 +99,7 @@ const routes = [
     path: '/chat',
     name: 'Chat',
     component: Chat,
-    meta: { showHeader: true, showFooter: true },
+    meta: { showHeader: true, showFooter: false },
     beforeEnter: checkLogin,
   },
   {
@@ -107,7 +107,7 @@ const routes = [
     name: 'ChatRoom',
     component: ChatRoom,
     props: true,
-    meta: { showHeader: true, showFooter: true },
+    meta: { showHeader: true, showFooter: false },
     beforeEnter: checkLogin,
   },
   { path: '/paymentList/:userid', 
