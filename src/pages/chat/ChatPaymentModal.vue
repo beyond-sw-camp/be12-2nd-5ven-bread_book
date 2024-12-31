@@ -51,7 +51,7 @@ const openKakaoPayPopup = async () => {
       if (kakaopay.ref.closed) {
         clearInterval(checkPopupClosed);
         // 팝업이 닫히면 완료 페이지로 이동
-        window.location.href = "http://www.breadbook.kro.kr/chat/";
+        window.location.href = "https://www.breadbook.kro.kr/chat/";
       }
     }, 1000);
   } else {
