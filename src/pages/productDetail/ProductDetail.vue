@@ -1,12 +1,12 @@
 <script setup>
 // 임시로 useResultBookStore.js 데이터 가져다 씀
-import {computed, onMounted, ref} from "vue";
-import {useResultBookStore} from "/src/stores/useResultBookStore.js";
+import {computed, onMounted} from "vue";
+import {useMainBookStore} from "/src/stores/useMainBookStore.js";
 import { useRoute } from "vue-router";
 //import Float from "/src/pages/common/Float.vue";
 //import WishList from "/src/pages/common/WishList.vue";
 
-const bookStore = useResultBookStore();
+const bookStore = useMainBookStore();
 
 const route = useRoute();
 const firstBook = computed(() => bookStore.books[route.params.id-1]);
