@@ -52,7 +52,7 @@ const filteredTitles = ref(dropItem);
 const logInput = () => {
     labelText.value="";
     filteredTitles.value = titles.filter(item => item.title.toLowerCase().startsWith(searchTitle.value.toLowerCase()));
-    if (filteredTitles.value===null){
+    if (searchTitle.value===""){
         labelText.value="상품명으로 검색";
     }
 };
@@ -64,13 +64,15 @@ const closeDropdown = () => {
     setTimeout(() => {
         isDropdownOpen.value = false;
     }, 130);  // 1초(1000ms) 후에 드롭다운을 닫음
+    if (searchTitle.value===""){
+        labelText.value="상품명으로 검색";
+    }
 };
 
 
 
 // 항목 선택 시 처리
 const selectItem = (item) => {
-    console.log(item);
     labelText.value=item;
 //    placeholderText.value = item;
     //    searchTitle.value = item;  // 선택된 항목의 이름을 검색창에 입력
@@ -108,7 +110,7 @@ const selectItem = (item) => {
                             @focus="toggleDropdown" @blur="closeDropdown" @input="logInput"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required="">
-                        <label class="placeholder" :class="{ active: searchTitle !== '' }">
+                        <label class="placeholder" style="z-index: 3;">
                             {{ labelText }}
                         </label>
                     </div>
@@ -198,6 +200,7 @@ body {
     font-weight: 700;
     position: relative;
     font-size: 16px;
+    z-index: 2;
 }
 
 
