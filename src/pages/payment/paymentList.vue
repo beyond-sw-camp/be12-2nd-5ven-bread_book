@@ -18,8 +18,7 @@ const dropItem = ref([]);
 const searchTitle = ref("");
 let titles;
 
-
-
+const labelText = ref("상품명으로 검색");
 
 onMounted(async () => {
     loadingStore.startLoading(); //데이터 로드 전에 loadingStore.startLoading() 호출.
@@ -40,9 +39,9 @@ const toggleDropdown = () => {
     }
     isDropdownOpen.value = !isDropdownOpen.value;
     titles = dropItem.value.map(item => ({
-        title:item.title,
-        orders_id:item.orders_id,
-        book_image:item.book_image
+        title: item.title,
+        orders_id: item.orders_id,
+        book_image: item.book_image
     }));
 };
 
@@ -51,20 +50,12 @@ const toggleDropdown = () => {
 const filteredTitles = ref(dropItem);
 // input에 입력한 내용
 const logInput = () => {
-    filteredTitles.value = titles.filter(item =>item.title.toLowerCase().startsWith(searchTitle.value.toLowerCase()));
-    console.log(filteredTitles.value);
+    labelText.value="";
+    filteredTitles.value = titles.filter(item => item.title.toLowerCase().startsWith(searchTitle.value.toLowerCase()));
+    if (filteredTitles.value===null){
+        labelText.value="상품명으로 검색";
+    }
 };
-
-
-
-// // // 검색어로 필터링된 항목들
-// const filteredItems = computed(() => {
-//     console.log("terst");
-//     return items.value.filter(item =>
-//         item.toLowerCase().startsWith(input.value.toLowerCase())
-//     );
-// });
-
 
 
 
@@ -80,7 +71,9 @@ const closeDropdown = () => {
 // 항목 선택 시 처리
 const selectItem = (item) => {
     console.log(item);
-    searchTitle.value = item;  // 선택된 항목의 이름을 검색창에 입력
+    labelText.value=item;
+//    placeholderText.value = item;
+    //    searchTitle.value = item;  // 선택된 항목의 이름을 검색창에 입력
 };
 </script>
 
@@ -102,17 +95,23 @@ const selectItem = (item) => {
                 <label for="voice-search" class="sr-only">Search</label>
                 <div class="relative w-full wrap">
                     <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" style="z-index: 2;"
+                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" style="z-index: 10;"
                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                                 clip-rule="evenodd"></path>
                         </svg>
                     </div>
-                    <input type="text" id="voice-search" autocomplete="off" v-model="searchTitle"
-                        @focus="toggleDropdown" @blur="closeDropdown" @input="logInput"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="상품명으로 검색" required="">
+
+                    <div class="input-wrapper">
+                        <input type="text" id="voice-search" autocomplete="off" v-model="searchTitle"
+                            @focus="toggleDropdown" @blur="closeDropdown" @input="logInput"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required="">
+                        <label class="placeholder" :class="{ active: searchTitle !== '' }">
+                            {{ labelText }}
+                        </label>
+                    </div>
 
                 </div>
             </div>
@@ -127,7 +126,7 @@ const selectItem = (item) => {
                 </router-link>
             </ul>
 
-        
+
 
             <div v-if="chooseMenu === 'buy'">
                 <payList></payList>
@@ -168,14 +167,39 @@ body {
     margin-left: 10px;
 }
 
+.input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.placeholder {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #3d3d3d;
+    pointer-events: none;
+    /* 클릭 불가 */
+    transition: 0.2s ease;
+    font-weight: 700;
+    font-size: 16px;
+    padding-left: 30px;
+    mix-blend-mode: difference;
+    /* 배경처럼 동작하게 설정 */
+    white-space: nowrap;
+    /* 텍스트 줄바꿈 방지 */
+}
 
 #voice-search {
     border-radius: 5px;
     font-weight: 700;
     font-weight: 700;
-    z-index: 1;
+    position: relative;
     font-size: 16px;
 }
+
 
 .search {
     max-width: 100%;
