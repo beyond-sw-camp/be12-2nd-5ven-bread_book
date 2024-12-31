@@ -37,12 +37,16 @@
 
 ## ⚙️ 화면 설계서
 [Figma 화면 설계서](https://www.figma.com/design/isiuYGLjcD6TBkmzs0o2O2/Untitled?node-id=0-1&node-type=canvas&t=lPSvA7gDEsP91Twd-0)
+<br>
 
 ## 🔀 도메인 주소
 [www.breadbook.kro.kr](https://www.breadbook.kro.kr)
+<br>
 
 ## 🔎 프로젝트 시연
-
+[프로젝트 시연](https://github.com/beyond-sw-camp/be12-2nd-5ven-bread_book/wiki/%EA%B8%B0%EB%8A%A5-%ED%85%8C%EC%8A%A4%ED%8A%B8)
+<br>
 
 ## 🎮 기술 스택
+
 <br>
