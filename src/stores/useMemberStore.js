@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 
 export const useMemberStore = defineStore('member', {
-    state: () => ({member: {}, isLogin: true}),
+    state: () => ({member: {}, isLogin: false}),
     persist: {
         storage: sessionStorage,
     },

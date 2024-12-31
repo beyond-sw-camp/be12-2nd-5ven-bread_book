@@ -77,7 +77,7 @@ const routes = [
   },
   {
     path: '/terms',
-    name: 'tersm',
+    name: 'terms',
     component: Terms,
     meta: { showHeader: true, showFooter: true }
   },
@@ -92,7 +92,7 @@ const routes = [
     path: '/review/:id',
     name: 'Review',
     component: Review,
-    meta: { showHeader: false, showFooter: false },
+    meta: { showHeader: true, showFooter: true },
     beforeEnter: checkLogin,
   },
   {
