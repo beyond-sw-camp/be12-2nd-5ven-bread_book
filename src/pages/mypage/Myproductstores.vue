@@ -25,17 +25,14 @@ export default {
       :key="`store-${index}`" :store="store"
     >
       <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-        <a>
+        <router-link :to="`/product_detail/${store.id}`">
           <button
             class="w-full h-56 bg-cover rounded-md"
-            :style="{ backgroundImage: `url(${store.image_url})` }"
-          >
-            <span class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4"
-              >자세히 보기</span
-            >
-          </button>
-        </a>
+            :style="{ backgroundImage: `url(${store.image_url})` }" >
+          </button> 
+        </router-link>
 
+        
         <div class="px-5 py-3">
           <h3 class="text-gray-700 uppercase">{{ store.name }}</h3>
           <span class="text-gray-500 mt-2">{{ store.price }}원</span>

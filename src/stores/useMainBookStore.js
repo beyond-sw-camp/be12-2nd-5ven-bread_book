@@ -7,7 +7,7 @@ export const useMainBookStore = defineStore('mainBookStore', {
    actions: {
        async fetchBooks() {
            try {
-               const response = await axios.get('https://b4c6a014-ef2c-421a-b258-1b7a7db732de.mock.pstmn.io/api/home');
+               const response = await axios.get('https://f1e8f15e-347b-4505-af07-9aeb8e9ff91b.mock.pstmn.io/api/home');
                if (!response.data || !response.data.books) {
                    throw new Error('서버에서 유효한 데이터를 응답받지 못했습니다.');
                }

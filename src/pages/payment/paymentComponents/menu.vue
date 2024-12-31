@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref,onMounted } from "vue";
 import { usePaymentStore } from "../../../stores/usePaymentStore";
 
 let statusMenu = 'sell';
@@ -44,6 +44,10 @@ const changeListMenu = (listMenuId) => {
         }
     } 
 };
+
+onMounted(()=>{
+    paymentStore.chooseMenuList("sell");
+});
 
 
 const changeStatus = (statusId) => {

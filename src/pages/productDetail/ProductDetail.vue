@@ -2,13 +2,14 @@
 // 임시로 useResultBookStore.js 데이터 가져다 씀
 import {computed, onMounted, ref} from "vue";
 import {useResultBookStore} from "/src/stores/useResultBookStore.js";
+import { useRoute } from "vue-router";
 //import Float from "/src/pages/common/Float.vue";
 //import WishList from "/src/pages/common/WishList.vue";
 
 const bookStore = useResultBookStore();
 
-const firstBook = computed(() => bookStore.books[0]);
-
+const route = useRoute();
+const firstBook = computed(() => bookStore.books[route.params.id-1]);
 onMounted(() => {
   bookStore.fetchResult();
 });
@@ -42,10 +43,12 @@ onMounted(() => {
             </div>
           </div>
           <div class="flex items-center mt-6">
-            <button
-                class="h-10 px-8 py-2 bg-indigo-600 text-white text-md font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
-              채팅하기
-            </button>
+            <router-link :to="`/chat/${route.params.id}`">
+              <button 
+                  class="h-10 px-8 py-2 bg-indigo-600 text-white text-md font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
+                채팅하기
+              </button>
+            </router-link>
             <button
                 class="h-10 mx-2 text-gray-600 bg-indigo-600 border rounded-md p-2 hover:bg-yellow-500 focus:outline-none">
               <img src="/src/assets/icon/white-star.svg" alt="white-star">
@@ -56,7 +59,7 @@ onMounted(() => {
       <div class="mt-16">
         <h3 class="text-gray-600 text-2xl font-medium">관련 상품 목록</h3>
         <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
-          <router-link to="/product-detail"
+          <router-link :to="`/product_detail/${book.id}`"
                        v-for="book in bookStore.books"
                        :key="book.id">
             <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
