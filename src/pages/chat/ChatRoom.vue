@@ -39,10 +39,7 @@ function hidePaymentModal() {
 <template>
   <div class="flex h-screen overflow-hidden mt-16">
     <!-- Sidebar -->
-    <ChatSidebar
-      :chatRooms="chatRoomStore.chatRooms"
-      :selectChatRoom="selectChatRoom"
-    />
+    <ChatSidebar :chatRooms="chatRoomStore.chatRooms" :selectChatRoom="selectChatRoom" />
     <!-- Main Chat Area -->
     <div class="flex-1 flex flex-col">
       <!-- Chat Header -->
@@ -54,10 +51,23 @@ function hidePaymentModal() {
       <div v-if="selectedChatRoom" class="flex-1 overflow-y-auto p-4 h-full scrollbar">
         <div v-for="(message, index) in selectedChatRoom.messages" :key="index" class="mb-4">
           <div v-if="message.sender === 'user'" class="flex mb-4">
+            <div class="w-9 h-9 rounded-full mr-2">
+              <img src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=User" alt="User Avatar"
+                class="w-8 h-8 rounded-full" />
+            </div>
             <div class="max-w-md bg-indigo-200 rounded-lg p-3">{{ message.content }}</div>
           </div>
+
           <div v-else class="flex justify-end mb-4">
+
             <div class="max-w-md bg-indigo-500 text-white rounded-lg p-3">{{ message.content }}</div>
+            <div class="w-9 h-9 rounded-full ml-2">
+              <img
+                src="https://placehold.co/200x/b7a8ff/ffffff.svg?text=Seller"
+                alt="Seller Avatar"
+                class="w-8 h-8 rounded-full"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -74,5 +84,4 @@ function hidePaymentModal() {
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
