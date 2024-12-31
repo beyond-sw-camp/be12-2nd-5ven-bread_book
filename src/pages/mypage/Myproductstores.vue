@@ -25,7 +25,7 @@ export default {
       :key="`store-${index}`" :store="store"
     >
       <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-        <router-link to="/product_detail">
+        <router-link :to="`/product_detail/${store.id}`">
           <button
             class="w-full h-56 bg-cover rounded-md"
             :style="{ backgroundImage: `url(${store.image_url})` }" >
