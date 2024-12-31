@@ -39,7 +39,7 @@
 [Figma 화면 설계서](https://www.figma.com/design/isiuYGLjcD6TBkmzs0o2O2/Untitled?node-id=0-1&node-type=canvas&t=lPSvA7gDEsP91Twd-0)
 <br>
 
-## 🔀 도메인 주소
+## 📧 도메인 주소
 [www.breadbook.kro.kr](https://www.breadbook.kro.kr)
 <br>
 
