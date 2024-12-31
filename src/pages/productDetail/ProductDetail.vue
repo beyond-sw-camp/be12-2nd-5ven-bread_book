@@ -11,7 +11,7 @@ const bookStore = useMainBookStore();
 const route = useRoute();
 const firstBook = computed(() => bookStore.books[route.params.id-1]);
 onMounted(() => {
-  bookStore.fetchResult();
+  bookStore.fetchBooks();
 });
 
 </script>
