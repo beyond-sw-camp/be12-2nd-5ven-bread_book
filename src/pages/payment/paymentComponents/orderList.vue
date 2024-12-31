@@ -1,6 +1,6 @@
 <script setup>
 import { ref,watch,onMounted } from "vue";
-import { usePaymentStore } from "../../../stores/paymentStore";
+import { usePaymentStore } from "../../../stores/usePaymentStore";
 import { RouterLink } from "vue-router";
 
 const paymentStore = usePaymentStore();

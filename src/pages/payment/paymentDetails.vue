@@ -1,6 +1,6 @@
 <script setup>
 import { ref,onMounted } from "vue";
-import { usePaymentStore } from "../../stores/paymentStore";
+import { usePaymentStore } from "../../stores/usePaymentStore";
 import { useLoadingStore } from "../../stores/useLoadingStore"
 
 const loadingStore = useLoadingStore(); //추가

@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue';
-import { usePaymentStore } from '../../stores/paymentStore';
+import { usePaymentStore } from '../../stores/usePaymentStore';
 import { useRoute, useRouter } from 'vue-router';
 const score = ref(0);
 const checkScore = ref(0);
