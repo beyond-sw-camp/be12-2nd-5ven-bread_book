@@ -4,10 +4,10 @@ import myproductstores from "./Myproductstores.vue";
 import mystoreReviews from "./MystoreReviews.vue";
 import { useProductReview } from "../../stores/useProductReview";
 
-const userStore = useProductReview();
+const user = useProductReview();
 
 onBeforeMount(async () => {
-  await userStore.fetchproductuser();
+  await user.fetchproductuser();
 });
 </script>
 
@@ -33,7 +33,7 @@ export default {
               <!-- 프로필 이미지 -->
               <div class="w-32 h-32 rounded-full overflow-hidden">
                 <img
-                  :src="userStore.user.image_url"
+                  :src="user.user.image_url"
                   alt="프로필 이미지"
                   class="w-full h-full object-cover"
                 />
@@ -43,7 +43,7 @@ export default {
               <div class="mt-4 md:mt-0 text-center md:text-left">
                 <!-- 상점 이름 -->
                 <h1 class="text-2xl font-semibold text-black mb-2">
-                  {{ userStore.user.username }}
+                  {{ user.user.username }}
                 </h1>
                 <!-- 팔로우 버튼 -->
                 <div class="mt-4 md:mt-0" style="margin-left: 15px">
@@ -64,7 +64,7 @@ export default {
             <!-- 상단 헤더 -->
             <div class="flex justify-between items-center border-b pb-2">
               <div class="text-xl font-bold text-gray-800">
-                {{ userStore.user.username }}
+                {{ user.user.username }}
               </div>
 
               <div class="text-sm text-gray-500 flex items-center">
@@ -90,7 +90,7 @@ export default {
                 />
                 <span>상점 오픈</span>
                 <span class="ml-auto text-gray-500"
-                  >{{ userStore.user.store_open_days }}일 전</span
+                  >{{ user.user.store_open_days }}일 전</span
                 >
               </div>
               <div class="flex items-center">
@@ -101,7 +101,7 @@ export default {
                 />
                 <span>상점 방문수</span>
                 <span class="ml-auto text-gray-500"
-                  >{{ userStore.user.store_visits }}명</span
+                  >{{ user.user.store_visits }}명</span
                 >
               </div>
               <div class="flex items-center">
@@ -111,7 +111,7 @@ export default {
                   class="w-4 h-4 mr-2"
                 />
                 <span>상품 판매</span>
-                <span class="ml-auto text-gray-500">{{ userStore.user.sales }}회</span>
+                <span class="ml-auto text-gray-500">{{ user.user.sales }}회</span>
               </div>
             </div>
             <!-- 스크롤 가능한 박스 -->
@@ -120,10 +120,10 @@ export default {
             >
               <!-- 상점 설명 -->
               <div>
-                {{ userStore.user.textmessage }}
+                {{ user.user.textmessage }}
               </div>
             </div>
-
+            <!-- fetchproductreview -->
             <!-- 신고하기 -->
             <div class="border-t mt-4 pt-3 text-right">
               <a href="#" class="text-sm text-blue-500 hover:underline"
@@ -144,7 +144,7 @@ export default {
             >
               상품
               <span class="nav-link font-bold text-blue-500">
-                {{ userStore.user.products }}
+                {{ user.user.products }}
               </span>
             </router-link>
 
@@ -155,16 +155,12 @@ export default {
             >
               상점후기
               <span class="nav-link font-bold text-blue-500">
-                {{ userStore.user.store_reviews }}
+                {{ user.user.store_reviews }}
               </span>
             </router-link>
           </nav>
 
-          <div
-            class="mx-auto grid max-w-6xl grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-          >
-            <router-view></router-view>
-          </div>
+          <router-view></router-view>
         </div>
       </div>
     </main>
