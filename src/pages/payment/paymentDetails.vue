@@ -2,19 +2,23 @@
 import { ref,onMounted } from "vue";
 import { usePaymentStore } from "../../stores/usePaymentStore";
 import { useLoadingStore } from "../../stores/useLoadingStore"
+import { useRoute } from 'vue-router'; // useRoute로 라우트 정보 가져오기
 
-const loadingStore = useLoadingStore(); //추가
-
+const loadingStore = useLoadingStore();
 const paymentStore = usePaymentStore();
+
+// 주문번호호
+const route = useRoute();
+const paymentId = route.params.id; // params에서 id 가져오기
 
 // details를 반응형(ref) 객체로 선언
 const details = ref({});
 
 // 비동기 함수 실행 - 컴포넌트가 마운트될 때 호출
 onMounted(async () => {
+    console.log(paymentId);
     loadingStore.startLoading(); //데이터 로드 전에 loadingStore.startLoading() 호출.
-    const response = await paymentStore.paymentDetails();  // 비동기 작업
-    console.log(response);
+    const response = await paymentStore.paymentDetails(paymentId);  // 비동기 작업
     details.value=response;    
     loadingStore.stopLoading(); // 데이터 로드 후 loadingStore.stopLoading()호출.
 });

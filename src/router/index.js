@@ -110,7 +110,7 @@ const routes = [
     meta: { showHeader: true, showFooter: true },
     beforeEnter: checkLogin,
   },
-  { path: '/paymentList/:id', 
+  { path: '/paymentList/:userid', 
     name: 'paymentList',
     component: paymentList,
     meta: { showHeader: true, showFooter: true },
