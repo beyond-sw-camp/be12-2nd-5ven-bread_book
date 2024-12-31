@@ -118,12 +118,6 @@ const selectItem = (item) => {
             </div>
 
 
-            <!-- <ul v-if="isDropdownOpen && filteredItems.length > 0" class="dropdown-list">
-                <li v-for="(item, index) in filteredItems" :key="index" @click="selectItem(item)">
-                    {{ item }}
-                </li>
-            </ul> -->
-
             <ul v-if="isDropdownOpen" id="dropdown"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <router-link v-for="item in filteredTitles.slice(0, 9)" :key="item.orders_id" class="dropdown-menu"
