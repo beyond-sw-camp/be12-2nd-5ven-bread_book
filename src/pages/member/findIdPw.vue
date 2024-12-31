@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const find_id = () => {
     // await memberStore.signup();
-    router.push('/');
+    router.push('/login');
 }
 const find_pw = () => {
     // await memberStore.signup();

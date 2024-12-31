@@ -78,7 +78,7 @@ const signup = () => {
 
                     <div class="flex items-center">
                         <input type="checkbox" name="remember_me" id="remember_me" class="mr-2 focus:ring-0 rounded">
-                        <label for="remember_me" class="text-gray-700">회원가입을 진행하여<a href="#" class="text-blue-600 hover:text-blue-700 hover:underline"> 이용약관</a>에 동의합니다. </label>
+                        <label for="remember_me" class="text-gray-700">회원가입을 진행하여<router-link to="/terms" class="text-blue-600 hover:text-blue-700 hover:underline"> 이용약관</router-link>에 동의합니다. </label>
                     </div>
                 
                     <div class="my-4 flex items-center justify-end space-x-4">
