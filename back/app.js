@@ -1,4 +1,7 @@
+const https = require('https');
+const fs = require('fs');
 const express = require("express");
+require('dotenv').config();
 const app = express();
 
 const cors = require('cors');
@@ -9,6 +12,11 @@ const corsOptions = {
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
+};
+
+const sslOptions = {
+  key: fs.readFileSync(process.env.privkey),
+  cert: fs.readFileSync(process.env.fullchain),
 };
 
 app.use(cors(corsOptions));
@@ -44,6 +52,7 @@ app.post("/back/paymentDetails/1", (req, res) => {
 });
 
 const PORT = 3000;
-app.listen(PORT, () => {
+
+https.createServer(sslOptions, app).listen(3000, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
