@@ -60,7 +60,7 @@ export default {
           <div class="text-xs text-gray-500">{{ review.reviewday8 }} 일 전</div>
         </div>
 
-        <router-link to="/product_detail" class="inline-block">
+        <router-link :to="`/product_detail/${index+1}`" class="inline-block">
           <button
             class="flex items-center space-x-1 bg-gray-100 rounded px-2 mt-4 text-sm"
           >
