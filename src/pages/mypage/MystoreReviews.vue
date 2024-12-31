@@ -56,14 +56,14 @@ export default {
           <div class="text-xs text-gray-500">{{ review.reviewday8 }} 일 전</div>
         </div>
 
-        <a href="#" class="inline-block">
+        <router-link to="/product_detail" class="inline-block">
           <button
             class="flex items-center space-x-1 bg-gray-100 rounded px-2 mt-4 text-sm"
           >
             <span>{{ review.itemname }}</span>
             ←
           </button>
-        </a>
+        </router-link>
 
         <div
           class="mt-4 text-gray-700 text-sm leading-relaxed rounded-lg p-3 max-h-32 overflow-y-auto"
