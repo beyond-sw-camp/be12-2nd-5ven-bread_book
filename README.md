@@ -72,6 +72,7 @@
 - 변경될 파일을 번들링하고 전체 리소르를 다시 로드해야 하므로 HMR이 느려질 수 있다. 
 - vite는 기본 설정만으로도 대부분의 작업을 처리할 수 있으며, 번들링을 할 때, 은 vite에 비해 더 많은 최적화 작업이 필요할 수 있으므로 vite를 채용하였다.
 
+
 ### 협업
 ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
 &nbsp;![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)
