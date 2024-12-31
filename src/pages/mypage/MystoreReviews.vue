@@ -39,20 +39,24 @@ export default {
       class="review-item flex flex-col md:flex-row md:items-start mx-auto max-w-6xl"
     >
       <div class="w-full p-4 md:w-1/5">
-        <a href="#" class="flex-shrink-0 mt-2 md:mt-4">
-          <div class="w-15 h-15 bg-gray-100 rounded-full overflow-hidden">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/2135/2135665.png"
-              alt="리뷰어 이미지"
-              class="w-full h-full object-cover"
-            />
-          </div>
-        </a>
+        <router-link to="/myproduct_home/myproductstores">
+          <a class="flex-shrink-0 mt-2 md:mt-4">
+            <div class="w-15 h-15 bg-gray-100 rounded-full overflow-hidden">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/2135/2135665.png"
+                alt="리뷰어 이미지"
+                class="w-full h-full object-cover"
+              />
+            </div>
+          </a>
+        </router-link>
       </div>
 
       <div class="w-full md:w-4/5 p-4">
         <div class="flex items-center pb-4">
-          <a href="#" class="text-sm font-medium">{{ review.userid }}</a>
+          <router-link to="/myproduct_home/myproductstores" class="text-sm font-medium">{{
+            review.userid
+          }}</router-link>
           <div class="text-xs text-gray-500">{{ review.reviewday8 }} 일 전</div>
         </div>
 
