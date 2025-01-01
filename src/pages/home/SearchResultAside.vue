@@ -3,11 +3,10 @@
 </script>
 
 <template>
-  <aside class="overflow-scroll fixed w-64 h-screen border-r dark:bg-gray-800 dark:border-gray-600"
-  style="box-sizing: border-box;">
-    <div class="px-4 py-8 flex flex-col"
-         style="max-height: calc(100vh - 148px); box-sizing: border-box;">
-      <!--    style="max-height: calc(100vh - 184px)"-->
+  <aside class=" fixed w-64 h-screen border-r dark:bg-gray-800 dark:border-gray-600"
+         style="max-height: calc(100vh - 84px); box-sizing: border-box;">
+    <div class="overflow-y-scroll px-4 py-8 my-1 flex flex-col"
+         style="max-height: calc(100% - 84px); box-sizing: border-box;">
       <h2 class="text-xl font-semibold text-gray-800 dark:text-white"> 상세 검색</h2>
       <div class="flex flex-col justify-between flex-1 mt-6">
         <nav>
@@ -78,7 +77,7 @@
       </div>
     </div>
   </aside>
-  </template>
+</template>
 
 <style scoped>
 
