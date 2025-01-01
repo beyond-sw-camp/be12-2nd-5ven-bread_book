@@ -1,21 +1,14 @@
 <script setup>
 
 import { onMounted } from 'vue'; // 컴포넌트가 마운트되었을 때 response data를 갖고 오기 위해서 추가
-import { useResultBookStore } from '/src/stores/useResultBookStore.js'// 책 관련 데이터 상태를 관리하는 store 가져오기
+import { useMainBookStore } from '/src/stores/useMainBookStore.js'// 책 관련 데이터 상태를 관리하는 store 가져오기
 
 import HomeSearchField from "./HomeSearchField.vue";
 import SearchResultAside from "./SearchResultAside.vue";
-import ResultBookList from "./ResultBookList.vue";
-
-
-/*
-import { useMainBookStore } from '/src/stores/useMainBookStore.js'; // 책 관련 데이터 상태를 관리하는 store 가져오기
 import HomeBookList from "./HomeBookList.vue";
-const bookStore = useMainBookStore();
-const router = useRouter();
- */
 
-const bookStore = useResultBookStore();
+
+const bookStore = useMainBookStore();
 
 // onMounted 메서드로 컴포넌트가 마운트되었을 때 책 데이터를 가져오도록 함
 onMounted(() => {
@@ -34,7 +27,7 @@ onMounted(() => {
           style="color: #1D4ED8;">{{ bookStore.books.length }}</span>개의 검색결과</h2>
     </div>
     <HomeSearchField></HomeSearchField>
-    <ResultBookList></ResultBookList>
+    <HomeBookList></HomeBookList>
   </section>
 
 </main>
