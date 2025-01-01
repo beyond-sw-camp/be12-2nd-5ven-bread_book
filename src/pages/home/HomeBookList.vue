@@ -1,25 +1,18 @@
 <script setup>
 import { onMounted } from 'vue'; // 컴포넌트가 마운트되었을 때 response data를 갖고 오기 위해서 추가
 import { useMainBookStore } from '/src/stores/useMainBookStore.js'; // 책 관련 데이터 상태를 관리하는 store 가져오기
-import { useRouter } from "vue-router"; // (미사용) 상세 페이지 이동 버튼 이벤트에 router-link 추가용도
+import {useRoute} from "vue-router";
 
 const bookStore = useMainBookStore();
-const router = useRouter(); // (미사용) 상세 페이지 이동 버튼 이벤트에 router-link 추가용도
+const route = useRoute();
 
-// onMounted 메서드로 컴포넌트가 마운트되었을 때 책 데이터를 가져오도록 함
 onMounted(() => {
-  bookStore.fetchBooks();
+  if (route.name == 'Home') {
+    bookStore.fetchBooks();
+  } else if (route.name == 'SearchResult') {
+    bookStore.fetchResult();
+  }
 });
-
-/*
-// 수정요망 * 역할 분장 회의 필요
-// productDetail과 함께 수정해야함...
-function goToDetailPage(bookId) {
-  router.push(`/book/${bookId}`);
-  // `/router/index.js`의 `routes`에 새로운 `path`를 추가 해야함.
-  // 가령, path: '/productDetail/:id'
-}
-*/
 </script>
 
 <template>

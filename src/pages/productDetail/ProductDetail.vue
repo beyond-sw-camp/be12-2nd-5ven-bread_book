@@ -1,5 +1,4 @@
 <script setup>
-// 임시로 useResultBookStore.js 데이터 가져다 씀
 import {computed, onMounted} from "vue";
 import {useMainBookStore} from "/src/stores/useMainBookStore.js";
 import { useRoute } from "vue-router";
