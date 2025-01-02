@@ -7,7 +7,7 @@ export const useMainBookStore = defineStore('mainBookStore', {
    actions: {
        async fetchBooks() {
            try {
-               const response = await axios.get('https://f1e8f15e-347b-4505-af07-9aeb8e9ff91b.mock.pstmn.io/api/home');
+               const response = await axios.get('https://9bb3f771-4ccc-43e8-9851-09eccd5742ea.mock.pstmn.io/api/books');
                if (!response.data || !response.data.books) {
                    throw new Error('서버에서 유효한 데이터를 응답받지 못했습니다.');
                }
@@ -20,7 +20,7 @@ export const useMainBookStore = defineStore('mainBookStore', {
        },
        async fetchResult() {
            try {
-               const response = await axios.get('https://f1e8f15e-347b-4505-af07-9aeb8e9ff91b.mock.pstmn.io/api/result');
+               const response = await axios.get('https://14541b30-e040-46fc-b673-f610f6e9dd3c.mock.pstmn.io/api/result');
                if (!response.data || !response.data.books) {
                    throw new Error('서버에서 유효한 데이터를 응답받지 못했습니다.');
                }
