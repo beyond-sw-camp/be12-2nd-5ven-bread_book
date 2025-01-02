@@ -83,7 +83,7 @@ function hideNeedLoginModal() {
                   <span class="text-sm">찜하기</span>
                 </button>
                 <button v-if="!book.wish" @click.prevent="onWishButton(book)"
-                    class="z-20 flex items-center space-x-1.5 rounded-lg bg-white px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
+                    class="z-20 flex items-center space-x-1.5 rounded-lg bg-blue-400 px-4 py-1.5 text-white border-solid duration-100 hover:bg-blue-500">
                   <img id="starIcon" src="/src/assets/icon/yellow-star-filled.svg" alt="찜" />
                   <span class="text-sm">해제하기</span>
                 </button>
