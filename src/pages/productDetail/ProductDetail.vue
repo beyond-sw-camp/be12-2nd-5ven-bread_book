@@ -2,7 +2,7 @@
 import {computed, onMounted, ref} from "vue";
 import {useMainBookStore} from "/src/stores/useMainBookStore.js";
 import { useRoute } from "vue-router";
-import { useMemberStore} from "/src/stores/useMemberStore.js";
+import { useMemberStore } from "/src/stores/useMemberStore.js";
 import needLoginModal from "/src/pages/common/needLoginModal.vue";
 //import Float from "/src/pages/common/Float.vue";
 //import WishList from "/src/pages/common/WishList.vue";
