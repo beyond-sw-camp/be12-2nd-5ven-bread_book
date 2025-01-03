@@ -1,7 +1,5 @@
-<script>
-export default {
-  name: "HomeTitle",
-};
+<script setup>
+
 </script>
 
 <template>

@@ -1,25 +1,47 @@
 <script setup>
-import { onMounted } from 'vue'; // 컴포넌트가 마운트되었을 때 response data를 갖고 오기 위해서 추가
+import {onMounted, ref} from 'vue'; // 컴포넌트가 마운트되었을 때 response data를 갖고 오기 위해서 추가
 import { useMainBookStore } from '/src/stores/useMainBookStore.js'; // 책 관련 데이터 상태를 관리하는 store 가져오기
-import { useRouter } from "vue-router"; // (미사용) 상세 페이지 이동 버튼 이벤트에 router-link 추가용도
+import {useRoute} from "vue-router";
+import needLoginModal from "/src/pages/common/needLoginModal.vue";
+import {useMemberStore} from "../../stores/useMemberStore.js";
+const route = useRoute();
+const memberStore = useMemberStore();
+
+const isLogin = ref(false);
+const isLogout = ref(true);
+isLogin.value = memberStore.loginCheck();
+isLogout.value = !isLogin.value;
+const isNeedLoginModalVisible = ref(false);
 
 const bookStore = useMainBookStore();
-const router = useRouter(); // (미사용) 상세 페이지 이동 버튼 이벤트에 router-link 추가용도
-
-// onMounted 메서드로 컴포넌트가 마운트되었을 때 책 데이터를 가져오도록 함
-onMounted(() => {
-  bookStore.fetchBooks();
+const books = ref([]);
+onMounted(async () => {
+  if (route.name === 'Home') {
+    await bookStore.fetchBooks();
+    books.value = bookStore.books.map((book) => ({
+      ...book,
+      wish: book.wish === 'true' || book.wish === true, // 문자열 "false"를 Boolean으로 변환
+    }));
+  } else if (route.name === 'SearchResult') {
+    await bookStore.fetchResult();
+    books.value = bookStore.books.map((book) => ({
+      ...book,
+      wish: book.wish === 'true' || book.wish === true, // 문자열 "false"를 Boolean으로 변환
+    }));
+  }
 });
+function onWishButton(book) {
+  if (isLogin.value) {
+    book.wish = !book.wish;
+    console.log(`${book.title}의 wish 상태가 ${book.wish ? "추가됨" : "제거됨"}`);
+  } else if (isLogout) {
+    isNeedLoginModalVisible.value = true;
+  }
+};
 
-/*
-// 수정요망 * 역할 분장 회의 필요
-// productDetail과 함께 수정해야함...
-function goToDetailPage(bookId) {
-  router.push(`/book/${bookId}`);
-  // `/router/index.js`의 `routes`에 새로운 `path`를 추가 해야함.
-  // 가령, path: '/productDetail/:id'
-}
-*/
+function hideNeedLoginModal() {
+  isNeedLoginModalVisible.value = false;
+};
 </script>
 
 <template>
@@ -55,12 +77,15 @@ function goToDetailPage(bookId) {
             <div class="mt-1 p-2">
               <div class="mt-3 flex items-end justify-between">
                 <p class="text-lg font-bold text-blue-500">{{ book.price }}원</p>
-                <button
-                    id="wishBtn"
-                    class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600"
-                >
+                <button v-if="book.wish" @click.prevent="onWishButton(book)"
+                        class="z-20 flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
                   <img id="starIcon" src="/src/assets/icon/white-star.svg" alt="찜" />
                   <span class="text-sm">찜하기</span>
+                </button>
+                <button v-if="!book.wish" @click.prevent="onWishButton(book)"
+                    class="z-20 flex items-center space-x-1.5 rounded-lg bg-blue-400 px-4 py-1.5 text-white border-solid duration-100 hover:bg-blue-500">
+                  <img id="starIcon" src="/src/assets/icon/yellow-star-filled.svg" alt="찜" />
+                  <span class="text-sm">해제하기</span>
                 </button>
               </div>
             </div>
@@ -70,4 +95,5 @@ function goToDetailPage(bookId) {
       </article>
     </div>
   </section>
+  <needLoginModal :isVisible="isNeedLoginModalVisible" @close="hideNeedLoginModal"></needLoginModal>
 </template>

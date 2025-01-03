@@ -77,7 +77,7 @@ const getLinkClass = (link) => {
           class="rounded mr-3 hidden bg-blue-700 py-1.5 px-6 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg">
           <span>회원가입</span>
         </router-link>
-        <router-link to="/myproduct_home" v-if="isLogin" type="button"
+        <router-link to="/myproduct_home/myproductstores" v-if="isLogin" type="button"
           class="rounded mr-3 hidden bg-blue-700 py-1.5 px-6 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg">
           <span>마이페이지</span>
         </router-link>
