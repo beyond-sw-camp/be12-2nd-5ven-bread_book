@@ -13,7 +13,7 @@ const login = async () => {
     console.log("loginClicked");
     const response = await memberStore.fetchMemberWithId({id:id.value, pw:pw.value});
     console.log(response);
-    router.push('/');
+    router.go(-1);
 }
 </script>
 
