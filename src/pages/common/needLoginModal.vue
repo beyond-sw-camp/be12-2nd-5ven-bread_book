@@ -21,7 +21,7 @@ function hideModal() {
     <div class="relative w-full max-w-lg p-4 bg-white rounded-lg shadow-lg">
       <!-- 모달 제목 -->
       <div class="flex justify-between items-center border-b pb-2">
-        <h3 class="text-xl font-semibold text-gray-800 px-4">로그인하세요.</h3>
+        <h3 class="text-xl font-semibold text-gray-800 px-4">책빵 회원 전용 기능</h3>
         <button @click="hideModal" class="text-gray-500 hover:text-gray-800">
           ✖
         </button>
@@ -29,7 +29,7 @@ function hideModal() {
 
       <!-- 모달 내용 -->
       <div class="py-4 px-4 text-gray-600">
-        '찜하기' 기능은 로그인 후 이용할 수 있습니다. <br>로그인 페이지로 이동하시겠습니까?
+        로그인 후 이용할 수 있습니다. <br>로그인 페이지로 이동하시겠습니까?
       </div>
 
       <!-- 모달 하단 버튼 -->
