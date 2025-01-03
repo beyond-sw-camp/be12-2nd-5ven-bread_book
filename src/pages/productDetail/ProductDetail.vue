@@ -6,6 +6,9 @@ import { useMemberStore } from "/src/stores/useMemberStore.js";
 import needLoginModal from "/src/pages/common/needLoginModal.vue";
 //import Float from "/src/pages/common/Float.vue";
 //import WishList from "/src/pages/common/WishList.vue";
+import { useLoadingStore } from "/src/stores/useLoadingStore";
+
+const loadingStore = useLoadingStore();
 const route = useRoute();
 const memberStore = useMemberStore();
 
@@ -21,6 +24,7 @@ const books = ref([]);
 
 const firstBook = computed(() => bookStore.books[route.params.id - 1]);
 onMounted(async () => {
+  loadingStore.startLoading();
   await bookStore.fetchBooks();
   books.value = bookStore.books.map((book) => ({
     ...book,
@@ -29,6 +33,7 @@ onMounted(async () => {
     // 그리하여 본 코드를 추가했으나, 그럼에도 적용 안 됨.
     // 그래서 v-if 조건을 반대로 설정해둠
   }));
+  loadingStore.stopLoading();
 });
 
 function onWishButton(book) {

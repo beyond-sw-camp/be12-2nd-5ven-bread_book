@@ -3,7 +3,10 @@ import {onMounted, ref} from 'vue'; // 컴포넌트가 마운트되었을 때 re
 import { useMainBookStore } from '/src/stores/useMainBookStore.js'; // 책 관련 데이터 상태를 관리하는 store 가져오기
 import {useRoute} from "vue-router";
 import needLoginModal from "/src/pages/common/needLoginModal.vue";
-import {useMemberStore} from "../../stores/useMemberStore.js";
+import {useMemberStore} from "/src/stores/useMemberStore.js";
+import { useLoadingStore } from "/src/stores/useLoadingStore";
+
+const loadingStore = useLoadingStore();
 const route = useRoute();
 const memberStore = useMemberStore();
 
@@ -16,6 +19,7 @@ const isNeedLoginModalVisible = ref(false);
 const bookStore = useMainBookStore();
 const books = ref([]);
 onMounted(async () => {
+  loadingStore.startLoading();
   if (route.name === 'Home') {
     await bookStore.fetchBooks();
     books.value = bookStore.books.map((book) => ({
@@ -29,6 +33,7 @@ onMounted(async () => {
       wish: book.wish === 'true' || book.wish === true, // 문자열 "false"를 Boolean으로 변환
     }));
   }
+  loadingStore.stopLoading();
 });
 function onWishButton(book) {
   if (isLogin.value) {

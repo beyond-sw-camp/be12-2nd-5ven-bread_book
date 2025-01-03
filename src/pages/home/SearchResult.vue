@@ -6,13 +6,17 @@ import { useMainBookStore } from '/src/stores/useMainBookStore.js'// 책 관련 
 import HomeSearchField from "./HomeSearchField.vue";
 import SearchResultAside from "./SearchResultAside.vue";
 import HomeBookList from "./HomeBookList.vue";
+import { useLoadingStore } from "/src/stores/useLoadingStore";
 
+const loadingStore = useLoadingStore();
 
 const bookStore = useMainBookStore();
 
 // onMounted 메서드로 컴포넌트가 마운트되었을 때 책 데이터를 가져오도록 함
 onMounted(() => {
+  loadingStore.startLoading();
   bookStore.fetchResult();
+  loadingStore.stopLoading();
 });
 </script>
 
