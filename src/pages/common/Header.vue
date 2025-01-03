@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import { useMemberStore } from "/src/stores/useMemberStore.js";
+import ConfirmLogoutModal from "/src/pages/common/ConfirmLogoutModal.vue";
 
 const isMenuOpen = ref(true);
 const memberStore = useMemberStore();
@@ -10,11 +11,21 @@ const isLogout = ref(true);
 isLogin.value = memberStore.loginCheck();
 isLogout.value = !isLogin.value;
 
+const isConfirmLogoutModalVisible = ref(false);
+
 // 로그아웃 함수 작성...
 function logout() {
   memberStore.logout();
   isLogin.value = memberStore.loginCheck();
   isLogout.value = !isLogin.value;
+}
+
+function showConfirmLogoutModal() {
+  isConfirmLogoutModalVisible.value = true;
+}
+
+function hideConfirmLogoutModal() {
+  isConfirmLogoutModalVisible.value = false;
 }
 
 function toggleMenu() {
@@ -70,7 +81,7 @@ const getLinkClass = (link) => {
         </router-link>
         <button v-if="isLogin" type="button"
           class="rounded mr-3 hidden border border-blue-700 py-1.5 px-6 text-center text-sm font-medium text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 md:inline-block rounded-lg"
-          @click="logout">로그아웃
+          @click="(function () {logout(); showConfirmLogoutModal();})()">로그아웃
         </button>
         <!--  Signup Button  -->
         <router-link to="/signup" v-if="isLogout" type="button"
@@ -145,5 +156,5 @@ const getLinkClass = (link) => {
   </div>
     </div>
   </nav>
-
+  <ConfirmLogoutModal :isVisible="isConfirmLogoutModalVisible" @close="hideConfirmLogoutModal()"></ConfirmLogoutModal>
 </template>
