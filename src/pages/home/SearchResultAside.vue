@@ -3,13 +3,13 @@
 </script>
 
 <template>
-  <aside class="overflow-scroll fixed w-64 h-screen border-r dark:bg-gray-800 dark:border-gray-600"
-  style="box-sizing: border-box;">
-    <div class="px-4 py-8 flex flex-col"
-         style="max-height: calc(100vh - 148px); box-sizing: border-box;">
-      <!--    style="max-height: calc(100vh - 184px)"-->
-      <h2 class="text-xl font-semibold text-gray-800 dark:text-white"> 상세 검색</h2>
-      <div class="flex flex-col justify-between flex-1 mt-6">
+  <aside class="hidden lg:inline-block overflow-y-scroll w-64 border-r dark:bg-gray-800 dark:border-gray-600"
+         style="height: calc(100%- 72px); box-sizing: border-box;">
+    <div class="px-4 py-9 flex flex-col"
+         style="height: 100%; box-sizing: border-box;">
+      <h2 class="text-xl font-semibold text-gray-800 dark:text-white" style="height: 1.75rem;"> 상세 검색</h2>
+      <div class="flex flex-col justify-between mt-6"
+           style="height: calc(100% - 1.75rem);">
         <nav>
           <a class="flex items-center px-4 py-2 text-gray-700 bg-gray-200 rounded-md dark:bg-gray-700 dark:text-gray-200"
              href="#">
@@ -20,7 +20,6 @@
 
             <span class="mx-4 font-medium">가격</span>
           </a>
-
           <a class="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-200 transform rounded-md dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
              href="#">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,7 +31,6 @@
 
             <span class="mx-4 font-medium">판매자 빵등급</span>
           </a>
-
           <a class="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-200 transform rounded-md dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
              href="#">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -42,9 +40,7 @@
 
             <span class="mx-4 font-medium">책 상태</span>
           </a>
-
           <hr class="my-6 border-gray-200 dark:border-gray-600"/>
-
           <a class="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-200 transform rounded-md dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
              href="#">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -54,7 +50,6 @@
 
             <span class="mx-4 font-medium">찜 목록</span>
           </a>
-
           <a class="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-200 transform rounded-md dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
              href="#">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -66,20 +61,21 @@
 
             <span class="mx-4 font-medium">설정</span>
           </a>
-          <div class="flex items-center px-4 -mx-2 py-2 mt-5
-">
-            <img class="object-cover mx-2 rounded-full h-9 w-9"
-                 src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-                 alt="avatar"/>
-            <h4 class="mx-2 font-medium text-gray-800 dark:text-gray-200 hover:underline">John Doe</h4>
-          </div>
         </nav>
-
+        <!-- <div class="sticky bottom-0 flex bg-white items-center px-4 -mx-2 pt-4 pb-2 mt-5 drop-shadow-top"
+             style="border-top: 1px solid; border-top-color: rgb(229 231 235);">
+          <img class="object-cover mx-2 rounded-full h-9 w-9"
+               src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+               alt="avatar"/>
+          <h4 class="mx-2 font-medium text-gray-800 dark:text-gray-200 hover:underline">John Doe</h4>
+        </div> -->
       </div>
     </div>
   </aside>
-  </template>
+</template>
 
 <style scoped>
-
+  .drop-shadow-top {
+    filter: drop-shadow(0 -3px 3px rgba(0, 0, 0, 0.01));
+  }
 </style>
