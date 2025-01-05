@@ -69,33 +69,33 @@ const getLinkClass = (link) => {
 <template>
   <nav class="fixed top-0 left-0 z-20 w-full border-b border-gray-200 bg-white py-2.5 px-6 sm:px-4">
     <div class="container mx-auto flex max-w-6xl flex-wrap items-center justify-between">
-      <router-link to="/" class="flex items-center justify-center" style="min-width: 11.75rem;">
+      <router-link to="/" class="flex items-center justify-center" style="min-width: 10.75rem;">
         <!-- <span class="self-center whitespace-nowrap text-xl font-semibold">📚책빵🍞</span> -->
         <img class="self-center" src="/src/assets/icon/logo-typo-with-books-apple.svg" alt="typo-logo">
       </router-link>
       <!--  Right side - Login & Signup buttons    -->
       <!--  오른쪽 - 로그인 버튼 & 외원가입 버튼    -->
       <div class="mt-2 sm:mt-0 sm:flex md:order-2 justify-center">
-        <!-- Login Button -->
-        <div v-if="isLogout" class="md:min-w-[11.75rem]">
-          <router-link to="/login" type="button"
-                       class="rounded mr-3 hidden border border-blue-700 py-1.5 px-3 text-center text-sm font-medium text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 md:inline-block rounded-lg">
-            <span>로그인</span>
-          </router-link>
-          <router-link to="/signup" type="button"
-                       class="rounded mr-3 hidden bg-blue-700 py-1.5 px-3 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg">
-            <span>회원가입</span>
-          </router-link>
-        </div>
-        <div v-if="isLogin" class="md:min-w-[11.75rem]">
-          <button type="button"
-                  class="rounded mr-3 hidden border border-blue-700 py-1.5 px-3 text-center text-sm font-medium text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 md:inline-block rounded-lg"
-                  @click="(function () {logout(); showConfirmLogoutModal();})()">로그아웃
-          </button>
-          <!--  Signup Button  -->
-          <router-link to="/myproduct_home/myproductstores" type="button"
-                       class="rounded mr-3 hidden bg-blue-700 py-1.5 px-3 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg">
-            <span>마이페이지</span></router-link>
+        <div class="flex flex-row justify-center md:min-w-[10.75rem]">
+          <div v-if="isLogout">
+            <router-link to="/login" type="button"
+                         class="rounded mr-3 hidden border border-blue-700 py-1.5 px-2 text-center text-sm font-medium text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 md:inline-block rounded-lg">
+              <span>로그인</span>
+            </router-link>
+            <router-link to="/signup" type="button"
+                         class="rounded mr-3 hidden border border-blue-700 bg-blue-700 py-1.5 px-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg">
+              <span>회원가입</span>
+            </router-link>
+          </div>
+          <div v-if="isLogin">
+            <button type="button"
+                    class="rounded mr-3 hidden border border-blue-700 py-1.5 px-2 text-center text-sm font-medium text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 md:inline-block rounded-lg"
+                    @click="(function () {logout(); showConfirmLogoutModal();})()">로그아웃
+            </button>
+            <router-link to="/myproduct_home/myproductstores" type="button"
+                         class="rounded mr-3 hidden border border-blue-700 bg-blue-700 py-1.5 px-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg">
+              <span>마이페이지</span></router-link>
+          </div>
         </div>
         <!--  Toggle Button for Narrow Window    -->
         <!--   좁은 창 전용 메뉴 토글 버튼    -->
