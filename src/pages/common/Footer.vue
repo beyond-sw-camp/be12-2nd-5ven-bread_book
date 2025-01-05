@@ -7,12 +7,9 @@
       <div class="grid justify-center  lg:justify-between">
         <div class="flex flex-col self-center text-sm text-center md:block lg:col-start-1 md:space-x-6">
           <span>Copy rgight © 2023 by codemix team </span>
-          <a rel="noopener noreferrer" href="#">
-            <span>개인정보 정책</span>
-          </a>
-          <a rel="noopener noreferrer" href="#">
+          <router-link to="/terms" rel="noopener noreferrer">
             <span>이용약관</span>
-          </a>
+          </router-link>
         </div>
         <div class="flex justify-center pt-4 space-x-4 lg:pt-0 lg:col-end-13">
           <a rel="noopener noreferrer" href="#" title="Email"
