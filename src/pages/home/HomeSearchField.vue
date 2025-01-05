@@ -4,7 +4,7 @@ const router = useRouter();
 </script>
 
 <template>
-  <article class="relative max-w-2xl mx-auto" style="margin-bottom: 1rem;">
+  <article class="px-6 relative max-w-2xl mx-auto" style="margin-bottom: 1rem;">
     <div class="flex items-center space-x-2">
       <!-- 상단 버튼 -->
       <form action="/" class="flex flex-col items-start rounded-lg shadow-md max-w-md">

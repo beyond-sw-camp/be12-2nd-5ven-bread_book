@@ -43,7 +43,7 @@ const routes = [
     path: '/result', // * 향후 수정 필요 - 데이터에 따라 URI가 바뀌어야 한다.
     name: 'SearchResult',
     component: SearchResult,
-    meta: { showHeader: true, showFooter: true},
+    meta: { showHeader: true, showFooter: false},
   },
   {
     path: '/login',
