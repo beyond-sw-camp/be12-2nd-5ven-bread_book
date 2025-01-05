@@ -66,7 +66,7 @@ function hideNeedLoginModal() {
             <div>
               <div
                   class="relative flex items-end overflow-hidden rounded-xl"
-                  style="max-width: 18rem; max-height: 22rem; min-height: 22rem;">
+                  style="max-height: 22rem; min-height: 22rem;">
 
                 <img
                     :src="book.imgSrc"
@@ -83,7 +83,7 @@ function hideNeedLoginModal() {
               <div class="mt-3 flex items-end justify-between">
                 <p class="text-lg font-bold text-blue-500">{{ book.price }}원</p>
                 <button v-if="book.wish" @click.prevent="onWishButton(book)"
-                        class="z-20 flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
+                        class="z-19 flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
                   <img id="starIcon" src="/src/assets/icon/white-star.svg" alt="찜" />
                   <span class="text-sm">찜하기</span>
                 </button>
