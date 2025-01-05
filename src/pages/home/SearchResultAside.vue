@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <aside class="z-20 lg:inline-block overflow-y-scroll w-52 border-r bg-white dark:bg-gray-800 dark:border-gray-600"
+  <aside class="lg:inline-block overflow-y-scroll w-52 border-r bg-white dark:bg-gray-800 dark:border-gray-600"
          style="height: calc(100% - 4.5rem); box-sizing: border-box;">
     <div class="px-4 py-4 flex flex-col"
          style="height: 100%; box-sizing: border-box;">
