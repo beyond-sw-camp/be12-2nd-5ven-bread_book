@@ -29,8 +29,7 @@ function hideConfirmLogoutModal() {
 }
 
 function toggleMenu() {
-  isMenuOpen.value = !isMenuOpen.value; // 상태 변경
-  console.log("Menu toggled:", isMenuOpen.value); // 상태 확인
+  isMenuOpen.value = !isMenuOpen.value;
 }
 
 // 화면 크기 변경 감지 함수

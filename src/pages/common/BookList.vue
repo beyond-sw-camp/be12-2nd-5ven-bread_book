@@ -56,8 +56,8 @@ function hideNeedLoginModal() {
 
 <template>
   <section class="bg-gray-100">
-    <div class="mx-auto grid grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3"
-         :class="{ 'max-w-7xl lg:grid-cols-4 xl:grid-cols-5': isWideSection, 'max-w-6xl lg:grid-cols-3 xl:grid-cols-4': !isWideSection }">
+    <div class="mx-auto grid grid-cols-1 gap-6 p-6 sm:grid-cols-21"
+         :class="{ 'max-w-7xl md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5': isWideSection, 'max-w-6xl md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4': !isWideSection }">
         <!-- v-for 동적으로 렌더링 -->
         <article v-for="book in bookStore.books" :key="book.id"
                  class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300">
