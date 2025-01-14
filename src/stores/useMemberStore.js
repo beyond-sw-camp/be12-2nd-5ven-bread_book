@@ -7,8 +7,8 @@ export const useMemberStore = defineStore('member', {
         storage: sessionStorage,
     },
     actions: {
-        async fetchMemberWithId(id, pw) {
-            const response = await axios.post("/api/login", {id:id, pw:pw});
+        async fetchMemberWithId(user) {
+            const response = await axios.post("/api/user/login", {email:user.id, password:user.pw});
             this.member = response.data;
             this.isLogin = true;
             return response;
