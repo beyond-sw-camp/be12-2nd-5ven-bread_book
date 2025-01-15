@@ -13,7 +13,11 @@ const login = async () => {
     console.log("loginClicked");
     const response = await memberStore.fetchMemberWithId({id:id.value, pw:pw.value});
     console.log(response);
-    router.go(-1);
+    if(!response.data.result) {
+        alert("계정이 존재하지 않거나 비밀번호가 틀렸습니다.")
+    } else {
+        router.go(-1);
+    }
 }
 </script>
 
