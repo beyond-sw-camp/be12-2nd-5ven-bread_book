@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useMemberStore } from '../../stores/useMemberStore';
+
 
 const router = useRouter();
 
@@ -10,8 +12,11 @@ const toggleShow = () => {
     show.value = !show.value;
 }
 
-const signup = () => {
-    // await memberStore.signup();
+const user = ref({});
+
+const memberStore = useMemberStore();
+const signup = async () => {
+    const response = await memberStore.signup(user.value);
     router.push('/signup_success');
 }
 </script>
@@ -29,28 +34,28 @@ const signup = () => {
                 <form action="/" @submit.prevent="signup" class="my-8 text-sm">
                     <div class="flex flex-col my-4">
                         <label for="name" class="text-gray-700">이름</label>
-                        <input type="text" name="name" id="name" class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900" placeholder="이름 입력">
+                        <input type="text" name="name" id="name" v-model="user.name" class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900" placeholder="이름 입력">
                     </div>
 
                     <div class="flex flex-col my-4">
                         <label for="nickname" class="text-gray-700">닉네임</label>
-                        <input type="text" name="nickname" id="nickname" class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900" placeholder="닉네임 입력">
+                        <input type="text" name="nickname" id="nickname" v-model="user.nickname" class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900" placeholder="닉네임 입력">
                     </div>
 
                     <div class="flex flex-col my-4">
                         <label for="id" class="text-gray-700">ID</label>
-                        <input type="text" name="id" id="id" class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900" placeholder="ID 입력">
+                        <input type="text" name="id" id="id" v-model="user.userid" class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900" placeholder="ID 입력">
                     </div>
 
                     <div class="flex flex-col my-4">
                         <label for="email" class="text-gray-700">이메일</label>
-                        <input type="email" name="email" id="email" class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900" placeholder="이메일 입력">
+                        <input type="email" name="email" v-model="user.email" id="email" class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900" placeholder="이메일 입력">
                     </div>
                     
                     <div class="flex flex-col my-4">
                         <label for="password" class="text-gray-700">비밀번호</label>
                         <div x-data="{ show: false }" class="relative flex items-center mt-2">
-                            <input :type=" show ? 'text': 'password' " name="password" id="password" class="flex-1 p-2 pr-10 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900" placeholder="비밀번호 입력" type="password">
+                            <input :type=" show ? 'text': 'password' " v-model="user.password" name="password" id="password" class="flex-1 p-2 pr-10 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900" placeholder="비밀번호 입력" type="password">
                             <button @click="toggleShow" type="button" class="absolute right-2 bg-transparent flex items-center justify-center text-gray-700">
                                 <svg v-if="!show" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path></svg>
 
@@ -62,7 +67,7 @@ const signup = () => {
                     <div class="flex flex-col my-4">
                         <label for="password_confirmation" class="text-gray-700">비밀번호 확인</label>
                         <div x-data="{ show: false }" class="relative flex items-center mt-2">
-                            <input :type=" show ? 'text': 'password' " name="password_confirmation" id="password_confirmation" class="flex-1 p-2 pr-10 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900" placeholder="비밀번호 재입력" type="password">
+                            <input :type=" show ? 'text': 'password' " v-model="user.passwordre" name="password_confirmation" id="password_confirmation" class="flex-1 p-2 pr-10 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900" placeholder="비밀번호 재입력" type="password">
                             <button @click="show = !show" type="button" class="absolute right-2 bg-transparent flex items-center justify-center text-gray-700">
                                 <svg v-if="!show" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path></svg>
 
@@ -72,8 +77,15 @@ const signup = () => {
                     </div>
 
                     <div class="flex flex-col my-4">
+                        <label for="birthdate" class="text-gray-700">성별</label>
+                        <p><input type="radio" name="gender" value="male" v-model="user.gender"> 남성</p>
+                        <p><input type="radio" name="gender" value="female" v-model="user.gender"> 여성 </p>
+                        <p><input type="radio" name="gender" value="other" v-model="user.gender"> 기타 </p>
+                    </div>
+
+                    <div class="flex flex-col my-4">
                         <label for="birthdate" class="text-gray-700">생년월일</label>
-                        <input type="date" name="birthdate" id="birthdate" class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded " placeholder="닉네임 입력">
+                        <input type="date" name="birthdate" id="birthdate" v-model="user.birthDate" class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded " placeholder="닉네임 입력">
                     </div>
 
                     <div class="flex items-center">

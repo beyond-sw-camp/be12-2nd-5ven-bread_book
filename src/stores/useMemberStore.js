@@ -8,9 +8,17 @@ export const useMemberStore = defineStore('member', {
     },
     actions: {
         async fetchMemberWithId(user) {
-            const response = await axios.post("/api/user/login", {email:user.id, password:user.pw});
-            this.member = response.data;
-            this.isLogin = true;
+            const response = await axios.post("/api/user/login", {userId:user.id, password:user.pw});
+            if(response.data.result) {
+                this.isLogin = true;
+            }
+            return response;
+        },
+        async signup(user) {
+            const response = await axios.post("/api/user/signup", 
+                {userId:user.userid, userName:user.name, email:user.email, 
+                    password:user.password, nickName: user.nickname, birthDate:user.birthDate, gender:user.gender}
+            );
             return response;
         },
         loginCheck() {
