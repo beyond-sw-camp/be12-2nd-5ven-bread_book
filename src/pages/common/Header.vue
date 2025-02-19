@@ -29,7 +29,8 @@ function hideConfirmLogoutModal() {
 }
 
 function toggleMenu() {
-  isMenuOpen.value = !isMenuOpen.value;
+  isMenuOpen.value = !isMenuOpen.value; // 상태 변경
+  console.log("Menu toggled:", isMenuOpen.value); // 상태 확인
 }
 
 // 화면 크기 변경 감지 함수
@@ -50,18 +51,6 @@ onUnmounted(() => {
 });
 
 
-// 현재 활성화된 링크를 추적
-const activeLink = ref("/");
-
-// 클릭 시 활성화된 링크를 변경
-const setActive = (link) => {
-  activeLink.value = link;
-};
-
-// 동적으로 클래스 반환
-const getLinkClass = (link) => {
-  return activeLink.value === link ? "text-blue-700" : "text-gray-700";
-};
 </script>
 
 
@@ -117,44 +106,39 @@ const getLinkClass = (link) => {
             class="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:text-sm md:font-medium">
           <li>
             <router-link
-                to="/"
-                class="block rounded py-2 pl-3 pr-4 hover:bg-gray-100 md:p-0 md:hover:bg-transparent"
-                :class="getLinkClass('/')"
-                @click="setActive('/')"
-                aria-current="page"
-            >
-              홈
-            </router-link>
-          </li>
-          <li>
-            <router-link
-                to="/myproduct_home/myproductstores"
-                class="block rounded py-2 pl-3 pr-4 hover:bg-gray-100 md:p-0 md:hover:bg-transparent"
-                :class="getLinkClass('/myproduct_home/myproductstores')"
-                @click="setActive('/myproduct_home/myproductstores')"
-            >
-              내상품
-            </router-link>
-          </li>
-          <li>
-            <router-link
-                to="/productregister"
-                class="block rounded py-2 pl-3 pr-4 hover:bg-gray-100 md:p-0 md:hover:bg-transparent"
-                :class="getLinkClass('/productregister')"
-                @click="setActive('/productregister')"
-            >
-              판매하기
-            </router-link>
-          </li>
-          <li>
-            <router-link
-                to="/chat"
-                class="block rounded py-2 pl-3 pr-4 hover:bg-gray-100 md:p-0 md:hover:bg-transparent"
-                :class="getLinkClass('/chat')"
-                @click="setActive('/chat')"
-            >
-              채팅하기
-            </router-link>
+          to="/"
+          class="block rounded py-2 pl-3 pr-4 hover:bg-gray-100 md:p-0 md:hover:bg-transparent"
+          exact-active-class="text-blue-500 font-bold"
+        >
+          홈
+        </router-link>
+      </li>
+      <li>
+        <router-link
+          to="/myproduct_home/myproductstores"
+          class="block rounded py-2 pl-3 pr-4 hover:bg-gray-100 md:p-0 md:hover:bg-transparent"
+          exact-active-class="text-blue-500 font-bold"
+        >
+          내상품
+        </router-link>
+      </li>
+      <li>
+        <router-link
+          to="/productregister"
+          class="block rounded py-2 pl-3 pr-4 hover:bg-gray-100 md:p-0 md:hover:bg-transparent"
+          exact-active-class="text-blue-500 font-bold"
+        >
+          판매하기
+        </router-link>
+      </li>
+      <li>
+        <router-link
+          to="/chat"
+          class="block rounded py-2 pl-3 pr-4 hover:bg-gray-100 md:p-0 md:hover:bg-transparent"
+          exact-active-class="text-blue-500 font-bold"
+        >
+          채팅하기
+        </router-link>
           </li>
           <!--          <li class="md:hidden flex flex-row justify-end">-->
           <!--            <button-->
