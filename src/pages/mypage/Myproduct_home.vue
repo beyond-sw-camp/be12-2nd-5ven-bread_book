@@ -31,7 +31,7 @@ export default {
               class="aspect-square bg-gray-100 rounded-lg flex flex-col justify-center items-center"
             >
               <!-- 프로필 이미지 -->
-              <div class="w-32 h-32 rounded-full overflow-hidden">
+              <div class="w-28 h-28 rounded-full overflow-hidden items-center">
                 <img
                   :src="user.user.image_url"
                   alt="프로필 이미지"
@@ -40,15 +40,15 @@ export default {
               </div>
 
               <!-- 상점 정보 컨테이너 -->
-              <div class="mt-4 md:mt-0 text-center md:text-left">
+              <div class="mt-4 md:mt-0 text-center md:text-center items-center">
                 <!-- 상점 이름 -->
                 <h1 class="text-2xl font-semibold text-black mb-2">
                   {{ user.user.username }}
                 </h1>
-                <!-- 팔로우 버튼 -->
-                <div class="mt-4 md:mt-0" style="margin-left: 15px">
+
+                <div class="mt-4 md:mt-0 flex" style="margin-left: 15px">
                   <router-link
-                    class="px-2 py-1 bg-transparent border border-bleak text-bleak rounded hover:bg-bleak hover:bg-opacity-20 transition duration-300"
+                    class="text-center md:text-center w-36 h-10 mx-2 my-1 bg-black border border-bleak text-white rounded hover:bg-bleak hover:bg-opacity-20 transition duration-300 font-semibold text-sm flex items-center justify-center "
                     to="/paymentList/test1"
                   >
                     <span class="mr-2">내 거래 내역</span>
@@ -84,26 +84,13 @@ export default {
             <div class="mt-4 grid grid-cols-3 gap-4 text-sm text-gray-600">
               <div class="flex items-center">
                 <img
-                  src="https://cdn-icons-png.flaticon.com/512/420/420199.png"
+                  src="https://github.com/beyond-sw-camp/be12-2nd-5ven-bread_book/blob/main/assets/img/%EC%83%8C%EB%93%9C%EC%9C%84%EC%B9%98.png?raw=true"
                   alt="아이콘"
                   class="w-4 h-4 mr-2"
                 />
-                <span>상점 오픈</span>
-                <span class="ml-auto text-gray-500"
-                  >{{ user.user.store_open_days }}일 전</span
-                >
+                <span>빵등급</span>
               </div>
-              <div class="flex items-center">
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/420/420199.png"
-                  alt="아이콘"
-                  class="w-4 h-4 mr-2"
-                />
-                <span>상점 방문수</span>
-                <span class="ml-auto text-gray-500"
-                  >{{ user.user.store_visits }}명</span
-                >
-              </div>
+              
               <div class="flex items-center">
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/3330/3330317.png"
@@ -114,15 +101,8 @@ export default {
                 <span class="ml-auto text-gray-500">{{ user.user.sales }}회</span>
               </div>
             </div>
-            <!-- 스크롤 가능한 박스 -->
-            <div
-              class="mt-4 text-gray-700 text-sm leading-relaxed border rounded-lg p-3 max-h-32 overflow-y-auto"
-            >
-              <!-- 상점 설명 -->
-              <div>
-                {{ user.user.textmessage }}
-              </div>
-            </div>
+
+
             <!-- fetchproductreview -->
             <!-- 신고하기 -->
             <div class="border-t mt-4 pt-3 text-right">
