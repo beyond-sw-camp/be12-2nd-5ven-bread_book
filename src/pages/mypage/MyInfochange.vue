@@ -1,23 +1,23 @@
 <script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { useMemberStore } from "../../stores/useMemberStore";
+// import { ref } from "vue";
+// import { useRouter } from "vue-router";
+// import { useMemberStore } from "../../stores/useMemberStore";
 
-const router = useRouter();
+// const router = useRouter();
 
-const show = ref(false);
-show.value = false;
-const toggleShow = () => {
-  show.value = !show.value;
-};
+// const show = ref(false);
+// show.value = false;
+// const toggleShow = () => {
+//   show.value = !show.value;
+// };
 
-const user = ref({});
+// const user = ref({});
 
-const memberStore = useMemberStore();
-const signup = async () => {
-  const response = await memberStore.signup(user.value);
-  router.push("/signup_success");
-};
+// const memberStore = useMemberStore();
+// const signup = async () => {
+//   const response = await memberStore.signup(user.value);
+//   router.push("/signup_success");
+// };
 </script>
 
 <template>
