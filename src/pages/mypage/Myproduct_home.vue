@@ -40,18 +40,27 @@ export default {
               </div>
 
               <!-- 상점 정보 컨테이너 -->
-              <div class="mt-4 md:mt-0 text-center md:text-center items-center">
+              <div class="mt-2 md:mt-0 text-center md:text-center items-center">
                 <!-- 상점 이름 -->
-                <h1 class="text-2xl font-semibold text-black mb-2">
+                <h1 class="text-2xl font-semibold text-black">
                   {{ user.user.username }}
                 </h1>
 
                 <div class="mt-4 md:mt-0 flex" style="margin-left: 15px">
                   <router-link
-                    class="text-center md:text-center w-36 h-10 mx-2 my-1 bg-black border border-bleak text-white rounded hover:bg-bleak hover:bg-opacity-20 transition duration-300 font-semibold text-sm flex items-center justify-center "
+                    class="text-center md:text-center w-36 h-8 mx-2 my-1 bg-black border border-bleak text-white rounded hover:bg-bleak hover:bg-opacity-20 transition duration-300 font-semibold text-sm flex items-center justify-center "
                     to="/paymentList/test1"
                   >
                     <span class="mr-2">내 거래 내역</span>
+                  </router-link>
+                </div>
+               <!-- v-if="isLogin" -->  
+                <div class="mt-4 md:mt-0 flex" style="margin-left: 15px">
+                  <router-link
+                    class="text-center md:text-center w-36 h-8 mx-2 my-1 bg-black border border-bleak text-white rounded hover:bg-bleak hover:bg-opacity-20 transition duration-300 font-semibold text-sm flex items-center justify-center "
+                    to="/myinfochange"
+                  >
+                    <span class="mr-2">프로필 수정</span>
                   </router-link>
                 </div>
               </div>
