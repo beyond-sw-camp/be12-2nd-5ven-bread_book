@@ -19,6 +19,7 @@ import paymentDetails from "../pages/payment/paymentDetails.vue";
 import ProductRegister from '../pages/productRegister/ProductRegister.vue';
 import ChangePw from '../pages/member/ChangePw.vue';
 import Terms from '../pages/member/Terms.vue';
+import MyInfochange from '../pages/mypage/MyInfochange.vue';
 
 
 const checkLogin = async (from, to, next) => {
@@ -137,11 +138,15 @@ const routes = [
       { path: "myproductstores", name: 'Myproductstores', component: Myproductstores,
        },
       { path: "mystoreReviews", name: 'MystoreReviews', component: MystoreReviews,
-       },
+       }
     ],
     meta: { showHeader: true, showFooter: true },
     beforeEnter: checkLogin,
-  }
+  },
+
+  {
+    path: "/myinfochange", name: "MyInfochange", component: MyInfochange,
+   }
 ]
 
 const router = createRouter({
