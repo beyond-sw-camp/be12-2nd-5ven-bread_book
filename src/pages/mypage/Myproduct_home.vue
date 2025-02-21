@@ -115,8 +115,8 @@ export default {
             <!-- fetchproductreview -->
             <!-- 신고하기 -->
             <div class="border-t mt-4 pt-3 text-right">
-              <a href="#" class="text-sm text-blue-500 hover:underline"
-                >신고하기</a
+              <router-link to="/report" class="text-sm text-blue-500 hover:underline"
+                >신고하기</router-link
               >
             </div>
           </div>
