@@ -1,23 +1,4 @@
 <script setup>
-// import { ref } from "vue";
-// import { useRouter } from "vue-router";
-// import { useMemberStore } from "../../stores/useMemberStore";
-
-// const router = useRouter();
-
-// const show = ref(false);
-// show.value = false;
-// const toggleShow = () => {
-//   show.value = !show.value;
-// };
-
-// const user = ref({});
-
-// const memberStore = useMemberStore();
-// const signup = async () => {
-//   const response = await memberStore.signup(user.value);
-//   router.push("/signup_success");
-// };
 </script>
 
 <template>
@@ -62,7 +43,7 @@
               type="text"
               name="name"
               id="name"
-              v-model="user.name"
+
               class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
               placeholder="이름 입력"
             />
@@ -74,7 +55,7 @@
               type="text"
               name="nickname"
               id="nickname"
-              v-model="user.nickname"
+
               class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
               placeholder="닉네임 입력"
             />
@@ -86,7 +67,7 @@
               type="text"
               name="id"
               id="id"
-              v-model="user.userid"
+
               class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
               placeholder="ID 입력"
             />
@@ -97,7 +78,7 @@
             <input
               type="email"
               name="email"
-              v-model="user.email"
+ 
               id="email"
               class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
               placeholder="이메일 입력"
@@ -112,13 +93,14 @@
             >
               <input
                 :type="show ? 'text' : 'password'"
-                v-model="user.password"
+
                 name="password"
                 id="password"
                 class="flex-1 p-2 pr-10 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
                 placeholder="비밀번호 입력"
-                type="password"
+              
               />
+              <!-- type="password" -->
               <button
                 @click="toggleShow"
                 type="button"

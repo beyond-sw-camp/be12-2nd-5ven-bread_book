@@ -20,6 +20,7 @@ import ProductRegister from '../pages/productRegister/ProductRegister.vue';
 import ChangePw from '../pages/member/ChangePw.vue';
 import Terms from '../pages/member/Terms.vue';
 import MyInfochange from '../pages/mypage/MyInfochange.vue';
+import Report from '../pages/report/Report.vue';
 
 
 const checkLogin = async (from, to, next) => {
@@ -143,9 +144,11 @@ const routes = [
     meta: { showHeader: true, showFooter: true },
     beforeEnter: checkLogin,
   },
-
   {
     path: "/myinfochange", name: "MyInfochange", component: MyInfochange,
+   },
+   {
+    path: "/report", name: "Report", component: Report,
    }
 ]
 

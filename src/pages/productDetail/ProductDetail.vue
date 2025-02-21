@@ -77,22 +77,34 @@ function hideNeedLoginModal() {
               <span class="h-5 rounded-full mr-2 focus:outline-none">식빵등급판매자</span>
             </div>
           </div>
-          <div class="flex items-center mt-6">
+
+          <div class="flex flex-col items-start mt-6">
+            <dev class="flex items-center mb-4">
             <router-link :to="`/chat/${route.params.id}`">
-              <button
-                  class="h-10 px-8 py-2 bg-indigo-600 text-white text-md font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
-                채팅하기
+                <button
+                    class="h-10 px-8 py-2 bg-indigo-600 text-white text-md font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">
+                  채팅하기
+                </button>
+              </router-link>
+
+              <button v-if="firstBook.wish" @click="onWishButton(firstBook)"
+                    class="h-10 mx-2 text-gray-600 bg-indigo-600 border rounded-md p-2 hover:bg-indigo-500 focus:outline-none">
+                <img src="/src/assets/icon/white-star.svg" alt="white-star">
+              </button>
+
+              <button v-if="!firstBook.wish" @click="onWishButton(firstBook)"
+                      class="h-10 mx-2 text-gray-600 bg-indigo-600 border rounded-md p-2 hover:bg-indigo-500 focus:outline-none">
+                <img src="/src/assets/icon/yellow-star-filled.svg" alt="yellow-star-filled">
+              </button>
+            </dev>
+
+            <router-link to="/report">
+              <button class="h-10 px-8 py-2 bg-600 text-red text-md font-medium rounded hover:bg-white-500 focus:bg-red-500">
+                신고하기
               </button>
             </router-link>
-            <button v-if="firstBook.wish" @click="onWishButton(firstBook)"
-                    class="h-10 mx-2 text-gray-600 bg-indigo-600 border rounded-md p-2 hover:bg-indigo-500 focus:outline-none">
-              <img src="/src/assets/icon/white-star.svg" alt="white-star">
-            </button>
-            <button v-if="!firstBook.wish" @click="onWishButton(firstBook)"
-                    class="h-10 mx-2 text-gray-600 bg-indigo-600 border rounded-md p-2 hover:bg-indigo-500 focus:outline-none">
-              <img src="/src/assets/icon/yellow-star-filled.svg" alt="yellow-star-filled">
-            </button>
           </div>
+
         </div>
       </div>
       <div class="mt-16">
