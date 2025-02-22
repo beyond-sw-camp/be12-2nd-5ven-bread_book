@@ -71,6 +71,7 @@
             />
           </div>
 
+          <!-- 비밀번호 변경 방법 논의 필요요 -->
           <div class="flex flex-col my-4">
             <label for="password" class="text-gray-700">비밀번호</label>
             <div
