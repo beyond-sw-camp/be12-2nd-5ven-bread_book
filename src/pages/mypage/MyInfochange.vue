@@ -38,19 +38,12 @@
 
         <form action="/" @submit.prevent="signup" class="my-8 text-sm">
           <div class="flex flex-col my-4">
-            <label for="name" class="text-gray-700">이름</label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-
-              class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
-              placeholder="이름 입력"
-            />
+            <label for="name" class="text-gray-700">이름 : <!-- $ {{ username }}--> 홍길동</label>
+            
           </div>
 
           <div class="flex flex-col my-4">
-            <label for="nickname" class="text-gray-700">닉네임</label>
+            <label for="nickname" class="text-gray-700">닉네임 : 둘리아나고 길동이 <!-- {{ usernikname }}--> </label>
             <input
               type="text"
               name="nickname"
@@ -62,19 +55,12 @@
           </div>
 
           <div class="flex flex-col my-4">
-            <label for="id" class="text-gray-700">ID</label>
-            <input
-              type="text"
-              name="id"
-              id="id"
-
-              class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
-              placeholder="ID 입력"
-            />
+            <label for="id" class="text-gray-700">ID : test01 <!-- ${{ userid }}--> </label>
+            
           </div>
 
           <div class="flex flex-col my-4">
-            <label for="email" class="text-gray-700">이메일</label>
+            <label for="email" class="text-gray-700">이메일 : test1@test.com <!-- ${{ useremail }}--> </label>
             <input
               type="email"
               name="email"
