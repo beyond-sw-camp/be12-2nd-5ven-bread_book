@@ -14,7 +14,7 @@
         </h1>
 
         <form action="/" @submit.prevent="signup" class="my-8 text-sm">
-
+          <h3>신고 게시글 : 홍길동님의 자전거 <!-- {{ username }}의 {{  }}--></h3>
           <div  class="flex flex-col my-4">
             <label for="nickname" class="text-gray-700">신고내용 작성</label>
             <textarea ref="textArea" style="width: 500px; height: 100px outline-none; border: 1px solid #ccc; 
