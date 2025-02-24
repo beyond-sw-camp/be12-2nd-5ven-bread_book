@@ -20,6 +20,8 @@ import paymentDetails from "../pages/payment/paymentDetails.vue";
 import ProductRegister from '../pages/productRegister/ProductRegister.vue';
 import ChangePw from '../pages/member/ChangePw.vue';
 import Terms from '../pages/member/Terms.vue';
+import MyInfochange from '../pages/mypage/MyInfochange.vue';
+import Report from '../pages/report/Report.vue';
 
 
 const checkLogin = async (from, to, next) => {
@@ -117,13 +119,13 @@ const routes = [
     meta: { showHeader: true, showFooter: false },
     beforeEnter: checkLogin,
   },
-  { path: '/paymentList/:userid', 
+  { path: '/paymentList/:idx', 
     name: 'paymentList',
     component: paymentList,
     meta: { showHeader: true, showFooter: true },
     beforeEnter: checkLogin,
   },
-  { path: '/paymentDetails/:id',
+  { path: '/paymentDetails/:idx',
     name: 'paymentDetails',
     component: paymentDetails,
     meta: { showHeader: true, showFooter: true },  
@@ -141,14 +143,22 @@ const routes = [
   //Myproduct_home 내 스토어들, 내 스토어의 리뷰들을 볼 수 있는 라우터 경로
   { path: "/myproduct_home", name: "Myproduct_home", component: Myproduct_home, 
     children: [
-      { path: "myproductstores", name: 'Myproductstores', component: Myproductstores,
+      { path: "myproductstores/:idx", 
+        name: 'Myproductstores', 
+        component: Myproductstores,
        },
       { path: "mystoreReviews", name: 'MystoreReviews', component: MystoreReviews,
-       },
+       }
     ],
     meta: { showHeader: true, showFooter: true },
     beforeEnter: checkLogin,
-  }
+  },
+  {
+    path: "/myinfochange", name: "MyInfochange", component: MyInfochange,
+   },
+   {
+    path: "/report", name: "Report", component: Report,
+   }
 ]
 
 const router = createRouter({
