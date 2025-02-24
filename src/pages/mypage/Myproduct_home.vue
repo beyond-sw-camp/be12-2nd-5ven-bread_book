@@ -1,10 +1,15 @@
 <script setup>
 import { onBeforeMount } from "vue";
+import { useRoute } from 'vue-router';
 import myproductstores from "./Myproductstores.vue";
 import mystoreReviews from "./MystoreReviews.vue";
 import { useProductReview } from "../../stores/useProductReview";
 
 const user = useProductReview();
+
+const route = useRoute();
+const idx = route.params.idx;
+console.log(idx);
 
 onBeforeMount(async () => {
   await user.fetchproductuser();
@@ -49,7 +54,7 @@ export default {
                 <div class="mt-4 md:mt-0 flex" style="margin-left: 15px">
                   <router-link
                     class="text-center md:text-center w-36 h-8 mx-2 my-1 bg-black border border-bleak text-white rounded hover:bg-bleak hover:bg-opacity-20 transition duration-300 font-semibold text-sm flex items-center justify-center "
-                    to="/paymentList/test1"
+                    :to="`/paymentList/${idx}`"
                   >
                     <span class="mr-2">내 거래 내역</span>
                   </router-link>
