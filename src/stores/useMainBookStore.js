@@ -2,9 +2,17 @@ import { defineStore } from 'pinia';
 import axios from "axios";
 export const useMainBookStore = defineStore('mainBookStore', {
     state: () => ({
-        books: [],
+        books: [],myIdx:-1,
     }),
     actions: {
+        async myUserIdx(){
+            const response = await axios.post('/api/cookies/idx');
+                if (typeof response.data==='number') {
+                    this.myIdx = response.data;
+                    console.log(this.myIdx);
+                }
+        },
+
         async fetchBooks() {
             try {
                 const response = await axios.get('https://dfb612fe-21f4-4377-94c8-75d6777e90fb.mock.pstmn.io/api/books');
