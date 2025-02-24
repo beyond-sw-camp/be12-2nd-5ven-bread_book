@@ -4,6 +4,7 @@ import { useMemberStore } from '../stores/useMemberStore';
 import Home from "/src/pages/home/Home.vue";
 import LoginView from "/src/pages/member/Login.vue"
 import Signup from '/src/pages/member/Signup.vue';
+import SignupOauth from '../pages/member/SignupOauth.vue';
 import SignupSuccess from '/src/pages/member/SignupSuccess.vue';
 import findIdPw from '/src/pages/member/findIdPw.vue';
 import ProductDetail from "/src/pages/productDetail/ProductDetail.vue";
@@ -55,6 +56,12 @@ const routes = [
     path: '/signup',
     name: 'Signup',
     component: Signup,
+    meta: { showHeader: false, showFooter: false }
+  },
+  {
+    path: '/signup-oauth',
+    name: 'SignupOauth',
+    component: SignupOauth,
     meta: { showHeader: false, showFooter: false }
   },
   {

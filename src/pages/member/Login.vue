@@ -13,31 +13,37 @@ const login = async () => {
     console.log("loginClicked");
     const response = await memberStore.fetchMemberWithId({id:id.value, pw:pw.value});
     console.log(response);
-    if(!response.data.result) {
+    if(response.status != 200) {
         alert("계정이 존재하지 않거나 비밀번호가 틀렸습니다.")
     } else {
         router.go(-1);
     }
 }
+const socialLogin = async (provider) => {
+    window.location.href = "http://localhost:5173/api/oauth2/authorization/"+provider;
+    // const response = await memberStore.socialLogin(provider);
+    console.log(response);
+}
+
 </script>
 
 <template>
     <div class="min-h-screen flex flex-col items-center justify-center bg-gray-300">
         <div class="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-md">
             <div class="font-medium self-center text-xl sm:text-2xl uppercase text-gray-800">로그인</div>
-            <button class="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
+            <button @click="socialLogin('naver')" class="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
                 <span class="absolute left-0 top-0 flex items-center justify-center h-full w-10 text-blue-500">
                     <img src="/src/assets/icon/naverBtn.png" width="30" height="30" alt="Naver logo icon">
                 </span>
                 <span>네이버로 로그인</span>
             </button>
-            <button class="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
+            <button @click="socialLogin('kakao')" class="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
                 <span class="absolute left-0 top-0 flex items-center justify-center h-full w-10 text-blue-500">
                     <img src="/src/assets/icon/kakaotalkBtn.png" width="20" height="20" alt="Kakao logo icon">
                 </span>
                 <span>카카오로 로그인</span>
             </button>
-            <button class="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
+            <button @click="socialLogin('google')"class="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
                 <span class="absolute left-0 top-0 flex items-center justify-center h-full w-10 text-black-500"><i
                         class="fab fa-google"></i></span>
                 <span>구글로 로그인</span>
