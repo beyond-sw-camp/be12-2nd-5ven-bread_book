@@ -2,9 +2,14 @@
 import {ref, onMounted, onUnmounted} from "vue";
 import {useMemberStore} from "/src/stores/useMemberStore.js";
 import ConfirmLogoutModal from "/src/pages/common/ConfirmLogoutModal.vue";
+import { useMainBookStore } from "../../stores/useMainBookStore";
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
 const isMenuOpen = ref(true);
 const memberStore = useMemberStore();
+const store = useMainBookStore();
 
 const isLogin = ref(false);
 const isLogout = ref(true);
@@ -43,6 +48,8 @@ function updateMenuStateBasedOnScreenWidth() {
 onMounted(async () => {
   updateMenuStateBasedOnScreenWidth(); // 초기 화면 크기에 따라 상태 설정
   window.addEventListener("resize", updateMenuStateBasedOnScreenWidth); // 화면 크기 변경 감지
+  await store.myUserIdx();
+
   isLogin.value = await memberStore.loginCheck();
   isLogout.value = !isLogin.value;
 });
@@ -51,6 +58,8 @@ onMounted(async () => {
 onUnmounted(() => {
   window.removeEventListener("resize", updateMenuStateBasedOnScreenWidth);
 });
+
+
 
 
 </script>
@@ -117,7 +126,7 @@ onUnmounted(() => {
       </li>
       <li>
         <router-link
-          to="/myproduct_home/myproductstores"
+          :to="`/myproduct_home/myproductstores/${store.myIdx}`"
           class="block rounded py-2 pl-3 pr-4 hover:bg-gray-100 md:p-0 md:hover:bg-transparent"
           exact-active-class="text-blue-500 font-bold"
         >
