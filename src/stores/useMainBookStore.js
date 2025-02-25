@@ -2,14 +2,15 @@ import { defineStore } from 'pinia';
 import axios from "axios";
 export const useMainBookStore = defineStore('mainBookStore', {
     state: () => ({
-        books: [],myIdx:-1,
+        books: [],user:{},
     }),
     actions: {
-        async myUserIdx(){
-            const response = await axios.post('/api/cookies/idx');
-                if (typeof response.data==='number') {
-                    this.myIdx = response.data;
-                    console.log(this.myIdx);
+        async myImformation(){
+            const response = await axios.post('/api/cookies/user');
+                if (response.data) {
+                    this.user=response.data;
+                    
+                    console.log(this.user);
                 }
         },
 
