@@ -32,7 +32,6 @@ const openKakaoPayPopup = async () => {
     }
   );
   console.log(response);
-  // 가정: data.next_redirect_pc_url은 외부에서 받아오는 URL로 설정되어야 합니다.
   const data = {
     next_redirect_pc_url: response.data.next_redirect_pc_url, // 예시 URL, 실제 URL로 대체
   };
