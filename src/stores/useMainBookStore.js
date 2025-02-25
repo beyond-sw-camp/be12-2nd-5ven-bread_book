@@ -10,8 +10,10 @@ export const useMainBookStore = defineStore('mainBookStore', {
                 if (response.data) {
                     this.user=response.data;
                     
-                    console.log(this.user);
+                    return this.user;
+                    
                 }
+                return null;
         },
 
         async fetchBooks() {
