@@ -28,11 +28,14 @@ export const useMemberStore = defineStore('member', {
             );
             return response;
         },
-        loginCheck() {
-            // const result = await axios.get("/api/user/auth/check", { withCredentials: true });
-            // if (result.data.isSuccess) {
-            //     this.isLogin = true;
-            // }
+        async loginCheck() {
+            const response = await axios.get("/api/user/auth/check", { withCredentials: true });
+            if (response.data.isSuccess) {
+                this.isLogin = true;
+                this.member = response.data.data;
+            } else {
+                this.isLogin = false;
+            }
             return this.isLogin;
         }, 
         async logout() {
