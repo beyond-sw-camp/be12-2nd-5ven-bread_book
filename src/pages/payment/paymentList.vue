@@ -5,7 +5,9 @@ import payList from './paymentComponents/payList.vue';
 import { usePaymentStore } from "../../stores/usePaymentStore";
 import { onMounted, computed, watch, ref } from 'vue';
 import { useLoadingStore } from "../../stores/useLoadingStore"
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
 const loadingStore = useLoadingStore(); //추가
 const paymentStore = usePaymentStore();
 // 구매내역 판매내역역
@@ -22,8 +24,8 @@ const labelText = ref("상품명으로 검색");
 
 onMounted(async () => {
     loadingStore.startLoading(); //데이터 로드 전에 loadingStore.startLoading() 호출.
-    await paymentStore.pays();
-    await paymentStore.orders();
+    // await paymentStore.pays();
+    await paymentStore.orders(route.params.idx);
     loadingStore.stopLoading(); // 데이터 로드 후 loadingStore.stopLoading()호출.
 });
 
