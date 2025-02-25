@@ -48,7 +48,7 @@ function updateMenuStateBasedOnScreenWidth() {
 onMounted(async () => {
   updateMenuStateBasedOnScreenWidth(); // 초기 화면 크기에 따라 상태 설정
   window.addEventListener("resize", updateMenuStateBasedOnScreenWidth); // 화면 크기 변경 감지
-  await store.myUserIdx();
+  // await store.myImformation();
 
   isLogin.value = await memberStore.loginCheck();
   isLogout.value = !isLogin.value;
