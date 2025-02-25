@@ -12,7 +12,7 @@ const memberStore = useMemberStore();
 
 const isLogin = ref(false);
 const isLogout = ref(true);
-isLogin.value = memberStore.loginCheck();
+isLogin.value = false;
 isLogout.value = !isLogin.value;
 const isNeedLoginModalVisible = ref(false);
 
@@ -36,6 +36,8 @@ onMounted(async () => {
       wish: book.wish === 'true' || book.wish === true, // 문자열 "false"를 Boolean으로 변환
     }));
   }
+  isLogin.value = memberStore.isLogin;
+  isLogout.value = !isLogin.value;
   loadingStore.stopLoading();
 });
 

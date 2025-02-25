@@ -8,7 +8,7 @@ const memberStore = useMemberStore();
 
 const isLogin = ref(false);
 const isLogout = ref(true);
-isLogin.value = memberStore.loginCheck();
+isLogin.value = false;
 isLogout.value = !isLogin.value;
 
 const isConfirmLogoutModalVisible = ref(false);
@@ -40,9 +40,11 @@ function updateMenuStateBasedOnScreenWidth() {
 }
 
 // 컴포넌트 마운트 시 이벤트 리스너 등록
-onMounted(() => {
+onMounted(async () => {
   updateMenuStateBasedOnScreenWidth(); // 초기 화면 크기에 따라 상태 설정
   window.addEventListener("resize", updateMenuStateBasedOnScreenWidth); // 화면 크기 변경 감지
+  isLogin.value = await memberStore.loginCheck();
+  isLogout.value = !isLogin.value;
 });
 
 // 컴포넌트 언마운트 시 이벤트 리스너 해제
