@@ -14,6 +14,10 @@ export const useMemberStore = defineStore('member', {
             }
             return response;
         },
+        async findId(user) {
+            const response = await axios.post("/api/user/id_info", user);
+            return response;
+        },
         async signup(user) {
             const response = await axios.post("/api/user/signup", 
                 {userId:user.userid, userName:user.name, email:user.email, 

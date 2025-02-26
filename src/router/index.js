@@ -10,6 +10,7 @@ import EmailVerify from '../pages/member/EmailVerify.vue';
 import EmailVerifySuccess from '../pages/member/EmailVerifySuccess.vue';
 import VerifyFail from '../pages/member/VerifyFail.vue';
 import findIdPw from '/src/pages/member/findIdPw.vue';
+import FindIdSuccess from '../pages/member/FindIdSuccess.vue';
 import ProductDetail from "/src/pages/productDetail/ProductDetail.vue";
 import Review from '/src/pages/review/Review.vue';
 import Chat from '/src/pages/chat/Chat.vue';
@@ -97,6 +98,12 @@ const routes = [
     path: '/find_id_pw',
     name: 'findIdPw',
     component: findIdPw,
+    meta: { showHeader: false, showFooter: false }
+  },
+  {
+    path: '/find_id_success',
+    name: 'FindIdSuccess',
+    component: FindIdSuccess,
     meta: { showHeader: false, showFooter: false }
   },
   {
