@@ -16,7 +16,7 @@ export const usePaymentStore = defineStore('payment', {
             if (this.statusMenu === 'buy') {
                 
                 if (newOption === "status-fin") {
-                    return this.option = "판매완료";
+                    return this.option = "품절";
                 } else if (newOption === "status-ing") {
                     return this.option = '판매중';
                 } else {
@@ -27,7 +27,7 @@ export const usePaymentStore = defineStore('payment', {
             else {
                 
                 if (newOption === "status-fin") {
-                    return this.option = "구매완료";
+                    return this.option = "품절";
                 } else if (newOption === "status-ing") {
                     return this.option = '거래중';
                 } else {
@@ -37,19 +37,13 @@ export const usePaymentStore = defineStore('payment', {
             }
         },
 
-        async orders() {
-            const response = await axios.post(
-                "https://d09b3780-f25b-445b-9f45-3eecc45c906b.mock.pstmn.io/orderList"
-            );
-            this.ordersList = response.data;
+        async orders(idx) {
+            console.log(idx);
+            const response = await axios.post("/api/order/orderList",{idx:idx});
+                this.ordersList = response.data;
         },
 
-        async order(id) {
-            const response = await axios.post(
-                "https://f1e8f15e-347b-4505-af07-9aeb8e9ff91b.mock.pstmn.io/orderList/"+id
-            );
-            return response.data;
-        },
+
 
         async pays() {
             const response = await axios.post(

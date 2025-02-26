@@ -8,7 +8,7 @@ const paymentStore = usePaymentStore();
 let statuses = [
     { id: 'status-all', label: '전체' },
     { id: 'status-ing', label: '거래중' },
-    { id: 'status-fin', label: '구매완료' },
+    { id: 'status-fin', label: '품절' },
 ];
 
 // 초기값을 'status-all'로 설정하여 'on' 클래스를 처음부터 붙이도록 설정
@@ -33,13 +33,13 @@ const changeListMenu = (listMenuId) => {
             statuses = [
                 { id: 'status-all', label: '전체' },
                 { id: 'status-ing', label: '거래중' },
-                { id: 'status-fin', label: '구매완료' },
+                { id: 'status-fin', label: '품절' },
             ]
         } else {
             statuses = [
                 { id: 'status-all', label: '전체' },
                 { id: 'status-ing', label: '판매중' },
-                { id: 'status-fin', label: '판매완료' },
+                { id: 'status-fin', label: '품절' },
             ]
         }
     } 

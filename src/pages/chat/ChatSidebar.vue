@@ -5,17 +5,20 @@
     </header>
     <div class="overflow-y-auto h-full p-3 pb-20 scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-200">
       <ChatRoomListItem
-        v-for="room in chatRooms"
-        :key="room.id"
-        :room="room"
-        @select="selectChatRoom"
-      />
+  v-for="room in chatRoomsRef"
+  :key="room.roomIdx"
+  :room="room"
+  @click="() => changeChatRoom(room.roomIdx)"
+/>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref, watch, onMounted, onBeforeUnmount } from "vue";
+import { useRouter } from "vue-router";
 import ChatRoomListItem from "./ChatRoomListItem.vue";
+import { Client } from "@stomp/stompjs";
 
 const props = defineProps({
   chatRooms: {
@@ -26,6 +29,75 @@ const props = defineProps({
     type: Function,
     required: true,
   },
+});
+
+const router = useRouter();
+
+// ✅ chatRooms를 반응형 데이터로 관리
+const chatRoomsRef = ref([...props.chatRooms]);
+
+let stompClient = null;
+
+onMounted(() => {
+  connectWebSocket();
+});
+
+// ✅ chatRooms가 변경될 때마다 새로운 채팅방을 구독
+watch(
+  () => props.chatRooms,
+  (newChatRooms) => {
+    console.log("🔄 채팅방 목록 업데이트됨:", newChatRooms);
+    chatRoomsRef.value = newChatRooms; // ✅ 원본 배열을 직접 대입 (전개 연산자 제거)
+  },
+  { deep: true }
+);
+
+function changeChatRoom(roomIdx) {
+  console.log(`🔄 채팅방 변경: ${roomIdx}`);
+  router.push(`/chat/${roomIdx}`);  // ✅ URL 변경 추가
+}
+
+
+// ✅ WebSocket 연결 함수
+function connectWebSocket() {
+  if (stompClient) {
+    console.log("🔌 기존 WebSocket 연결 해제 후 재연결...");
+    stompClient.deactivate(); // 기존 연결 해제
+    stompClient = null;
+  }
+
+  stompClient = new Client({
+    brokerURL: "ws://localhost:8080/ws",
+    reconnectDelay: 5000,
+    onConnect: () => {
+      console.log("✅ WebSocket 연결됨");
+      chatRoomsRef.value.forEach((room) => {
+        console.log(`📡 채팅방 구독: /topic/room/${room.roomIdx}`);
+        stompClient.subscribe(`/topic/room/${room.roomIdx}`, (message) => {
+          const receivedMessage = JSON.parse(message.body);
+          console.log("📩 새 메시지 수신:", receivedMessage);
+          const chatRoom = chatRoomsRef.value.find((r) => r.roomIdx === receivedMessage.roomIdx);
+          if (chatRoom) {
+            chatRoom.lastChat = receivedMessage.message;
+          }
+        });
+      });
+    },
+    onDisconnect: () => {
+      console.log("❌ WebSocket 연결 해제됨");
+    },
+  });
+
+  stompClient.activate();
+}
+
+
+// ✅ WebSocket 연결 해제 (컴포넌트 제거 시)
+onBeforeUnmount(() => {
+  if (stompClient) {
+    stompClient.deactivate();
+    stompClient = null;
+  }
 });
 </script>
 
