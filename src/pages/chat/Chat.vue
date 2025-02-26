@@ -37,16 +37,15 @@ watch(
 function setSelectedChatRoom(roomIdx) {
   console.log("채팅방 선택 시도:", roomIdx);
 
-  // 기존 WebSocket 해제
+  // 기존 WebSocket 연결 해제
   if (stompClient.value) {
     console.log("기존 WebSocket 연결 해제");
     stompClient.value.deactivate();
-    stompClient.value = null; // 기존 연결 완전히 제거
+    stompClient.value = null; 
   }
 
-  // selectedChatRoom을 초기화하여 반응형 업데이트 보장
+  // selectedChatRoom 초기화 후 강제 업데이트
   selectedChatRoom.value = null;
-
   setTimeout(() => {
     selectedChatRoom.value = chatRoomStore.chatRooms.find((room) => room.roomIdx === roomIdx);
 
@@ -62,9 +61,12 @@ function setSelectedChatRoom(roomIdx) {
     }
 
     console.log("선택된 채팅방:", selectedChatRoom.value);
-    connectWebSocket(roomIdx);
+    setTimeout(() => {
+      connectWebSocket(roomIdx); // WebSocket 연결
+    }, 50); // 약간의 딜레이 추가
   }, 10);
 }
+
 
 function connectWebSocket(roomIdx) {
   stompClient.value = new Client({
@@ -83,14 +85,52 @@ function connectWebSocket(roomIdx) {
   stompClient.value.activate();
 }
 
-function selectChatRoom(room) {
-  console.log("채팅방 클릭됨:", room);
-  selectedChatRoom.value = null; // 기존 채팅방을 초기화하여 반응형 업데이트 보장
+function selectChatRoom(roomId) {
+  console.log("채팅방 클릭됨:", roomId);
+
+  if (selectedChatRoom.value?.roomIdx === roomId) {
+    console.log("현재 채팅방과 동일 - URL 강제 업데이트");
+
+    // ✅ 강제 URL 변경 (Vue Router가 같은 URL을 무시하는 문제 해결)
+    router.replace(`/dummy`).then(() => {
+      setTimeout(() => {
+        router.replace(`/chat/${roomId}`).catch((err) => console.warn("🚨 라우터 이동 오류:", err));
+      }, 50);
+    });
+
+    return;
+  }
+
+  selectedChatRoom.value = null; // 기존 채팅방 초기화하여 반응형 강제 업데이트
+
   setTimeout(() => {
-    selectedChatRoom.value = room;
-    router.push(`/chat/${room.roomIdx}`);
-  }, 0);
+    selectedChatRoom.value = chatRoomStore.chatRooms.find((room) => room.roomIdx === roomId);
+    console.log("선택된 채팅방 업데이트 완료:", selectedChatRoom.value);
+
+    router.replace(`/dummy`).then(() => {
+      setTimeout(() => {
+        router.replace(`/chat/${roomId}`).catch((err) => console.warn("🚨 라우터 이동 오류:", err));
+      }, 50);
+    });
+  }, 10);
 }
+
+
+
+
+function forceRouterUpdate(roomId) {
+  if (route.params.id !== String(roomId)) {
+    router.replace(`/chat/${roomId}`).catch((err) => console.warn("🚨 라우터 이동 오류:", err));
+  } else {
+    // 🚀 동일한 경로라도 강제 업데이트하기 위해 `/dummy`로 갔다가 다시 원래 URL로 돌아옴
+    router.replace("/dummy").then(() => {
+      router.replace(`/chat/${roomId}`);
+    });
+  }
+}
+
+
+
 </script>
 
 <template>

@@ -5,17 +5,18 @@
     </header>
     <div class="overflow-y-auto h-full p-3 pb-20 scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-200">
       <ChatRoomListItem
-        v-for="room in chatRoomsRef"
-        :key="room.roomIdx"
-        :room="room"
-        @select="selectChatRoom"
-      />
+  v-for="room in chatRoomsRef"
+  :key="room.roomIdx"
+  :room="room"
+  @click="() => changeChatRoom(room.roomIdx)"
+/>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, watch, onMounted, onBeforeUnmount } from "vue";
+import { useRouter } from "vue-router";
 import ChatRoomListItem from "./ChatRoomListItem.vue";
 import { Client } from "@stomp/stompjs";
 
@@ -29,6 +30,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const router = useRouter();
 
 // ✅ chatRooms를 반응형 데이터로 관리
 const chatRoomsRef = ref([...props.chatRooms]);
@@ -48,6 +51,11 @@ watch(
   },
   { deep: true }
 );
+
+function changeChatRoom(roomIdx) {
+  console.log(`🔄 채팅방 변경: ${roomIdx}`);
+  router.push(`/chat/${roomIdx}`);  // ✅ URL 변경 추가
+}
 
 
 // ✅ WebSocket 연결 함수
