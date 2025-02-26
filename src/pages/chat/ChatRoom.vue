@@ -30,54 +30,98 @@ onBeforeUnmount(() => {
   }
 });
 
-watch(() => route.params.id, (newId) => {
-  if (newId) {
-    setSelectedChatRoom(parseInt(newId, 10));
+watch(() => route.params.id, async (newId, oldId) => {
+  console.log("📌 URI 변경 감지:", newId);
+  
+  if (!newId || (oldId && newId === oldId)) {
+    return;
   }
-});
+
+  selectedChatRoom.value = null;
+  await chatRoomStore.fetchChatRooms();
+
+  setTimeout(() => {
+    selectedChatRoom.value = chatRoomStore.chatRooms.find((room) => room.roomIdx === parseInt(newId, 10));
+    if (selectedChatRoom.value) {
+      router.push(`/chat/${newId}`); // ✅ URL 업데이트 추가
+      connectWebSocket(selectedChatRoom.value.roomIdx);
+    }
+  }, 10);
+}, { immediate: true });
+
+
+
+
+
 
 function setSelectedChatRoom(roomId) {
-  selectedChatRoom.value = chatRoomStore.chatRooms.find((room) => room.roomIdx === roomId);
-  if (selectedChatRoom.value) {
-    connectWebSocket(roomId);
+  console.log(`채팅방 변경: ${roomId}`);
+  
+  if (!roomId || isNaN(roomId)) {
+    console.error("🚨 잘못된 채팅방 ID:", roomId);
+    return;
   }
+
+  if (selectedChatRoom.value?.roomIdx === roomId) {
+    console.log("같은 채팅방 클릭 - 변경하지 않음");
+    return;
+  }
+
+  selectedChatRoom.value = null; // 기존 채팅방 초기화
+  setTimeout(() => {
+    selectedChatRoom.value = chatRoomStore.chatRooms.find((room) => room.roomIdx === roomId);
+    if (selectedChatRoom.value) {
+      connectWebSocket(roomId);
+    }
+  }, 10);
 }
+
+
 
 function connectWebSocket(roomId) {
   if (stompClient.value) {
-    stompClient.value.deactivate();
-  }
+    console.log("🔌 기존 WebSocket 연결 해제 중...");
+    stompClient.value.deactivate(() => {
+      console.log("✅ WebSocket 해제 완료");
+      stompClient.value = null;
 
+      // 🚀 새로운 WebSocket 연결을 안전하게 수행
+      setTimeout(() => {
+        initializeWebSocket(roomId);
+      }, 100);
+    });
+  } else {
+    initializeWebSocket(roomId);
+  }
+}
+
+function initializeWebSocket(roomId) {
   stompClient.value = new Client({
-    brokerURL: "ws://localhost:8080/ws", 
+    brokerURL: "ws://localhost:8080/ws",
     reconnectDelay: 5000,
     onConnect: () => {
-      console.log(`웹소켓 연결됨: 채팅방 ${roomId}`);
+      console.log(`✅ WebSocket 연결됨: 채팅방 ${roomId}`);
 
-      // 기존 구독 취소
       if (subscription) {
         subscription.unsubscribe();
       }
 
-      // 새 구독 생성
       subscription = stompClient.value.subscribe(`/topic/room/${roomId}`, (message) => {
-        console.log("새 메시지 수신:", message.body);
+        console.log("📩 새 메시지 수신:", message.body);
         const receivedMessage = JSON.parse(message.body);
         if (selectedChatRoom.value) {
-          selectedChatRoom.value.messages = [
-            ...selectedChatRoom.value.messages,
-            receivedMessage
-          ]; // Vue 반응형 상태 유지
+          selectedChatRoom.value.messages.push(receivedMessage);
         }
       });
     },
     onDisconnect: () => {
-      console.log("웹소켓 연결 종료");
+      console.log("❌ WebSocket 연결 종료됨");
     },
   });
 
   stompClient.value.activate();
 }
+
 
 function sendMessage() {
   if (!newMessage.value.trim() || !selectedChatRoom.value || !stompClient.value.active) {
@@ -106,6 +150,10 @@ function sendMessage() {
   
   newMessage.value = "";
 }
+
+function showPaymentModal() {
+  isPaymentModalVisible.value = true;
+}
 </script>
 
 <template>
@@ -114,6 +162,7 @@ function sendMessage() {
     <div class="flex-1 flex flex-col">
       <header v-if="selectedChatRoom" class="p-4 border-b bg-gray-100 flex items-center justify-between">
         <h1 class="text-xl font-semibold">{{ selectedChatRoom.title }}</h1>
+        <button @click="showPaymentModal" class="bg-indigo-500 text-white px-4 py-2 rounded-md ml-4">예약하기</button>
       </header>
       <div v-if="selectedChatRoom" class="flex-1 p-4 overflow-y-auto">
         <div v-for="(message, index) in selectedChatRoom.messages" :key="index" class="mb-4">
