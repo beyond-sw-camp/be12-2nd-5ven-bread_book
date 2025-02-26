@@ -6,6 +6,9 @@ import LoginView from "/src/pages/member/Login.vue"
 import Signup from '/src/pages/member/Signup.vue';
 import SignupOauth from '../pages/member/SignupOauth.vue';
 import SignupSuccess from '/src/pages/member/SignupSuccess.vue';
+import EmailVerify from '../pages/member/EmailVerify.vue';
+import EmailVerifySuccess from '../pages/member/EmailVerifySuccess.vue';
+import VerifyFail from '../pages/member/VerifyFail.vue';
 import findIdPw from '/src/pages/member/findIdPw.vue';
 import ProductDetail from "/src/pages/productDetail/ProductDetail.vue";
 import Review from '/src/pages/review/Review.vue';
@@ -61,7 +64,7 @@ const routes = [
     meta: { showHeader: false, showFooter: false }
   },
   {
-    path: '/signup-oauth',
+    path: '/signup_oauth',
     name: 'SignupOauth',
     component: SignupOauth,
     meta: { showHeader: false, showFooter: false }
@@ -70,6 +73,24 @@ const routes = [
     path: '/signup_success',
     name: 'SignupSuccess',
     component: SignupSuccess,
+    meta: { showHeader: false, showFooter: false }
+  },
+  {
+    path: '/email_verify/:uuid',
+    name: 'EmailVerify',
+    component: EmailVerify,
+    meta: { showHeader: false, showFooter: false }
+  },
+  {
+    path: '/verify_success',
+    name: 'EmailVerifySuccess',
+    component: EmailVerifySuccess,
+    meta: { showHeader: false, showFooter: false }
+  },
+  {
+    path: '/verify_fail',
+    name: 'VerifyFail',
+    component: VerifyFail,
     meta: { showHeader: false, showFooter: false }
   },
   {

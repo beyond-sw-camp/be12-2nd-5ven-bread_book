@@ -19,8 +19,8 @@ isLogout.value = !isLogin.value;
 const isConfirmLogoutModalVisible = ref(false);
 
 // 로그아웃 함수 작성...
-function logout() {
-  memberStore.logout();
+async function logout() {
+  await memberStore.logout();
   isLogin.value = memberStore.loginCheck();
   isLogout.value = !isLogin.value;
 }
@@ -48,7 +48,7 @@ function updateMenuStateBasedOnScreenWidth() {
 onMounted(async () => {
   updateMenuStateBasedOnScreenWidth(); // 초기 화면 크기에 따라 상태 설정
   window.addEventListener("resize", updateMenuStateBasedOnScreenWidth); // 화면 크기 변경 감지
-  await store.myUserIdx();
+  // await store.myUserIdx();
 
   isLogin.value = await memberStore.loginCheck();
   isLogout.value = !isLogin.value;

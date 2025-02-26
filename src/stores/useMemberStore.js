@@ -22,15 +22,20 @@ export const useMemberStore = defineStore('member', {
             return response;
         },
         async signupOauth(user) {
-            const response = await axios.post("/api/user/signup-oauth", 
+            const response = await axios.post("/api/user/signup_oauth", 
                 {userName:user.name, email:user.email, 
                     nickName: user.nickname, birthDate:user.birthDate, gender:user.gender}, {withCredentials: true}
             );
             return response;
         },
+        async emailVerify(uuid) {
+            const response = await axios.get("/api/user/verify?uuid="+uuid);
+            return response;
+        },
         async loginCheck() {
             const response = await axios.get("/api/user/auth/check", { withCredentials: true });
             if (response.data.isSuccess) {
+                console.log(response);
                 this.isLogin = true;
                 this.member = response.data.data;
             } else {
