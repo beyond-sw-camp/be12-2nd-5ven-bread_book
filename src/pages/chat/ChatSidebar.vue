@@ -4,12 +4,9 @@
       <h1 class="text-2xl font-semibold">채팅 목록</h1>
     </header>
     <div class="overflow-y-auto h-full p-3 pb-20 scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-200">
-      <ChatRoomListItem
-  v-for="room in chatRoomsRef"
-  :key="room.roomIdx"
-  :room="room"
-  @click="() => changeChatRoom(room.roomIdx)"
-/>
+      <ChatRoomListItem v-for="room in chatRoomsRef" :key="room.roomIdx" :room="room"
+        @click="() => changeChatRoom(room.roomIdx)" />
+
     </div>
   </div>
 </template>
@@ -33,7 +30,7 @@ const props = defineProps({
 
 const router = useRouter();
 
-// ✅ chatRooms를 반응형 데이터로 관리
+// chatRooms를 반응형 데이터로 관리
 const chatRoomsRef = ref([...props.chatRooms]);
 
 let stompClient = null;
@@ -42,23 +39,23 @@ onMounted(() => {
   connectWebSocket();
 });
 
-// ✅ chatRooms가 변경될 때마다 새로운 채팅방을 구독
+// chatRooms가 변경될 때마다 새로운 채팅방을 구독
 watch(
   () => props.chatRooms,
   (newChatRooms) => {
-    console.log("🔄 채팅방 목록 업데이트됨:", newChatRooms);
-    chatRoomsRef.value = newChatRooms; // ✅ 원본 배열을 직접 대입 (전개 연산자 제거)
+    console.log(" 채팅방 목록 업데이트됨:", newChatRooms);
+    chatRoomsRef.value = newChatRooms; // 
   },
   { deep: true }
 );
 
 function changeChatRoom(roomIdx) {
-  console.log(`🔄 채팅방 변경: ${roomIdx}`);
-  router.push(`/chat/${roomIdx}`);  // ✅ URL 변경 추가
+  console.log(`채팅방 변경: ${roomIdx}`);
+  router.push(`/chat/${roomIdx}`);  // 
 }
 
 
-// ✅ WebSocket 연결 함수
+// WebSocket 연결 함수
 function connectWebSocket() {
   if (stompClient) {
     console.log("🔌 기존 WebSocket 연결 해제 후 재연결...");
@@ -92,7 +89,7 @@ function connectWebSocket() {
 }
 
 
-// ✅ WebSocket 연결 해제 (컴포넌트 제거 시)
+// WebSocket 연결 해제 (컴포넌트 제거 시)
 onBeforeUnmount(() => {
   if (stompClient) {
     stompClient.deactivate();
@@ -101,5 +98,4 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
