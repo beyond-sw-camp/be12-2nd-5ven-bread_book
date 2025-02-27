@@ -2,12 +2,10 @@
 import {ref, onMounted, onUnmounted} from "vue";
 import {useMemberStore} from "/src/stores/useMemberStore";
 import ConfirmLogoutModal from "/src/pages/common/ConfirmLogoutModal.vue";
-import { useMainBookStore } from "../../stores/useMainBookStore";
 
 const isMenuOpen = ref(true);
 const memberStore = useMemberStore();
-const store = useMainBookStore();
-const myIdx=ref('');
+
 
 const isLogin = ref(false);
 const isLogout = ref(true);
@@ -49,6 +47,7 @@ onMounted(async () => {
   // await store.myUserIdx();
 
   isLogin.value = await memberStore.loginCheck();
+
   isLogout.value = !isLogin.value;
 });
 
@@ -124,7 +123,7 @@ onUnmounted(() => {
       </li>
       <li>
         <router-link
-          :to="`/myproduct_home/myproductstores/${myIdx}`"
+          :to="`/myproduct_home/myproductstores/${memberStore.member.idx}`"
           class="block rounded py-2 pl-3 pr-4 hover:bg-gray-100 md:p-0 md:hover:bg-transparent"
           exact-active-class="text-blue-500 font-bold"
         >
