@@ -3,11 +3,13 @@ import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useChatRoomStore } from "../../stores/useChatRoomStore";
 import { useLoadingStore } from "../../stores/useLoadingStore";
+import { useMemberStore } from "../../stores/useMemberStore";
 import ChatSidebar from "./ChatSidebar.vue";
 import { Client } from "@stomp/stompjs";
 
 const loadingStore = useLoadingStore();
 const chatRoomStore = useChatRoomStore();
+const memberStore = useMemberStore();
 const router = useRouter();
 const route = useRoute();
 
@@ -16,7 +18,7 @@ const newMessage = ref("");
 const stompClient = ref(null);
 let subscription = null;
 
-
+const currenUserId = ref(null);
 
 onBeforeUnmount(() => {
   if (stompClient.value) {
@@ -109,12 +111,20 @@ function sendMessage() {
     return;
   }
 
+  const memberStore = useMemberStore();
+  const currentUserId = memberStore.member?.idx; // ✅ 로그인한 유저 ID 가져오기 (확인 필요!)
+
+  if (!currentUserId) {
+    console.error("🚨 유저 ID가 존재하지 않음!");
+    return;
+  }
+
+
   const messagePayload = {
     roomIdx: selectedChatRoom.value.roomIdx,
-    sendUserIdx: 1,
+    sendUserIdx: currentUserId,  // 현재 로그인한 사용자 ID 저장.
     message: newMessage.value,
   };
-
   console.log("메시지 전송:", messagePayload);
 
   stompClient.value.publish({
@@ -143,14 +153,25 @@ function showPaymentModal() {
         <button @click="showPaymentModal" class="bg-indigo-500 text-white px-4 py-2 rounded-md ml-4">예약하기</button>
       </header>
       <div v-if="selectedChatRoom" class="flex-1 p-4 overflow-y-auto">
-        <div v-for="(message, index) in selectedChatRoom.messages" :key="index" class="mb-4">
-          <div v-if="message.sendUserIdx === 1" class="text-right">
+        <!-- <div v-for="(message, index) in selectedChatRoom.messages" :key="index" class="mb-4">
+          <div v-if="message.sendUserIdx === currentUserId" class="text-right">
             <span class="bg-blue-500 text-white p-2 rounded-lg">{{ message.message }}</span>
           </div>
           <div v-else class="text-left">
             <span class="bg-gray-300 p-2 rounded-lg">{{ message.message }}</span>
           </div>
+        </div> -->
+        <div v-for="(message, index) in selectedChatRoom.messages" :key="index" class="mb-4">
+          <!-- 본인이 보낸 메시지 -->
+          <div v-if="message.sendUserIdx === currentUserId" class="text-right">
+            <span class="bg-blue-500 text-white p-2 rounded-lg">{{ message.message }}</span>
+          </div>
+          <!-- 상대방이 보낸 메시지 -->
+          <div v-else class="text-left">
+            <span class="bg-gray-300 p-2 rounded-lg">{{ message.message }}</span>
+          </div>
         </div>
+
       </div>
       <footer v-if="selectedChatRoom" class="p-4 border-t bg-gray-100">
         <div class="flex items-center">
