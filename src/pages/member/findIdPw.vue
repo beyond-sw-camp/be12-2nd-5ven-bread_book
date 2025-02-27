@@ -1,10 +1,21 @@
 <script setup>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useMemberStore } from "../../stores/useMemberStore";
 
+const memberStore = useMemberStore();
+const username = ref();
+const email_for_id = ref();
+const userid = ref();
+const email_for_pw = ref();
 const router = useRouter();
-const find_id = () => {
-    // await memberStore.signup();
-    router.push('/login');
+const find_id = async () => {
+    const response = await memberStore.findId({username: username.value, email: email_for_id.value});
+    if(response.data.isSuccess){
+        router.push("/find_id_success?userid="+response.data.data.userid);
+    } else if(response.data.code == 2404) {
+        alert(response.data.message);
+    }
 }
 const find_pw = () => {
     // await memberStore.signup();
@@ -24,7 +35,7 @@ const find_pw = () => {
             <div class="mt-10">
                 <form action="/" @submit.prevent="find_id">
                     <div class="flex flex-col mb-6">
-                        <label for="email" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">이름:</label>
+                        <label for="name" class="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">이름:</label>
                         <div class="relative">
                             <div
                                 class="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
@@ -35,7 +46,7 @@ const find_pw = () => {
                                 </svg>
                             </div>
 
-                            <input id="name" name="name"
+                            <input v-model="username" id="name" name="name"
                                 class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
                                 placeholder="이름" />
                         </div>
@@ -52,7 +63,7 @@ const find_pw = () => {
                                 </svg>
                             </div>
 
-                            <input id="email_for_id" name="email"
+                            <input v-model="email_for_id" id="email_for_id" name="email"
                                 class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
                                 placeholder="이메일" />
                         </div>
@@ -91,7 +102,7 @@ const find_pw = () => {
                                 </svg>
                             </div>
 
-                            <input id="id" type="text" name="id"
+                            <input v-model="userid" id="id" type="text" name="id"
                                 class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
                                 placeholder="ID" />
                         </div>
@@ -109,7 +120,7 @@ const find_pw = () => {
                                 </svg>
                             </div>
 
-                            <input id="email_for_pw" type="email" name="email"
+                            <input v-model="email_for_pw" id="email_for_pw" type="email" name="email"
                                 class="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
                                 placeholder="이메일" />
                         </div>

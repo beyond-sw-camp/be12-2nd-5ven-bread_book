@@ -5,13 +5,6 @@ import { useMemberStore } from '../../stores/useMemberStore';
 
 
 const router = useRouter();
-
-const show = ref(false);
-show.value = false;
-const toggleShow = () => {
-    show.value = !show.value;
-}
-
 const user = ref({});
 
 const memberStore = useMemberStore();
