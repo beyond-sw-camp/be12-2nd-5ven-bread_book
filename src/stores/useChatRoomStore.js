@@ -39,14 +39,17 @@ export const useChatRoomStore = defineStore("chatRoom", {
       }
     }
     ,
-
-    // 메시지 전송 (WebSocket 사용)
-    async sendMessage(stompClient, roomIdx, message) {
-      if (!message.trim() || !stompClient || !stompClient.connected) return;
-      stompClient.publish({
-        destination: `/app/chatting/room/${roomIdx}`,
+    async sendMessage(roomIdx, message) {
+      if (!stompClient.value || !stompClient.value.connected) {
+        console.error("WebSocket이 연결되지 않음!");
+        return;
+      }
+    
+      stompClient.value.publish({
+        destination: `/app/chat/${roomIdx}`,
         body: JSON.stringify({ message }),
       });
     },
+    
   },
 });

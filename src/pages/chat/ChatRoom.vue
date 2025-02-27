@@ -16,12 +16,7 @@ const newMessage = ref("");
 const stompClient = ref(null);
 let subscription = null;
 
-onMounted(async () => {
-  loadingStore.startLoading();
-  await chatRoomStore.fetchChatRooms();
-  setSelectedChatRoom(parseInt(route.params.id, 10));
-  loadingStore.stopLoading();
-});
+
 
 onBeforeUnmount(() => {
   if (stompClient.value) {
@@ -30,33 +25,64 @@ onBeforeUnmount(() => {
   }
 });
 
-watch(() => route.params.id, async (newId, oldId) => {
-  console.log("📌 URI 변경 감지:", newId);
-  
-  if (!newId || (oldId && newId === oldId)) {
-    return;
-  }
 
-  selectedChatRoom.value = null;
+onMounted(async () => {
+  loadingStore.startLoading();
   await chatRoomStore.fetchChatRooms();
 
-  setTimeout(() => {
-    selectedChatRoom.value = chatRoomStore.chatRooms.find((room) => room.roomIdx === parseInt(newId, 10));
+  if (route.params.id) {
+    selectedChatRoom.value = chatRoomStore.chatRooms.find(room => room.roomIdx === parseInt(route.params.id, 10));
     if (selectedChatRoom.value) {
-      router.push(`/chat/${newId}`); // ✅ URL 업데이트 추가
+      console.log("WebSocket 연결 시작");
       connectWebSocket(selectedChatRoom.value.roomIdx);
     }
-  }, 10);
-}, { immediate: true });
+  }
+  loadingStore.stopLoading();
+});
 
 
+function connectWebSocket(roomIdx) {
+  if (stompClient.value) {
+    stompClient.value.deactivate();
+  }
 
+  stompClient.value = new Client({
+    brokerURL: "ws://localhost:8080/ws",
+    onConnect: () => {
+      console.log(`WebSocket 연결됨: 채팅방 ${roomIdx}`);
 
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+
+      subscription = stompClient.value.subscribe(`/topic/room/${roomIdx}`, (message) => {
+        console.log("📩 새 메시지 수신:", message.body);
+        const receivedMessage = JSON.parse(message.body);
+        if (selectedChatRoom.value) {
+          selectedChatRoom.value.messages.push(receivedMessage);
+        }
+      });
+    },
+  });
+
+  stompClient.value.activate();
+}
+
+watch(() => route.params.id, async (newId) => {
+  console.log("URI 변경 감지:", newId);
+  if (!newId) return;
+
+  selectedChatRoom.value = chatRoomStore.chatRooms.find(room => room.roomIdx === parseInt(newId, 10));
+  if (selectedChatRoom.value) {
+    console.log("WebSocket 재연결");
+    connectWebSocket(selectedChatRoom.value.roomIdx);
+  }
+});
 
 
 function setSelectedChatRoom(roomId) {
   console.log(`채팅방 변경: ${roomId}`);
-  
+
   if (!roomId || isNaN(roomId)) {
     console.error("🚨 잘못된 채팅방 ID:", roomId);
     return;
@@ -77,61 +103,15 @@ function setSelectedChatRoom(roomId) {
 }
 
 
-
-function connectWebSocket(roomId) {
-  if (stompClient.value) {
-    console.log("🔌 기존 WebSocket 연결 해제 중...");
-    stompClient.value.deactivate(() => {
-      console.log("✅ WebSocket 해제 완료");
-      stompClient.value = null;
-
-      // 🚀 새로운 WebSocket 연결을 안전하게 수행
-      setTimeout(() => {
-        initializeWebSocket(roomId);
-      }, 100);
-    });
-  } else {
-    initializeWebSocket(roomId);
-  }
-}
-
-function initializeWebSocket(roomId) {
-  stompClient.value = new Client({
-    brokerURL: "ws://localhost:8080/ws",
-    reconnectDelay: 5000,
-    onConnect: () => {
-      console.log(`✅ WebSocket 연결됨: 채팅방 ${roomId}`);
-
-      if (subscription) {
-        subscription.unsubscribe();
-      }
-
-      subscription = stompClient.value.subscribe(`/topic/room/${roomId}`, (message) => {
-        console.log("📩 새 메시지 수신:", message.body);
-        const receivedMessage = JSON.parse(message.body);
-        if (selectedChatRoom.value) {
-          selectedChatRoom.value.messages.push(receivedMessage);
-        }
-      });
-    },
-    onDisconnect: () => {
-      console.log("❌ WebSocket 연결 종료됨");
-    },
-  });
-
-  stompClient.value.activate();
-}
-
-
 function sendMessage() {
-  if (!newMessage.value.trim() || !selectedChatRoom.value || !stompClient.value.active) {
-    console.error("메시지를 전송할 수 없습니다. STOMP가 활성화되지 않았습니다.");
+  if (!newMessage.value.trim() || !selectedChatRoom.value || !stompClient.value.connected) {
+    console.error("메시지를 보낼 수 없습니다.");
     return;
   }
-  
+
   const messagePayload = {
     roomIdx: selectedChatRoom.value.roomIdx,
-    sendUserIdx: 1, // 예제: 현재 로그인된 사용자 ID
+    sendUserIdx: 1,
     message: newMessage.value,
   };
 
@@ -142,18 +122,16 @@ function sendMessage() {
     body: JSON.stringify(messagePayload),
   });
 
-  // UI에 즉시 반영 (새로고침 없이 보이도록)
-  selectedChatRoom.value.messages = [
-    ...selectedChatRoom.value.messages,
-    messagePayload
-  ];
-  
+  selectedChatRoom.value.messages.push(messagePayload);
   newMessage.value = "";
 }
+
 
 function showPaymentModal() {
   isPaymentModalVisible.value = true;
 }
+
+
 </script>
 
 <template>
@@ -176,7 +154,8 @@ function showPaymentModal() {
       </div>
       <footer v-if="selectedChatRoom" class="p-4 border-t bg-gray-100">
         <div class="flex items-center">
-          <input v-model="newMessage" type="text" placeholder="메시지를 입력하세요..." class="flex-1 p-2 border rounded-md" @keyup.enter="sendMessage" />
+          <input v-model="newMessage" type="text" placeholder="메시지를 입력하세요..." class="flex-1 p-2 border rounded-md"
+            @keyup.enter="sendMessage" />
           <button @click="sendMessage" class="ml-2 bg-indigo-500 text-white px-4 py-2 rounded-md">전송</button>
         </div>
       </footer>
@@ -184,5 +163,4 @@ function showPaymentModal() {
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

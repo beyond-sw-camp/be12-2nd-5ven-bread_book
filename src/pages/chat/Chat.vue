@@ -17,7 +17,7 @@ const stompClient = ref(null);
 onMounted(async () => {
   loadingStore.startLoading();
   await chatRoomStore.fetchChatRooms();
-  console.log("📌 채팅방 목록 불러오기 완료:", chatRoomStore.chatRooms);
+  console.log("채팅방 목록 불러오기 완료:", chatRoomStore.chatRooms);
   setSelectedChatRoom(parseInt(route.params.id, 10));
   loadingStore.stopLoading();
 });
@@ -26,7 +26,7 @@ onMounted(async () => {
 watch(
   () => route.params.id,
   (newId) => {
-    console.log("🚀 라우트 변경 감지:", newId); 
+    console.log("라우트 변경 감지:", newId); 
     if (newId) {
       setSelectedChatRoom(parseInt(newId, 10));
     }
@@ -75,7 +75,7 @@ function connectWebSocket(roomIdx) {
     onConnect: () => {
       console.log("WebSocket 연결 성공: 채팅방", roomIdx);
       stompClient.value.subscribe(`/topic/room/${roomIdx}`, (message) => {
-        console.log("📩 새 메시지 수신:", JSON.parse(message.body));
+        console.log("새 메시지 수신:", JSON.parse(message.body));
       });
     },
     onDisconnect: () => {
@@ -91,10 +91,10 @@ function selectChatRoom(roomId) {
   if (selectedChatRoom.value?.roomIdx === roomId) {
     console.log("현재 채팅방과 동일 - URL 강제 업데이트");
 
-    // ✅ 강제 URL 변경 (Vue Router가 같은 URL을 무시하는 문제 해결)
+    // 강제 URL 변경 (Vue Router가 같은 URL을 무시하는 문제 해결)
     router.replace(`/dummy`).then(() => {
       setTimeout(() => {
-        router.replace(`/chat/${roomId}`).catch((err) => console.warn("🚨 라우터 이동 오류:", err));
+        router.replace(`/chat/${roomId}`).catch((err) => console.warn(" 라우터 이동 오류:", err));
       }, 50);
     });
 
@@ -109,27 +109,11 @@ function selectChatRoom(roomId) {
 
     router.replace(`/dummy`).then(() => {
       setTimeout(() => {
-        router.replace(`/chat/${roomId}`).catch((err) => console.warn("🚨 라우터 이동 오류:", err));
+        router.replace(`/chat/${roomId}`).catch((err) => console.warn(" 라우터 이동 오류:", err));
       }, 50);
     });
   }, 10);
 }
-
-
-
-
-function forceRouterUpdate(roomId) {
-  if (route.params.id !== String(roomId)) {
-    router.replace(`/chat/${roomId}`).catch((err) => console.warn("🚨 라우터 이동 오류:", err));
-  } else {
-    // 🚀 동일한 경로라도 강제 업데이트하기 위해 `/dummy`로 갔다가 다시 원래 URL로 돌아옴
-    router.replace("/dummy").then(() => {
-      router.replace(`/chat/${roomId}`);
-    });
-  }
-}
-
-
 
 </script>
 
