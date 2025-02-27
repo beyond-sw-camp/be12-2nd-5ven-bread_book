@@ -20,11 +20,11 @@ watch(
 </script>
 
 <template>
-    <div v-for="order in paymentStore.ordersList" :key="order.product_id">
-        <div class="product wrap" v-if="option==='전체' || option===order.order_status">
+    <div v-for="order in paymentStore.ordersList" :key="order.productIdx">
+        <div class="product wrap" v-if="option==='전체' || option===order.orderStatus">
             <div class="product-main">
                 <div class="date wrap">
-                    <strong>{{ order.orders_created_at }}</strong>
+                    <strong>{{ order.orderCreatedAt }}</strong>
                     <button style="margin-left: auto;">
                         <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img">
                             <path
@@ -36,20 +36,20 @@ watch(
 
                 <hr>
 
-                <div id="paymentStatus">{{ order.order_status }}</div>
+                <div id="paymentStatus">{{ order.orderStatus }}</div>
 
                 <div class="product-details wrap">
-                    <router-link :to="`/paymentDetails/${order.orders_id}`">
+                    <router-link :to="`/paymentDetails/${order.orderIdx}`">
                         <img :src="order.book_image" alt="">
                         <div class="product-details-information">
                             <strong>{{order.amount}}원</strong>
                             <div class="product-details-name">{{ order.title }}</div>
-                            <div class="product-details-seller">{{order.username}}</div>
+                            <div class="product-details-seller">{{order.userName}}</div>
                         </div>
                     </router-link>
                 </div>
 
-                <router-link :to="`/review/${order.orders_id}`">
+                <router-link :to="`/review/${order.orderIdx}`">
                     <button id="reviewBTN" 
                         class="middle none center w-full rounded-lg bg-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         data-ripple-light="true">리뷰 남기기
