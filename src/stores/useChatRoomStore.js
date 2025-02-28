@@ -22,7 +22,7 @@ export const useChatRoomStore = defineStore("chatRoom", {
 
 
     if (!currentUserId) {
-      console.warn("⚠️ 로그인 정보가 없거나 idx가 존재하지 않습니다.");
+      console.warn(" 로그인 정보가 없거나 idx가 존재하지 않습니다.");
       return;
     }
 

@@ -25,13 +25,13 @@ const props = defineProps({
 
 const emit = defineEmits(["select"]);
 
-// ✅ 기본 이미지 URL 설정 (room.avatar 없을 경우 대체 이미지 사용)
+// 기본 이미지 URL 설정 (room.avatar 없을 경우 대체 이미지 사용)
 const avatarUrl = computed(() => props.room.avatar || "https://images-ext-1.discordapp.net/external/yz4QVVr2g9bjlzVIqBHNpa2iThe3fvFsSVEG3E6LJoE/https/www.madtimes.org/news/photo/202107/8707_19214_1235.jpg?format=webp&width=575&height=750");
 
-// ✅ 반응형 데이터로 lastChat을 관리
+//  반응형 데이터로 lastChat을 관리
 const lastChat = ref(props.room.lastChat || "메시지가 없습니다.");
 
-// ✅ 새로운 메시지가 오면 lastChat 업데이트
+// 새로운 메시지가 오면 lastChat 업데이트
 watch(
   () => props.room.messages,
   (newMessages) => {
@@ -42,7 +42,7 @@ watch(
   { deep: true }
 );
 
-// ✅ 채팅방 선택 이벤트
+// 채팅방 선택 이벤트
 function handleClick() {
   emit("select", props.room);
 }
