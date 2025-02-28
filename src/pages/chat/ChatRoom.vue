@@ -18,7 +18,7 @@ const newMessage = ref("");
 const stompClient = ref(null);
 let subscription = null;
 
-const currenUserId = ref(null);
+const currentUserId = ref(null);
 
 onBeforeUnmount(() => {
   if (stompClient.value) {
@@ -31,6 +31,15 @@ onBeforeUnmount(() => {
 onMounted(async () => {
   loadingStore.startLoading();
   await chatRoomStore.fetchChatRooms();
+
+  // 현재 로그인한 유저 ID 가져오기
+  if (!memberStore.member || !memberStore.member.idx) {
+    console.error("유저 정보가 아직 설정되지 않음!");
+  } else {
+    currentUserId.value = memberStore.member.idx;
+    console.log("현재 로그인한 유저 ID:", currentUserId.value);
+  }
+
 
   if (route.params.id) {
     selectedChatRoom.value = chatRoomStore.chatRooms.find(room => room.roomIdx === parseInt(route.params.id, 10));
@@ -58,7 +67,7 @@ function connectWebSocket(roomIdx) {
       }
 
       subscription = stompClient.value.subscribe(`/topic/room/${roomIdx}`, (message) => {
-        console.log("📩 새 메시지 수신:", message.body);
+        console.log("새 메시지 수신:", message.body);
         const receivedMessage = JSON.parse(message.body);
         if (selectedChatRoom.value) {
           selectedChatRoom.value.messages.push(receivedMessage);
@@ -86,7 +95,7 @@ function setSelectedChatRoom(roomId) {
   console.log(`채팅방 변경: ${roomId}`);
 
   if (!roomId || isNaN(roomId)) {
-    console.error("🚨 잘못된 채팅방 ID:", roomId);
+    console.error("잘못된 채팅방 ID:", roomId);
     return;
   }
 
@@ -112,10 +121,10 @@ function sendMessage() {
   }
 
   const memberStore = useMemberStore();
-  const currentUserId = memberStore.member?.idx; // ✅ 로그인한 유저 ID 가져오기 (확인 필요!)
+  const currentUserId = memberStore.member?.idx; // 로그인한 유저 ID 가져오기
 
   if (!currentUserId) {
-    console.error("🚨 유저 ID가 존재하지 않음!");
+    console.error("유저 ID가 존재하지 않음!");
     return;
   }
 
@@ -153,14 +162,6 @@ function showPaymentModal() {
         <button @click="showPaymentModal" class="bg-indigo-500 text-white px-4 py-2 rounded-md ml-4">예약하기</button>
       </header>
       <div v-if="selectedChatRoom" class="flex-1 p-4 overflow-y-auto">
-        <!-- <div v-for="(message, index) in selectedChatRoom.messages" :key="index" class="mb-4">
-          <div v-if="message.sendUserIdx === currentUserId" class="text-right">
-            <span class="bg-blue-500 text-white p-2 rounded-lg">{{ message.message }}</span>
-          </div>
-          <div v-else class="text-left">
-            <span class="bg-gray-300 p-2 rounded-lg">{{ message.message }}</span>
-          </div>
-        </div> -->
         <div v-for="(message, index) in selectedChatRoom.messages" :key="index" class="mb-4">
           <!-- 본인이 보낸 메시지 -->
           <div v-if="message.sendUserIdx === currentUserId" class="text-right">
