@@ -67,12 +67,19 @@ function connectWebSocket(roomIdx) {
       }
 
       subscription = stompClient.value.subscribe(`/topic/room/${roomIdx}`, (message) => {
-        console.log("새 메시지 수신:", message.body);
-        const receivedMessage = JSON.parse(message.body);
-        if (selectedChatRoom.value) {
-          selectedChatRoom.value.messages.push(receivedMessage);
+        console.log("새 메시지 수신:", message.body); // 디버깅 추가
+        try {
+          const receivedMessage = JSON.parse(message.body);
+          console.log("메시지 데이터 파싱 성공:", receivedMessage);
+
+          if (selectedChatRoom.value) {
+            selectedChatRoom.value.messages.push(receivedMessage);
+          }
+        } catch (error) {
+          console.error("메시지 파싱 오류:", error);
         }
       });
+
     },
   });
 
@@ -141,7 +148,6 @@ function sendMessage() {
     body: JSON.stringify(messagePayload),
   });
 
-  selectedChatRoom.value.messages.push(messagePayload);
   newMessage.value = "";
 }
 
