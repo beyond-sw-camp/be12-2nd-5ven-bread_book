@@ -66,6 +66,7 @@ function hideNeedLoginModal() {
           <router-link :to="`/product_detail/${book.id}`">
             <div class="flex flex-col justify-between h-full">
               <div>
+                <div class="inline-block mb-1 text-md rounded-lg bg-blue-100 border-blue-500 px-2 py-1.5 text-blue-500 space-x-1.5">책상태:상 </div>
                 <div
                     class="relative flex items-end overflow-hidden rounded-xl"
                     style="max-height: 22rem; min-height: 22rem;">
