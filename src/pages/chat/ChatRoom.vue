@@ -164,6 +164,9 @@ function showPaymentModal() {
     <ChatSidebar :chatRooms="chatRoomStore.chatRooms" :selectChatRoom="setSelectedChatRoom" />
     <div class="flex-1 flex flex-col">
       <header v-if="selectedChatRoom" class="p-4 border-b bg-gray-100 flex items-center justify-between">
+        <!--  책 이미지 추가 -->
+        <img v-if="selectedChatRoom.productImageUrl" :src="selectedChatRoom.productImageUrl" alt="책 이미지"
+          class="w-12 h-12 rounded-md object-cover mr-4" />
         <h1 class="text-xl font-semibold">{{ selectedChatRoom.title }}</h1>
         <button @click="showPaymentModal" class="bg-indigo-500 text-white px-4 py-2 rounded-md ml-4">예약하기</button>
       </header>
