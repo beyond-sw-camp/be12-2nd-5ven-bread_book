@@ -45,6 +45,9 @@ onMounted(async () => {
     selectedChatRoom.value = chatRoomStore.chatRooms.find(room => room.roomIdx === parseInt(route.params.id, 10));
     if (selectedChatRoom.value) {
       console.log("WebSocket 연결 시작");
+
+      selectedChatRoom.value.currentUserId = currentUserId.value;
+
       connectWebSocket(selectedChatRoom.value.roomIdx);
     }
   }
@@ -167,6 +170,9 @@ function showPaymentModal() {
         <!--  책 이미지 추가 -->
         <img v-if="selectedChatRoom.productImageUrl" :src="selectedChatRoom.productImageUrl" alt="책 이미지"
           class="w-12 h-12 rounded-md object-cover mr-4" />
+        <h1 class="text-xl font-semibold">{{ selectedChatRoom.productPrice }}원</h1>
+
+        <h1 class="text-xl font-semibold">닉네임: {{ memberStore.member.nickname }}</h1>
         <h1 class="text-xl font-semibold">{{ selectedChatRoom.title }}</h1>
         <button @click="showPaymentModal" class="bg-indigo-500 text-white px-4 py-2 rounded-md ml-4">예약하기</button>
       </header>
