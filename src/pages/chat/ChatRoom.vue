@@ -3,11 +3,13 @@ import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useChatRoomStore } from "../../stores/useChatRoomStore";
 import { useLoadingStore } from "../../stores/useLoadingStore";
+import { useMemberStore } from "../../stores/useMemberStore";
 import ChatSidebar from "./ChatSidebar.vue";
 import { Client } from "@stomp/stompjs";
 
 const loadingStore = useLoadingStore();
 const chatRoomStore = useChatRoomStore();
+const memberStore = useMemberStore();
 const router = useRouter();
 const route = useRoute();
 
@@ -16,12 +18,7 @@ const newMessage = ref("");
 const stompClient = ref(null);
 let subscription = null;
 
-onMounted(async () => {
-  loadingStore.startLoading();
-  await chatRoomStore.fetchChatRooms();
-  setSelectedChatRoom(parseInt(route.params.id, 10));
-  loadingStore.stopLoading();
-});
+const currentUserId = ref(null);
 
 onBeforeUnmount(() => {
   if (stompClient.value) {
@@ -30,35 +27,85 @@ onBeforeUnmount(() => {
   }
 });
 
-watch(() => route.params.id, async (newId, oldId) => {
-  console.log("📌 URI 변경 감지:", newId);
-  
-  if (!newId || (oldId && newId === oldId)) {
-    return;
-  }
 
-  selectedChatRoom.value = null;
+onMounted(async () => {
+  loadingStore.startLoading();
   await chatRoomStore.fetchChatRooms();
 
-  setTimeout(() => {
-    selectedChatRoom.value = chatRoomStore.chatRooms.find((room) => room.roomIdx === parseInt(newId, 10));
+  // 현재 로그인한 유저 ID 가져오기
+  if (!memberStore.member || !memberStore.member.idx) {
+    console.error("유저 정보가 아직 설정되지 않음!");
+  } else {
+    currentUserId.value = memberStore.member.idx;
+    console.log("현재 로그인한 유저 ID:", currentUserId.value);
+  }
+
+
+  if (route.params.id) {
+    selectedChatRoom.value = chatRoomStore.chatRooms.find(room => room.roomIdx === parseInt(route.params.id, 10));
     if (selectedChatRoom.value) {
-      router.push(`/chat/${newId}`); // ✅ URL 업데이트 추가
+      console.log("WebSocket 연결 시작");
+
+      selectedChatRoom.value.currentUserId = currentUserId.value;
+
       connectWebSocket(selectedChatRoom.value.roomIdx);
     }
-  }, 10);
-}, { immediate: true });
+  }
+  loadingStore.stopLoading();
+});
 
 
+function connectWebSocket(roomIdx) {
+  if (stompClient.value) {
+    stompClient.value.deactivate();
+  }
 
+  stompClient.value = new Client({
+    brokerURL: "ws://localhost:8080/ws",
+    onConnect: () => {
+      console.log(`WebSocket 연결됨: 채팅방 ${roomIdx}`);
 
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+
+      subscription = stompClient.value.subscribe(`/topic/room/${roomIdx}`, (message) => {
+        console.log("새 메시지 수신:", message.body); // 디버깅 추가
+        try {
+          const receivedMessage = JSON.parse(message.body);
+          console.log("메시지 데이터 파싱 성공:", receivedMessage);
+
+          if (selectedChatRoom.value) {
+            selectedChatRoom.value.messages.push(receivedMessage);
+          }
+        } catch (error) {
+          console.error("메시지 파싱 오류:", error);
+        }
+      });
+
+    },
+  });
+
+  stompClient.value.activate();
+}
+
+watch(() => route.params.id, async (newId) => {
+  console.log("URI 변경 감지:", newId);
+  if (!newId) return;
+
+  selectedChatRoom.value = chatRoomStore.chatRooms.find(room => room.roomIdx === parseInt(newId, 10));
+  if (selectedChatRoom.value) {
+    console.log("WebSocket 재연결");
+    connectWebSocket(selectedChatRoom.value.roomIdx);
+  }
+});
 
 
 function setSelectedChatRoom(roomId) {
   console.log(`채팅방 변경: ${roomId}`);
-  
+
   if (!roomId || isNaN(roomId)) {
-    console.error("🚨 잘못된 채팅방 ID:", roomId);
+    console.error("잘못된 채팅방 ID:", roomId);
     return;
   }
 
@@ -77,64 +124,26 @@ function setSelectedChatRoom(roomId) {
 }
 
 
-
-function connectWebSocket(roomId) {
-  if (stompClient.value) {
-    console.log("🔌 기존 WebSocket 연결 해제 중...");
-    stompClient.value.deactivate(() => {
-      console.log("✅ WebSocket 해제 완료");
-      stompClient.value = null;
-
-      // 🚀 새로운 WebSocket 연결을 안전하게 수행
-      setTimeout(() => {
-        initializeWebSocket(roomId);
-      }, 100);
-    });
-  } else {
-    initializeWebSocket(roomId);
-  }
-}
-
-function initializeWebSocket(roomId) {
-  stompClient.value = new Client({
-    brokerURL: "ws://localhost:8080/ws",
-    reconnectDelay: 5000,
-    onConnect: () => {
-      console.log(`✅ WebSocket 연결됨: 채팅방 ${roomId}`);
-
-      if (subscription) {
-        subscription.unsubscribe();
-      }
-
-      subscription = stompClient.value.subscribe(`/topic/room/${roomId}`, (message) => {
-        console.log("📩 새 메시지 수신:", message.body);
-        const receivedMessage = JSON.parse(message.body);
-        if (selectedChatRoom.value) {
-          selectedChatRoom.value.messages.push(receivedMessage);
-        }
-      });
-    },
-    onDisconnect: () => {
-      console.log("❌ WebSocket 연결 종료됨");
-    },
-  });
-
-  stompClient.value.activate();
-}
-
-
 function sendMessage() {
-  if (!newMessage.value.trim() || !selectedChatRoom.value || !stompClient.value.active) {
-    console.error("메시지를 전송할 수 없습니다. STOMP가 활성화되지 않았습니다.");
+  if (!newMessage.value.trim() || !selectedChatRoom.value || !stompClient.value.connected) {
+    console.error("메시지를 보낼 수 없습니다.");
     return;
   }
-  
+
+  const memberStore = useMemberStore();
+  const currentUserId = memberStore.member?.idx; // 로그인한 유저 ID 가져오기
+
+  if (!currentUserId) {
+    console.error("유저 ID가 존재하지 않음!");
+    return;
+  }
+
+
   const messagePayload = {
     roomIdx: selectedChatRoom.value.roomIdx,
-    sendUserIdx: 1, // 예제: 현재 로그인된 사용자 ID
+    sendUserIdx: currentUserId,  // 현재 로그인한 사용자 ID 저장.
     message: newMessage.value,
   };
-
   console.log("메시지 전송:", messagePayload);
 
   stompClient.value.publish({
@@ -142,18 +151,15 @@ function sendMessage() {
     body: JSON.stringify(messagePayload),
   });
 
-  // UI에 즉시 반영 (새로고침 없이 보이도록)
-  selectedChatRoom.value.messages = [
-    ...selectedChatRoom.value.messages,
-    messagePayload
-  ];
-  
   newMessage.value = "";
 }
+
 
 function showPaymentModal() {
   isPaymentModalVisible.value = true;
 }
+
+
 </script>
 
 <template>
@@ -161,22 +167,32 @@ function showPaymentModal() {
     <ChatSidebar :chatRooms="chatRoomStore.chatRooms" :selectChatRoom="setSelectedChatRoom" />
     <div class="flex-1 flex flex-col">
       <header v-if="selectedChatRoom" class="p-4 border-b bg-gray-100 flex items-center justify-between">
+        <!--  책 이미지 추가 -->
+        <img v-if="selectedChatRoom.productImageUrl" :src="selectedChatRoom.productImageUrl" alt="책 이미지"
+          class="w-12 h-12 rounded-md object-cover mr-4" />
+        <h1 class="text-xl font-semibold">{{ selectedChatRoom.productPrice }}원</h1>
+
+        <h1 class="text-xl font-semibold">닉네임: {{ memberStore.member.nickname }}</h1>
         <h1 class="text-xl font-semibold">{{ selectedChatRoom.title }}</h1>
         <button @click="showPaymentModal" class="bg-indigo-500 text-white px-4 py-2 rounded-md ml-4">예약하기</button>
       </header>
       <div v-if="selectedChatRoom" class="flex-1 p-4 overflow-y-auto">
         <div v-for="(message, index) in selectedChatRoom.messages" :key="index" class="mb-4">
-          <div v-if="message.sendUserIdx === 1" class="text-right">
+          <!-- 본인이 보낸 메시지 -->
+          <div v-if="message.sendUserIdx === currentUserId" class="text-right">
             <span class="bg-blue-500 text-white p-2 rounded-lg">{{ message.message }}</span>
           </div>
+          <!-- 상대방이 보낸 메시지 -->
           <div v-else class="text-left">
             <span class="bg-gray-300 p-2 rounded-lg">{{ message.message }}</span>
           </div>
         </div>
+
       </div>
       <footer v-if="selectedChatRoom" class="p-4 border-t bg-gray-100">
         <div class="flex items-center">
-          <input v-model="newMessage" type="text" placeholder="메시지를 입력하세요..." class="flex-1 p-2 border rounded-md" @keyup.enter="sendMessage" />
+          <input v-model="newMessage" type="text" placeholder="메시지를 입력하세요..." class="flex-1 p-2 border rounded-md"
+            @keyup.enter="sendMessage" />
           <button @click="sendMessage" class="ml-2 bg-indigo-500 text-white px-4 py-2 rounded-md">전송</button>
         </div>
       </footer>
@@ -184,5 +200,4 @@ function showPaymentModal() {
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

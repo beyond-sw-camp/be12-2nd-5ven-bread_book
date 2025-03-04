@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { useLoadingStore } from "../stores/useLoadingStore";
+import { useMemberStore } from "./useMemberStore";
 
 export const useChatRoomStore = defineStore("chatRoom", {
   state: () => ({
@@ -14,8 +15,20 @@ export const useChatRoomStore = defineStore("chatRoom", {
       const loadingStore = useLoadingStore();
       loadingStore.startLoading();
       try {
-        console.log("채팅방 목록 요청 시작!");
-        const response = await axios.get("/api/chatting/rooms");
+        const memberStore = useMemberStore();
+        await memberStore.loginCheck(); // 로그인 체크 후 유저 정보 가져오기
+
+        const currentUserId = memberStore.member?.idx; // 현재 로그인한 유저 ID 가져오기
+
+
+    if (!currentUserId) {
+      console.warn(" 로그인 정보가 없거나 idx가 존재하지 않습니다.");
+      return;
+    }
+
+        console.log("채팅방 목록 요청 시작! (유저 ID:", currentUserId, ")");
+
+        const response = await axios.get(`/api/chatting/rooms/${currentUserId}`);
         console.log("API 응답 데이터:", response.data); // 응답 확인
         this.chatRooms = response.data.data;
         console.log("저장된 채팅방 목록:", this.chatRooms);
@@ -39,14 +52,17 @@ export const useChatRoomStore = defineStore("chatRoom", {
       }
     }
     ,
+    async sendMessage(roomIdx, message) {
+      if (!stompClient.value || !stompClient.value.connected) {
+        console.error("WebSocket이 연결되지 않음!");
+        return;
+      }
 
-    // 메시지 전송 (WebSocket 사용)
-    async sendMessage(stompClient, roomIdx, message) {
-      if (!message.trim() || !stompClient || !stompClient.connected) return;
-      stompClient.publish({
-        destination: `/app/chatting/room/${roomIdx}`,
+      stompClient.value.publish({
+        destination: `/app/chat/${roomIdx}`,
         body: JSON.stringify({ message }),
       });
     },
+
   },
 });
