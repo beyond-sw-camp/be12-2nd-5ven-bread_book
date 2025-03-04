@@ -1,9 +1,19 @@
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useMemberStore } from '../../stores/useMemberStore';
 
+const route = useRoute();
 const router = useRouter();
+const memberStore = useMemberStore();
 
+const uuid = route.params.uuid;
+const old_password = ref('');
+const new_password = ref('');
+const new_password_ret = ref('');
+
+const uuid_present = ref(true);
+if(uuid == null) uuid_present.value = false;
 
 const show = ref(false);
 show.value = false;
@@ -11,10 +21,18 @@ const toggleShow = () => {
     show.value = !show.value;
 }
 
-const signup = () => {
-    // await memberStore.signup();
-    router.push('/login');
+const changePassword = async () => {
+    if(new_password.value !== new_password_ret.value) {
+        alert("새 비밀번호와 새 비밀번호 확인 값이 다릅니다.");
+        return;
+    }
+    const response = await memberStore.changePw({uuid: uuid, oldPassword: old_password.value, newPassword: new_password.value});
+    alert(response.data.message);
+    if(response.data.isSuccess) {
+        router.push('/login');
+    }
 }
+
 </script>
 
 <template>
@@ -25,12 +43,12 @@ const signup = () => {
 
                 <h2 class="text-center text-2xl font-bold tracking-wide text-gray-800">비밀번호 재설정</h2>
 
-                <form class="my-8 text-sm" @submit.prevent="signup">
+                <form class="my-8 text-sm" @submit.prevent="changePassword">
 
-                    <div class="flex flex-col my-4">
+                    <div v-if="!uuid_present" class="flex flex-col my-4">
                         <label for="password" class="text-gray-700">현재 비밀번호</label>
                         <div x-data="{ show: false }" class="relative flex items-center mt-2">
-                            <input :type="show ? 'text' : 'password'" name="current_password" id="current_password"
+                            <input v-model="old_password" :type="show ? 'text' : 'password'" name="current_password" id="current_password"
                                 class="flex-1 p-2 pr-10 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
                                 placeholder="현재 비밀번호 입력" type="password">
                             <button @click="toggleShow" type="button"
@@ -57,7 +75,7 @@ const signup = () => {
                     <div class="flex flex-col my-4">
                         <label for="password" class="text-gray-700">새 비밀번호</label>
                         <div x-data="{ show: false }" class="relative flex items-center mt-2">
-                            <input :type="show ? 'text' : 'password'" name="new_password" id="new_password"
+                            <input v-model="new_password" :type="show ? 'text' : 'password'" name="new_password" id="new_password"
                                 class="flex-1 p-2 pr-10 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
                                 placeholder="새 비밀번호 입력" type="password">
                             <button @click="toggleShow" type="button"
@@ -84,7 +102,7 @@ const signup = () => {
                     <div class="flex flex-col my-4">
                         <label for="password_confirmation" class="text-gray-700">비밀번호 확인</label>
                         <div x-data="{ show: false }" class="relative flex items-center mt-2">
-                            <input :type="show ? 'text' : 'password'" name="password_confirmation"
+                            <input v-model="new_password_ret" :type="show ? 'text' : 'password'" name="password_confirmation"
                                 id="password_confirmation"
                                 class="flex-1 p-2 pr-10 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
                                 placeholder="새 비밀번호 재입력" type="password">

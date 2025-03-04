@@ -2,7 +2,9 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useMemberStore } from "../../stores/useMemberStore";
+import { useLoadingStore } from '../../stores/useLoadingStore';
 
+const loadginStore = useLoadingStore();
 const memberStore = useMemberStore();
 const username = ref();
 const email_for_id = ref();
@@ -17,9 +19,12 @@ const find_id = async () => {
         alert(response.data.message);
     }
 }
-const find_pw = () => {
-    // await memberStore.signup();
-    router.push('/change_pw');
+const find_pw = async () => {
+    loadginStore.startLoading();
+    const response = await memberStore.findPw({userid: userid.value, email: email_for_pw.value});
+    loadginStore.stopLoading();
+    alert(response.data.message);
+    router.push("/login");
 }
 </script>
 

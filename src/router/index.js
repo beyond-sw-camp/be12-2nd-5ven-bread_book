@@ -108,7 +108,13 @@ const routes = [
   },
   {
     path: '/change_pw',
-    name: 'changeIdPw',
+    name: 'changePw_signin',
+    component: ChangePw,
+    meta: { showHeader: false, showFooter: false }
+  },
+  {
+    path: '/change_pw/:uuid',
+    name: 'changePw',
     component: ChangePw,
     meta: { showHeader: false, showFooter: false }
   },
