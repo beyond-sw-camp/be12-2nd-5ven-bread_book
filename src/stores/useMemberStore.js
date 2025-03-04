@@ -2,7 +2,15 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 
 export const useMemberStore = defineStore('member', {
-    state: () => ({member: {}, isLogin: false}),
+    state: () => (
+        {member: {
+            idx: -1,
+            userid: "",
+            username: "",
+            email: "",
+            nickname: "",
+            provider: ""
+        }, isLogin: false}),
     persist: {
         storage: sessionStorage,
     },
@@ -16,6 +24,14 @@ export const useMemberStore = defineStore('member', {
         },
         async findId(user) {
             const response = await axios.post("/api/user/id_info", user);
+            return response;
+        },
+        async findPw(user) {
+            const response = await axios.post("/api/user/password/find", user);
+            return response;
+        },
+        async changePw(passwords) {
+            const response = await axios.post("/api/user/password/reset", passwords);
             return response;
         },
         async signup(user) {
