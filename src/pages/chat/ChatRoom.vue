@@ -137,16 +137,6 @@ function sendMessage() {
     console.error("유저 ID가 존재하지 않음!");
     return;
   }
-  const otherUser = computed(() => {
-    if (!selectedChatRoom.value || !selectedChatRoom.value.members) return null;
-    return selectedChatRoom.value.members.find(user => user.idx !== currentUserId.value);
-  });
-
-  // 상대방 프로필 URL
-  const otherUserProfileUrl = computed(() => {
-    return otherUser.value?.profileImgUrl || "/default-profile.png";
-  });
-
 
   const messagePayload = {
     roomIdx: selectedChatRoom.value.roomIdx,
