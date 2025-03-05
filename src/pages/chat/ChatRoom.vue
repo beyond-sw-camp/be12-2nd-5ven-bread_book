@@ -39,7 +39,7 @@ onMounted(async () => {
     currentUserId.value = memberStore.member.idx;
     console.log("현재 로그인한 유저 ID:", currentUserId.value);
   }
-
+  console.log("멤버 정보:", memberStore.member.profileImgUrl);
 
   if (route.params.id) {
     selectedChatRoom.value = chatRoomStore.chatRooms.find(room => room.roomIdx === parseInt(route.params.id, 10));
@@ -137,6 +137,15 @@ function sendMessage() {
     console.error("유저 ID가 존재하지 않음!");
     return;
   }
+  const otherUser = computed(() => {
+    if (!selectedChatRoom.value || !selectedChatRoom.value.members) return null;
+    return selectedChatRoom.value.members.find(user => user.idx !== currentUserId.value);
+  });
+
+  // 상대방 프로필 URL
+  const otherUserProfileUrl = computed(() => {
+    return otherUser.value?.profileImgUrl || "/default-profile.png";
+  });
 
 
   const messagePayload = {
@@ -166,29 +175,52 @@ function showPaymentModal() {
   <div class="flex h-screen overflow-hidden mt-16">
     <ChatSidebar :chatRooms="chatRoomStore.chatRooms" :selectChatRoom="setSelectedChatRoom" />
     <div class="flex-1 flex flex-col">
+      <!-- 책 정보 헤더 -->
       <header v-if="selectedChatRoom" class="p-4 border-b bg-gray-100 flex items-center justify-between">
-        <!--  책 이미지 추가 -->
-        <img v-if="selectedChatRoom.productImageUrl" :src="selectedChatRoom.productImageUrl" alt="책 이미지"
-          class="w-12 h-12 rounded-md object-cover mr-4" />
-        <h1 class="text-xl font-semibold">{{ selectedChatRoom.productPrice }}원</h1>
+        <div class="flex items-center space-x-4">
+          <!-- 책 이미지 -->
+          <img v-if="selectedChatRoom.productImageUrl" :src="selectedChatRoom.productImageUrl" alt="책 이미지"
+            class="w-12 h-12 rounded-md object-cover" />
 
-        <h1 class="text-xl font-semibold">닉네임: {{ memberStore.member.nickname }}</h1>
-        <h1 class="text-xl font-semibold">{{ selectedChatRoom.title }}</h1>
-        <button @click="showPaymentModal" class="bg-indigo-500 text-white px-4 py-2 rounded-md ml-4">예약하기</button>
-      </header>
-      <div v-if="selectedChatRoom" class="flex-1 p-4 overflow-y-auto">
-        <div v-for="(message, index) in selectedChatRoom.messages" :key="index" class="mb-4">
-          <!-- 본인이 보낸 메시지 -->
-          <div v-if="message.sendUserIdx === currentUserId" class="text-right">
-            <span class="bg-blue-500 text-white p-2 rounded-lg">{{ message.message }}</span>
-          </div>
-          <!-- 상대방이 보낸 메시지 -->
-          <div v-else class="text-left">
-            <span class="bg-gray-300 p-2 rounded-lg">{{ message.message }}</span>
+          <div class="flex space-x-4">
+            <!-- 책 제목 -->
+            <h1 class="text-lg font-semibold">{{ selectedChatRoom.title }}</h1>
+            <!-- 가격 -->
+            <span class="text-lg text-gray-600">
+              {{ selectedChatRoom.productPrice }}원
+            </span>
           </div>
         </div>
 
+        <!-- 거래 예약 버튼 -->
+        <button @click="showPaymentModal" class="bg-indigo-500 text-white px-4 py-2 rounded-md">거래 예약</button>
+      </header>
+
+      <!-- 채팅 메시지 영역 -->
+      <div v-if="selectedChatRoom" class="flex-1 p-4 overflow-y-auto">
+        <div v-for="(message, index) in selectedChatRoom.messages" :key="index" class="mb-4 flex items-end"
+          :class="{ 'justify-end': message.sendUserIdx === currentUserId }">
+
+          <!-- 상대방 메시지 -->
+          <div v-if="message.sendUserIdx !== currentUserId" class="flex items-center space-x-2">
+            <div class="w-9 h-9 rounded-full bg-gray-400 flex items-center justify-center text-white">
+              상대
+            </div>
+            <span class="bg-gray-300 p-2 rounded-lg">{{ message.message }}</span>
+          </div>
+
+          <!-- 본인 메시지 -->
+          <div v-else class="flex items-center space-x-2">
+
+            <span class="bg-slate-500 text-white p-2 rounded-lg">{{ message.message }}</span>
+            <div class="w-9 h-9 rounded-full bg-yellow-500/80 flex items-center justify-center text-white">
+              나
+            </div>
+          </div>
+        </div>
       </div>
+
+      <!-- 메시지 입력 영역 -->
       <footer v-if="selectedChatRoom" class="p-4 border-t bg-gray-100">
         <div class="flex items-center">
           <input v-model="newMessage" type="text" placeholder="메시지를 입력하세요..." class="flex-1 p-2 border rounded-md"
