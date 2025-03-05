@@ -40,17 +40,15 @@ export const usePaymentStore = defineStore('payment', {
         async orders(idx) {
             console.log(idx);
             const response = await axios.post("/api/order/orderList",{idx:idx});
-            console.log(response.data);
             this.ordersList = response.data.data;
         },
 
 
 
-        async pays() {
-            const response = await axios.post(
-                "https://d09b3780-f25b-445b-9f45-3eecc45c906b.mock.pstmn.io/payList"
-            );
-            this.paysList = response.data;
+        async pays(idx) {
+            const response = await axios.post("/api/order/payList",{idx:idx});
+            console.log(response.data);
+            this.paysList = response.data.data;
         },
 
         async paymentDetails(paymentId) {
