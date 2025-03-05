@@ -51,30 +51,12 @@ export const usePaymentStore = defineStore('payment', {
             this.paysList = response.data.data;
         },
 
-        async paymentDetails(paymentId) {
-            console.log(paymentId);
-            if (paymentId==="4"){
-                console.log("test");
-                const response = await axios.post(
-                    "https://www.breadbook.kro.kr:3000/back/paymentDetails/4"
-                );
-
-                return this.details = response.data;
-            }else if(paymentId==='1'){
-                const response = await axios.post(
-                    "https://www.breadbook.kro.kr:3000/back/paymentDetails/1"
-                );
-
-                return this.details = response.data;
-            }else{
-                const response = await axios.post(
-                    "https://d09b3780-f25b-445b-9f45-3eecc45c906b.mock.pstmn.io/paymentDetails"
-                );
-
-                return this.details = response.data;
-            }
-
-            
+        async paymentDetails(idx) {
+            const response = await axios.post(
+                `/api/order/orderDetails/${idx}`
+            );
+            console.log(response.data.data);
+            return response.data.data;
             
         },
 
