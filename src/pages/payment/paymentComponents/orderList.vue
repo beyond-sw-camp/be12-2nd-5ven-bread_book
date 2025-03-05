@@ -46,7 +46,7 @@ watch(
                 <div id="paymentStatus">{{ order.orderStatus }}</div>
 
                 <div class="product-details wrap">
-                    <router-link :to="`/paymentDetails/${order.orderIdx}`">
+                    <router-link :to="`/order/orderDetails/${order.orderIdx}`">
                         <img :src="order.bookImg" alt="">
                         <div class="product-details-information">
                             <strong>{{order.amount}}원</strong>

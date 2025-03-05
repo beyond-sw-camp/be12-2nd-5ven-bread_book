@@ -159,7 +159,7 @@ const routes = [
     meta: { showHeader: true, showFooter: true },
     beforeEnter: checkLogin,
   },
-  { path: '/paymentDetails/:idx',
+  { path: '/order/orderDetails/:idx',
     name: 'paymentDetails',
     component: paymentDetails,
     meta: { showHeader: true, showFooter: true },  

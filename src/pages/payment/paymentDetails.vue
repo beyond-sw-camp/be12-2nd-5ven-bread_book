@@ -9,16 +9,17 @@ const paymentStore = usePaymentStore();
 
 // 주문번호호
 const route = useRoute();
-const paymentId = route.params.id; // params에서 id 가져오기
+const idx = route.params.idx; // params에서 id 가져오기
 
 // details를 반응형(ref) 객체로 선언
 const details = ref({});
 
 // 비동기 함수 실행 - 컴포넌트가 마운트될 때 호출
 onMounted(async () => {
-    console.log(paymentId);
+    console.log(idx);
     loadingStore.startLoading(); //데이터 로드 전에 loadingStore.startLoading() 호출.
-    const response = await paymentStore.paymentDetails(paymentId);  // 비동기 작업
+    const response = await paymentStore.paymentDetails(idx);  // 비동기 작업
+    console.log(response);
     details.value=response;    
     loadingStore.stopLoading(); // 데이터 로드 후 loadingStore.stopLoading()호출.
 });
@@ -27,7 +28,7 @@ onMounted(async () => {
 <template>
 <div class="body">
     <div class="container">
-        <router-link :to="`/paymentList/${details.member_id}`" class="title">
+        <router-link :to="`/paymentList/${details.memberIdx}`" class="title">
             <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img">
                 <path
                     d="M14.265 19.537a.9.9 0 1 0 1.27-1.274l-8.362-8.34 8.365-8.387A.9.9 0 0 0 14.263.264l-9 9.024a.902.902 0 0 0 .002 1.273l9 8.976z"
@@ -37,31 +38,28 @@ onMounted(async () => {
         </router-link>
 
         <div class="order wrap">
-            <div class="order-date"><strong>{{ details.created_at }}</strong></div>
-            <div class="orderNUM">주문번호 {{ details.orders_id }}</div>
+            <div class="order-date"><strong>{{ details.orderCreatedAt }}</strong></div>
+            <div class="orderNUM">주문번호 {{ details.orderIdx }}</div>
         </div>
 
 
         <div class="product-status">
             <div class="pay-status">
-                <strong>{{ details.order_status }}</strong>
+                <strong>{{ details.orderStatus }}</strong>
             </div>
 
 
             <hr>
             <div class="product wrap">
-                <img :src="details.book_image" alt="">
+                <img :src="details.bookImg" alt="">
 
                 <div class="product-details">
                     <div class="product-details name">{{ details.title }}</div>
-                    <div class="product-details price">{{details.price}}</div>
+                    <div class="product-details price">{{details.amount}}</div>
                 </div>
             </div>
 
-            <div class="product-pay-guide">
-                <strong v-if="details.payment_type===kakao">결제하신 카카오페이머니로 입금 되었습니다.</strong>
-                <strong v-else>직접 결제 되었습니다.</strong>
-            </div>
+
         </div>
 
         <hr class="product-line">
@@ -73,10 +71,7 @@ onMounted(async () => {
 
             <div class="details-content">
                 <div class="content-status">
-                    <div class="details-content-order wrap">
-                        <div>상품금액</div>
-                        <strong class="money">{{ details.price }} 원</strong>
-                    </div>
+                    
                     <div class="details-content-pay wrap">
                         <strong>결제금액</strong>
                         <strong class="money">{{details.amount}} 원</strong>
@@ -86,7 +81,7 @@ onMounted(async () => {
 
             </div>
 
-            <button id="add-review" v-if="details.review_id===null"
+            <button id="add-review" v-if="details.reviewIdx===null"
                 class="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 data-ripple-light="true">
                 후기 작성하기
