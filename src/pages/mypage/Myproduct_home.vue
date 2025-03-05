@@ -1,25 +1,29 @@
 <script setup>
-import { onBeforeMount } from "vue";
+import { computed, onBeforeMount } from "vue";
 import { useRoute } from 'vue-router';
 import myproductstores from "./Myproductstores.vue";
 import mystoreReviews from "./MystoreReviews.vue";
 import { useProductReview } from "../../stores/useProductReview";
+import { useProductStore } from "../../stores/useProductStore";
 
 const user = useProductReview();
+const review = useProductReview();
+const product = useProductStore();
 
 const route = useRoute();
 const idx = route.params.idx;
-console.log(idx);
 
 onBeforeMount(async () => {
   await user.fetchproductuser();
+  await review.fetchstorereview(idx);
+  await product.fetchProducts(idx);
 });
 </script>
 
 <script>
 export default {
   name: "Myproduct_Home",
-  components: { myproductstores, mystoreReviews },
+  components: { mystoreReviews, mystoreReviews },
 };
 </script>
 
@@ -133,23 +137,23 @@ export default {
           >
             <router-link
               class="text-center p-4 border rounded shadow hover:bg-gray-100"
-              to="/myproduct_home/myproductstores"
+              :to="`/myproduct_home/myproductstores/${idx}`"
               @click="flag = true"
             >
               상품
               <span class="nav-link font-bold text-blue-500">
-                {{ user.user.products }}
+                {{ product.products.length }}
               </span>
             </router-link>
 
             <router-link
               class="text-center p-4 border rounded shadow hover:bg-gray-100"
-              to="/myproduct_home/mystoreReviews"
+              :to="`/myproduct_home/mystoreReviews/${idx}`"
               @click="flag = false"
             >
               상점후기
               <span class="nav-link font-bold text-blue-500">
-                {{ user.user.store_reviews }}
+                {{ review.reviews.length }}
               </span>
             </router-link>
           </nav>
