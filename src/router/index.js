@@ -132,7 +132,7 @@ const routes = [
     meta: { showHeader: true, showFooter: true},
   },
   {
-    path: '/review/:id',
+    path: '/review/:idx',
     name: 'Review',
     component: Review,
     meta: { showHeader: true, showFooter: true },

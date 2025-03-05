@@ -1,5 +1,5 @@
 <script setup>
-import { ref,onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { usePaymentStore } from "../../stores/usePaymentStore";
 import { useLoadingStore } from "../../stores/useLoadingStore"
 import { useRoute } from 'vue-router'; // useRoute로 라우트 정보 가져오기
@@ -20,76 +20,78 @@ onMounted(async () => {
     loadingStore.startLoading(); //데이터 로드 전에 loadingStore.startLoading() 호출.
     const response = await paymentStore.paymentDetails(idx);  // 비동기 작업
     console.log(response);
-    details.value=response;    
+    details.value = response;
     loadingStore.stopLoading(); // 데이터 로드 후 loadingStore.stopLoading()호출.
 });
 </script>
 
 <template>
-<div class="body">
-    <div class="container">
-        <router-link :to="`/paymentList/${details.memberIdx}`" class="title">
-            <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img">
-                <path
-                    d="M14.265 19.537a.9.9 0 1 0 1.27-1.274l-8.362-8.34 8.365-8.387A.9.9 0 0 0 14.263.264l-9 9.024a.902.902 0 0 0 .002 1.273l9 8.976z"
-                    fill="#1e1d29" fill-rule="evenodd"></path>
-            </svg>
-            <h1 class="paymentList"><strong>주문상세</strong></h1>
-        </router-link>
+    <div class="body">
+        <div class="container">
+            <router-link :to="`/paymentList/${details.memberIdx}`" class="title">
+                <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img">
+                    <path
+                        d="M14.265 19.537a.9.9 0 1 0 1.27-1.274l-8.362-8.34 8.365-8.387A.9.9 0 0 0 14.263.264l-9 9.024a.902.902 0 0 0 .002 1.273l9 8.976z"
+                        fill="#1e1d29" fill-rule="evenodd"></path>
+                </svg>
+                <h1 class="paymentList"><strong>주문상세</strong></h1>
+            </router-link>
 
-        <div class="order wrap">
-            <div class="order-date"><strong>{{ details.orderCreatedAt }}</strong></div>
-            <div class="orderNUM">주문번호 {{ details.orderIdx }}</div>
-        </div>
-
-
-        <div class="product-status">
-            <div class="pay-status">
-                <strong>{{ details.orderStatus }}</strong>
+            <div class="order wrap">
+                <div class="order-date"><strong>{{ details.orderCreatedAt }}</strong></div>
+                <div class="orderNUM">주문번호 {{ details.orderIdx }}</div>
             </div>
 
 
-            <hr>
-            <div class="product wrap">
-                <img :src="details.bookImg" alt="">
-
-                <div class="product-details">
-                    <div class="product-details name">{{ details.title }}</div>
-                    <div class="product-details price">{{details.amount}}</div>
+            <div class="product-status">
+                <div class="pay-status">
+                    <strong>{{ details.orderStatus }}</strong>
                 </div>
-            </div>
 
 
-        </div>
+                <hr>
+                <div class="product wrap">
+                    <img :src="details.bookImg" alt="">
 
-        <hr class="product-line">
-
-        <div class="product-pay-details">
-            <h2>
-                <Strong>결제정보</Strong>
-            </h2>
-
-            <div class="details-content">
-                <div class="content-status">
-                    
-                    <div class="details-content-pay wrap">
-                        <strong>결제금액</strong>
-                        <strong class="money">{{details.amount}} 원</strong>
+                    <div class="product-details">
+                        <div class="product-details name">{{ details.title }}</div>
+                        <div class="product-details price">{{ details.amount }}</div>
                     </div>
                 </div>
 
 
             </div>
 
-            <button id="add-review" v-if="details.reviewIdx===null"
-                class="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                data-ripple-light="true">
-                후기 작성하기
-            </button>
-        </div>
+            <hr class="product-line">
 
+            <div class="product-pay-details">
+                <h2>
+                    <Strong>결제정보</Strong>
+                </h2>
+
+                <div class="details-content">
+                    <div class="content-status">
+
+                        <div class="details-content-pay wrap">
+                            <strong>결제금액</strong>
+                            <strong class="money">{{ details.amount }} 원</strong>
+                        </div>
+                    </div>
+
+
+                </div>
+                <router-link :to="`/review/${details.orderIdx}`" v-if="details.reviewIdx === null">
+                    <button id="add-review"
+                        class="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        data-ripple-light="true">
+                        후기 작성하기
+                    </button>
+                </router-link>
+
+            </div>
+
+        </div>
     </div>
-</div>
 
 </template>
 
