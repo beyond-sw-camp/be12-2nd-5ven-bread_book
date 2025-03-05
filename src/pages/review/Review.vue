@@ -1,11 +1,14 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue';
 import { usePaymentStore } from '../../stores/usePaymentStore';
+import { useMemberStore } from '../../stores/useMemberStore';
 import { useRoute, useRouter } from 'vue-router';
 const score = ref(0);
 const checkScore = ref(0);
 const checkFlag = ref(false);
 const reviewText = ref('');
+const agree = ref(false);
+
 const checkStar = (index) => {
     checkFlag.value = true;
     checkScore.value = index;
@@ -20,17 +23,38 @@ const outStar = (index) => {
 const los = computed(() => {
     return reviewText.value.length;
 })
+const command = computed(() => {
+    return reviewText.value;
+})
+
+
 const paymentStore = usePaymentStore();
+const memberStore = useMemberStore();
 const route = useRoute();
 const router = useRouter();
-const product = ref({});
+const order = ref({});
 onMounted(async () => {
-    const res = await paymentStore.order(route.params.id);
-    product.value = res;
+    const res = await paymentStore.paymentDetails(route.params.idx);
+    order.value = res;
 })
 const goBack = () => {
     router.go(-1);
 }
+
+const reviewAdd = async () => {
+    const requestData = {
+        rating: checkScore.value,
+        los: los.value,
+        reviewText: command.value,
+        agree: agree.value,
+        memberIdx: memberStore.member.idx,
+        orderIdx:route.params.idx
+    };
+
+    
+    const result = await paymentStore.reviewRegist(requestData);
+    router.push(`/order/orderDetails/${route.params.idx}`);
+};
 </script>
 
 <template>
@@ -51,11 +75,11 @@ const goBack = () => {
             <div class="mt-4">
                 <h2 class="text-sm font-bold mb-4">이 상품 어떠셨나요?</h2>
                 <div class="flex items-start gap-4">
-                    <img :src="product.book_image" alt="Product Image" class="w-20 h-20 object-contain border">
+                    <img :src="order.bookImg" alt="Product Image" class="w-20 h-20 object-contain border">
                     <div>
-                        <p class="text-sm font-semibold">{{ product.title }}</p>
-                        <p class="text-sm text-gray-500">{{ product.username }}</p>
-                        <p class="text-sm text-gray-500">{{ product.amount }}원</p>
+                        <p class="text-sm font-semibold">{{ order.title }}</p>
+                        <p class="text-sm text-gray-500">{{ order.username }}</p>
+                        <p class="text-sm text-gray-500">{{ order.amount }}원</p>
                     </div>
                 </div>
                 <div class="mt-4 flex gap-1">
@@ -96,7 +120,7 @@ const goBack = () => {
         <!-- Agreement Section -->
         <div class="bg-white p-4 mt-4 shadow-sm">
             <div class="flex items-start gap-2">
-                <input type="checkbox" id="agree" class="w-4 h-4">
+                <input type="checkbox" id="agree" v-model="agree" class="w-4 h-4">
                 <label for="agree" class="text-sm text-gray-500">
                     전체 동의하기 <br>
                     작성된 후기는 무상 제공 콘텐츠로 사용될 수 있습니다. (필수)
@@ -104,7 +128,7 @@ const goBack = () => {
             </div>
         </div>
         <div class="relative">
-            <button class="bg-black text-white text-sm font-bold py-3 px-8 rounded-lg absolute right-0">등록하기</button>
+            <button @click="reviewAdd" class="bg-black text-white text-sm font-bold py-3 px-8 rounded-lg absolute right-0">등록하기</button>
         </div>
     </main>
 

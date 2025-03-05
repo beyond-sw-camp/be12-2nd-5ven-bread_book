@@ -60,5 +60,13 @@ export const usePaymentStore = defineStore('payment', {
             
         },
 
+        async reviewRegist(requestData) {
+            const response = await axios.post(
+                "/api/review/regist",requestData
+            );
+            console.log(response.data.data);
+            return response.data.data;
+        },
+
     }
 })
