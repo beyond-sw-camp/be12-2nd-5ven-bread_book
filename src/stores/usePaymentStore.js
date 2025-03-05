@@ -40,7 +40,8 @@ export const usePaymentStore = defineStore('payment', {
         async orders(idx) {
             console.log(idx);
             const response = await axios.post("/api/order/orderList",{idx:idx});
-                this.ordersList = response.data;
+            console.log(response.data);
+            this.ordersList = response.data.data;
         },
 
 
