@@ -15,11 +15,15 @@ export const useMemberStore = defineStore('member', {
         storage: sessionStorage,
     },
     actions: {
-        async fetchMemberWithId(user) {
+        async login(user) {
             const response = await axios.post("/api/user/login", {userId:user.id, password:user.pw});
             if(response.status == 200) {
                 this.isLogin = true;
             }
+            return response;
+        },
+        async fetchMember() {
+            const response = await axios.post("/api/user/info")
             return response;
         },
         async findId(user) {
@@ -32,6 +36,14 @@ export const useMemberStore = defineStore('member', {
         },
         async changePw(passwords) {
             const response = await axios.post("/api/user/password/reset", passwords);
+            return response;
+        },
+        async modifyInfo(formData) {
+            const response = await axios.post("/api/user/modify", formData, {
+                headers: {
+                    "Content-Type" : "multipart/form-data"
+                }
+            });
             return response;
         },
         async signup(user) {
