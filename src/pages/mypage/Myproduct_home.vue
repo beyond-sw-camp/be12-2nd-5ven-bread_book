@@ -1,15 +1,18 @@
 <script setup>
-import { computed, onBeforeMount } from "vue";
+import { onBeforeMount } from "vue";
 import { useRoute } from 'vue-router';
-import myproductstores from "./Myproductstores.vue";
 import mystoreReviews from "./MystoreReviews.vue";
 import { useProductReview } from "../../stores/useProductReview";
+import { useProductStore } from "../../stores/useProductStore";
 
 const user = useProductReview();
 
 const route = useRoute();
 const idx = route.params.idx;
 console.log(idx);
+
+const product = useProductStore();
+const review = useProductReview();
 
 onBeforeMount(async () => {
   await user.fetchproductuser();
@@ -18,12 +21,12 @@ onBeforeMount(async () => {
 });
 </script>
 
-<!-- <script>
+<script>
 export default {
   name: "Myproduct_Home",
   components: { mystoreReviews, mystoreReviews },
 };
-</script> -->
+</script>
 
 <template>
   <div class="pt-16 bg-white">
@@ -156,7 +159,7 @@ export default {
             </router-link>
           </nav>
 
-          <router-view></router-view>
+          <router-view></router-view> 
         </div>
       </div>
     </main>

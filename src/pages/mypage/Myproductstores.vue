@@ -5,10 +5,10 @@ import { useRoute } from "vue-router";
 
 const store = useProductStore();
 const route = useRoute();
+const idx = route.params.idx;
 
 onMounted(async () => {
-  await store.fetchProducts(route.params.idx);
-  console.log(store);
+  await store.fetchProducts(idx);
 });
 </script>
 
@@ -25,10 +25,10 @@ export default {
     <div
       class="p-3 w-full max-w-sm mx-auto rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl hover:transform hover:scale-105 duration-300"
       v-for="(store, idx) in store.products"
-      :key="`store-${idx}`"
+      :key="`store.products-${idx}`"
       :store="store"
     >
-      <router-link :to="`/product_detail/${store.id}`">
+      <router-link :to="`/product_detail/${store.idx}`">
         <button
           class="w-full h-56 bg-cover rounded-md"
           :style="{ backgroundImage: `url(${store.imageUrl})` }"
