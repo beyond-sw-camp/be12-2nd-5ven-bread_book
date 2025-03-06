@@ -11,7 +11,7 @@ const pw = ref('');
 
 const login = async () => {
     console.log("loginClicked");
-    const response = await memberStore.fetchMemberWithId({id:id.value, pw:pw.value});
+    const response = await memberStore.login({id:id.value, pw:pw.value});
     console.log(response);
     if(response.status != 200) {
         alert("계정이 존재하지 않거나 비밀번호가 틀렸습니다.")

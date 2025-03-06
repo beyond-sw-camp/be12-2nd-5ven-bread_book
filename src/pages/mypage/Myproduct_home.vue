@@ -1,28 +1,27 @@
 <script setup>
-import { onBeforeMount } from "vue";
+import { computed, onBeforeMount } from "vue";
 import { useRoute } from 'vue-router';
 import myproductstores from "./Myproductstores.vue";
 import mystoreReviews from "./MystoreReviews.vue";
 import { useProductReview } from "../../stores/useProductReview";
-import { ref } from "vue";
-
 
 const user = useProductReview();
 
-
 const route = useRoute();
 const idx = route.params.idx;
-
+console.log(idx);
 
 onBeforeMount(async () => {
   await user.fetchproductuser();
+  await review.fetchstorereview(idx);
+  await product.fetchProducts(idx);
 });
 </script>
 
 <script>
 export default {
   name: "Myproduct_Home",
-  components: { myproductstores, mystoreReviews },
+  components: { mystoreReviews, mystoreReviews },
 };
 </script>
 
@@ -41,7 +40,7 @@ export default {
               <!-- 프로필 이미지 -->
               <div class="w-28 h-28 rounded-full overflow-hidden items-center">
                 <img
-                  :src="user.user.image_url"
+                  :src="'/images' + user.user.image_url"
                   alt="프로필 이미지"
                   class="w-full h-full object-cover"
                 />
@@ -141,7 +140,7 @@ export default {
             >
               상품
               <span class="nav-link font-bold text-blue-500">
-                {{ user.user.products }}
+                {{ product.products.length }}
               </span>
             </router-link>
 
@@ -152,7 +151,7 @@ export default {
             >
               상점후기
               <span class="nav-link font-bold text-blue-500">
-                {{ user.user.store_reviews }}
+                {{ review.reviews.length }}
               </span>
             </router-link>
           </nav>
