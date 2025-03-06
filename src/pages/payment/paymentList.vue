@@ -23,7 +23,7 @@ let titles;
 const labelText = ref("상품명으로 검색");
 
 onMounted(async () => {
-    loadingStore.startLoading(); //데이터 로드 전에 loadingStore.startLoading() 호출.
+    // loadingStore.startLoading(); //데이터 로드 전에 loadingStore.startLoading() 호출.
     
 });
 
@@ -74,8 +74,6 @@ const closeDropdown = () => {
 // 항목 선택 시 처리
 const selectItem = (item) => {
     labelText.value=item;
-//    placeholderText.value = item;
-    //    searchTitle.value = item;  // 선택된 항목의 이름을 검색창에 입력
 };
 </script>
 

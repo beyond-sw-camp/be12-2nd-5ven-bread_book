@@ -4,12 +4,15 @@ import { useRoute } from 'vue-router';
 import myproductstores from "./Myproductstores.vue";
 import mystoreReviews from "./MystoreReviews.vue";
 import { useProductReview } from "../../stores/useProductReview";
+import { ref } from "vue";
+
 
 const user = useProductReview();
 
+
 const route = useRoute();
 const idx = route.params.idx;
-console.log(idx);
+
 
 onBeforeMount(async () => {
   await user.fetchproductuser();
@@ -133,7 +136,7 @@ export default {
           >
             <router-link
               class="text-center p-4 border rounded shadow hover:bg-gray-100"
-              to="/myproduct_home/myproductstores"
+              :to="`/myproduct_home/myproductstores/${idx}`"
               @click="flag = true"
             >
               상품
@@ -144,7 +147,7 @@ export default {
 
             <router-link
               class="text-center p-4 border rounded shadow hover:bg-gray-100"
-              to="/myproduct_home/mystoreReviews"
+              :to="`/myproduct_home/mystoreReviews/${idx}`"
               @click="flag = false"
             >
               상점후기
