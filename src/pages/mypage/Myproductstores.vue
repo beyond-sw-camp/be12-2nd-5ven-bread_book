@@ -6,6 +6,10 @@ import { useRoute } from "vue-router";
 const store = useProductStore();
 const route = useRoute();
 
+const sortedProdcut = computed(() => {
+  return store.products.slice().sort((a , b) => b.idx - a.idx);
+});
+
 onMounted(async() => {
   await store.fetchProducts(route.params.idx);
   console.log(store);
@@ -22,7 +26,7 @@ export default {
   <div class="mx-auto grid max-w-6xl grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <div 
         class="p-3 w-full max-w-sm mx-auto rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl hover:transform hover:scale-105 duration-300"
-        v-for="(store, idx) in store.products"
+        v-for="(store, idx) in sortedProdcut"
         :key="`store-${idx}`" :store="store"
       >
         <router-link :to="`/product_detail/${store.id}`">
