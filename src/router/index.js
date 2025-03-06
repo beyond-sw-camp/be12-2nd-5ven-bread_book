@@ -185,10 +185,7 @@ const routes = [
         name: 'Myproductstores', 
         component: Myproductstores,
        },
-      { 
-        path: 'mystoreReviews/:idx',
-        name: 'MystoreReviews', 
-        component: MystoreReviews,
+      { path: "mystoreReviews", name: 'MystoreReviews', component: MystoreReviews,
        }
     ],
     meta: { showHeader: true, showFooter: true },

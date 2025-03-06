@@ -4,14 +4,12 @@ import { useRoute } from 'vue-router';
 import myproductstores from "./Myproductstores.vue";
 import mystoreReviews from "./MystoreReviews.vue";
 import { useProductReview } from "../../stores/useProductReview";
-import { useProductStore } from "../../stores/useProductStore";
 
 const user = useProductReview();
-const review = useProductReview();
-const product = useProductStore();
 
 const route = useRoute();
 const idx = route.params.idx;
+console.log(idx);
 
 onBeforeMount(async () => {
   await user.fetchproductuser();
