@@ -40,7 +40,7 @@ onMounted(async () => {
   newUser.value.gender = user.value.gender;
   newUser.value.birthDate = user.value.birthDate;
   console.log(newUser.value);
-  previewImage.value = "/image" + user.value.profileImgUrl;
+  previewImage.value = "/images" + user.value.profileImgUrl;
 })
 
 </script>
