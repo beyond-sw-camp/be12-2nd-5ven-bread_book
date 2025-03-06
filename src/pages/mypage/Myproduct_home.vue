@@ -18,12 +18,12 @@ onBeforeMount(async () => {
 });
 </script>
 
-<script>
+<!-- <script>
 export default {
   name: "Myproduct_Home",
   components: { mystoreReviews, mystoreReviews },
 };
-</script>
+</script> -->
 
 <template>
   <div class="pt-16 bg-white">
