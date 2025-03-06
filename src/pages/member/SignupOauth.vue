@@ -2,14 +2,18 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useMemberStore } from '../../stores/useMemberStore';
-
+import { useLoadingStore } from '../../stores/useLoadingStore';
 
 const router = useRouter();
+const loadginStore = useLoadingStore();
+
 const user = ref({});
 
 const memberStore = useMemberStore();
 const signup = async () => {
+    loadginStore.startLoading();
     const response = await memberStore.signupOauth(user.value);
+    loadginStore.stopLoading();
     if(response.status == 200)
         router.push('/signup_success');
 }
