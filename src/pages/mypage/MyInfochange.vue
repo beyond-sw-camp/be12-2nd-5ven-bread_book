@@ -1,8 +1,13 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useMemberStore } from '../../stores/useMemberStore';
+import { useLoadingStore } from '../../stores/useLoadingStore';
+import { useRouter } from 'vue-router';
 
+const loadingStore = useLoadingStore();
 const memberStore = useMemberStore();
+const router = useRouter();
+
 const previewImage = ref(null);
 const user = ref({});
 const newUser = ref({});
@@ -20,6 +25,7 @@ const handleImageUpload = (event) => {
 };
 
 const submit = async () => {
+  loadingStore.startLoading();
   const formData = new FormData();
   formData.append("dto", new Blob([JSON.stringify(newUser.value)], { type: "application/json" }));
   if (file.value) {
@@ -29,6 +35,12 @@ const submit = async () => {
   console.log(formData);
   const response = await memberStore.modifyInfo(formData);
   console.log(response);
+  loadingStore.stopLoading();
+  if(response.data.isSuccess) {
+    router.push(-1);
+  } else {
+    alert(response.data.message);
+  }
 }
 
 onMounted(async () => {

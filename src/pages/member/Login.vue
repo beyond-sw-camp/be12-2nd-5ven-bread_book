@@ -2,16 +2,20 @@
 import { ref } from "vue";
 import { useMemberStore } from "../../stores/useMemberStore";
 import { useRouter } from "vue-router";
+import { useLoadingStore } from "../../stores/useLoadingStore";
 
 const memberStore = useMemberStore();
 const router = useRouter();
+const loadginStore = useLoadingStore();
 
 const id = ref('');
 const pw = ref('');
 
 const login = async () => {
     console.log("loginClicked");
+    loadginStore.startLoading();
     const response = await memberStore.login({id:id.value, pw:pw.value});
+    loadginStore.stopLoading();
     console.log(response);
     if(response.status != 200) {
         alert("계정이 존재하지 않거나 비밀번호가 틀렸습니다.")

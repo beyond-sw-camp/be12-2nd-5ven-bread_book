@@ -2,8 +2,9 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useMemberStore } from '../../stores/useMemberStore';
+import { useLoadingStore } from '../../stores/useLoadingStore';
 
-
+const loadginStore = useLoadingStore();
 const router = useRouter();
 
 const show = ref(false);
@@ -16,8 +17,15 @@ const user = ref({});
 
 const memberStore = useMemberStore();
 const signup = async () => {
+    loadginStore.startLoading();
     const response = await memberStore.signup(user.value);
-    router.push('/signup_success');
+    loadginStore.stopLoading();
+    if(response.data.isSuccess){
+        router.push('/signup_success');
+    } else {
+        alert(response.data.message);
+    }
+    
 }
 </script>
 

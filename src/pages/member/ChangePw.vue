@@ -2,10 +2,12 @@
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useMemberStore } from '../../stores/useMemberStore';
+import { useLoadingStore } from '../../stores/useLoadingStore';
 
 const route = useRoute();
 const router = useRouter();
 const memberStore = useMemberStore();
+const loadingStore = useLoadingStore();
 
 const uuid = route.params.uuid;
 const old_password = ref('');
@@ -26,7 +28,9 @@ const changePassword = async () => {
         alert("새 비밀번호와 새 비밀번호 확인 값이 다릅니다.");
         return;
     }
+    loadingStore.startLoading();
     const response = await memberStore.changePw({uuid: uuid, oldPassword: old_password.value, newPassword: new_password.value});
+    loadingStore.stopLoading();
     alert(response.data.message);
     if(response.data.isSuccess) {
         router.push('/login');
