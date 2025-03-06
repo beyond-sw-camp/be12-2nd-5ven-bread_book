@@ -11,20 +11,22 @@ const loadginStore = useLoadingStore();
 const id = ref('');
 const pw = ref('');
 
+const templogin = "ID : test01\nPW : qwer1234"
+
 const login = async () => {
     console.log("loginClicked");
     loadginStore.startLoading();
-    const response = await memberStore.login({id:id.value, pw:pw.value});
+    const response = await memberStore.login({ id: id.value, pw: pw.value });
     loadginStore.stopLoading();
     console.log(response);
-    if(response.status != 200) {
+    if (response.status != 200) {
         alert("계정이 존재하지 않거나 비밀번호가 틀렸습니다.")
     } else {
         router.go(-1);
     }
 }
 const socialLogin = async (provider) => {
-    window.location.href = "http://localhost:5173/api/oauth2/authorization/"+provider;
+    window.location.href = "http://localhost:5173/api/oauth2/authorization/" + provider;
     // const response = await memberStore.socialLogin(provider);
     console.log(response);
 }
@@ -35,19 +37,22 @@ const socialLogin = async (provider) => {
     <div class="min-h-screen flex flex-col items-center justify-center bg-gray-300">
         <div class="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-md">
             <div class="font-medium self-center text-xl sm:text-2xl uppercase text-gray-800">로그인</div>
-            <button @click="socialLogin('naver')" class="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
+            <button @click="socialLogin('naver')"
+                class="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
                 <span class="absolute left-0 top-0 flex items-center justify-center h-full w-10 text-blue-500">
                     <img src="/src/assets/icon/naverBtn.png" width="30" height="30" alt="Naver logo icon">
                 </span>
                 <span>네이버로 로그인</span>
             </button>
-            <button @click="socialLogin('kakao')" class="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
+            <button @click="socialLogin('kakao')"
+                class="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
                 <span class="absolute left-0 top-0 flex items-center justify-center h-full w-10 text-blue-500">
                     <img src="/src/assets/icon/kakaotalkBtn.png" width="20" height="20" alt="Kakao logo icon">
                 </span>
                 <span>카카오로 로그인</span>
             </button>
-            <button @click="socialLogin('google')"class="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
+            <button @click="socialLogin('google')"
+                class="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
                 <span class="absolute left-0 top-0 flex items-center justify-center h-full w-10 text-black-500"><i
                         class="fab fa-google"></i></span>
                 <span>구글로 로그인</span>
@@ -99,14 +104,16 @@ const socialLogin = async (provider) => {
 
                     <div class="flex items-center mb-6 -mt-4">
                         <div class="flex ml-auto">
-                            <router-link to="/find_id_pw" class="inline-flex text-xs sm:text-sm text-blue-500 hover:text-blue-700">비밀번호를 잊으셨나요?</router-link>
+                            <router-link to="/find_id_pw"
+                                class="inline-flex text-xs sm:text-sm text-blue-500 hover:text-blue-700">비밀번호를
+                                잊으셨나요?</router-link>
                         </div>
                     </div>
 
                     <div class="flex w-full">
                         <button
                             class="flex items-center justify-center focus:outline-none text-white text-sm sm:text-base bg-blue-600 hover:bg-blue-700 rounded py-2 w-full transition duration-150 ease-in">
-                            <span class="mr-2 uppercase">임시 로그인</span>
+                            <span class="mr-2 uppercase">로그인</span>
                             <span>
                                 <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -118,7 +125,7 @@ const socialLogin = async (provider) => {
                 </form>
             </div>
             <div class="flex justify-center items-center mt-6">
-                <router-link to="/signup" 
+                <router-link to="/signup"
                     class="inline-flex items-center font-bold text-blue-500 hover:text-blue-700 text-xs text-center">
                     <span>
                         <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -130,6 +137,11 @@ const socialLogin = async (provider) => {
                     <span class="ml-2">회원가입</span>
                 </router-link>
             </div>
+        </div>
+        <div class="fixed bottom-4 right-4 bg-yellow-200 p-3 rounded-lg shadow-md w-48">
+            <h3 class="text-xs font-bold text-gray-700 mb-1">📌 임시 로그인</h3>
+            <textarea v-model="templogin" readonly class="w-full h-20 text-xs p-1 rounded-md border border-gray-400 focus:outline-none focus:border-blue-400"></textarea>
+            <!-- <div>ID : test01 <br> PW : qwer1234</div> -->
         </div>
     </div>
 </template>
