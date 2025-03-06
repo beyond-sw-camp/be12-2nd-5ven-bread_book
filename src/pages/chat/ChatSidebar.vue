@@ -4,16 +4,20 @@
       <h1 class="text-2xl font-semibold">채팅 목록</h1>
     </header>
     <div class="overflow-y-auto h-full p-3 pb-20 scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-200">
-      <ChatRoomListItem v-for="room in chatRoomsRef" :key="room.roomIdx" :room="room"
-        @click="() => changeChatRoom(room.roomIdx)" />
-
+      <ChatRoomListItem
+        v-for="room in chatRoomsRef"
+        :key="room.roomIdx"
+        :room="room"
+        :class="{ 'bg-gray-200': selectedRoomIdx === room.roomIdx }"
+        @click="() => changeChatRoom(room.roomIdx)"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, watch, onMounted, onBeforeUnmount } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import ChatRoomListItem from "./ChatRoomListItem.vue";
 import { Client } from "@stomp/stompjs";
 
@@ -29,37 +33,45 @@ const props = defineProps({
 });
 
 const router = useRouter();
+const route = useRoute();
 
-// chatRooms를 반응형 데이터로 관리
 const chatRoomsRef = ref([...props.chatRooms]);
-
+const selectedRoomIdx = ref(route.params.roomIdx ? Number(route.params.roomIdx) : null);
 let stompClient = null;
 
 onMounted(() => {
   connectWebSocket();
 });
 
-// chatRooms가 변경될 때마다 새로운 채팅방을 구독
+// URL 변경 감지하여 선택된 채팅방 업데이트
+watch(
+  () => route.params.roomIdx,
+  (newRoomIdx) => {
+    selectedRoomIdx.value = newRoomIdx ? Number(newRoomIdx) : null;
+  }
+);
+
+// chatRooms가 변경될 때마다 새로운 채팅방을 반영
 watch(
   () => props.chatRooms,
   (newChatRooms) => {
-    console.log(" 채팅방 목록 업데이트됨:", newChatRooms);
-    chatRoomsRef.value = newChatRooms; // 
+    console.log("채팅방 목록 업데이트됨:", newChatRooms);
+    chatRoomsRef.value = newChatRooms;
   },
   { deep: true }
 );
 
 function changeChatRoom(roomIdx) {
   console.log(`채팅방 변경: ${roomIdx}`);
-  router.push(`/chat/${roomIdx}`);  // 
+  selectedRoomIdx.value = roomIdx;
+  router.push(`/chat/${roomIdx}`);
 }
-
 
 // WebSocket 연결 함수
 function connectWebSocket() {
   if (stompClient) {
-    console.log("🔌 기존 WebSocket 연결 해제 후 재연결...");
-    stompClient.deactivate(); // 기존 연결 해제
+    console.log("기존 WebSocket 연결 해제 후 재연결...");
+    stompClient.deactivate();
     stompClient = null;
   }
 
@@ -67,12 +79,12 @@ function connectWebSocket() {
     brokerURL: "ws://localhost:8080/ws",
     reconnectDelay: 5000,
     onConnect: () => {
-      console.log("✅ WebSocket 연결됨");
+      console.log("ebSocket 연결됨");
       chatRoomsRef.value.forEach((room) => {
-        console.log(`📡 채팅방 구독: /topic/room/${room.roomIdx}`);
+        console.log(`채팅방 구독: /topic/room/${room.roomIdx}`);
         stompClient.subscribe(`/topic/room/${room.roomIdx}`, (message) => {
           const receivedMessage = JSON.parse(message.body);
-          console.log("📩 새 메시지 수신:", receivedMessage);
+          console.log("새 메시지 수신:", receivedMessage);
           const chatRoom = chatRoomsRef.value.find((r) => r.roomIdx === receivedMessage.roomIdx);
           if (chatRoom) {
             chatRoom.lastChat = receivedMessage.message;
@@ -81,13 +93,12 @@ function connectWebSocket() {
       });
     },
     onDisconnect: () => {
-      console.log("❌ WebSocket 연결 해제됨");
+      console.log("WebSocket 연결 해제됨");
     },
   });
 
   stompClient.activate();
 }
-
 
 // WebSocket 연결 해제 (컴포넌트 제거 시)
 onBeforeUnmount(() => {
