@@ -2,10 +2,10 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 
 export const useProductStore = defineStore('product', {
-    state: () => ({products: {}}),
+    state: () => ({products: []}),
     actions: {
         async fetchProducts(idx) {
-            const response = await axios.get(`/api/product/${idx}`);
+            const response = await axios.get(`/api/product/list/${idx}`);
             this.products = response.data;
         }
     }
