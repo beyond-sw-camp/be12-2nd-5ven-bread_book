@@ -63,7 +63,7 @@ onMounted(async () => {
           <!-- 프로필 이미지 미리보기 -->
           <div class="w-48 h-48 overflow-hidden border border-gray-300">
             <img
-              :src="previewImage || 'https://img-api.cboard.net/img_n.php?image_url=https://kin-phinf.pstatic.net/20241002_15/1727869906021QGGd1_JPEG/1727869906013.jpg'"
+              :src="'/images' + previewImage || 'https://img-api.cboard.net/img_n.php?image_url=https://kin-phinf.pstatic.net/20241002_15/1727869906021QGGd1_JPEG/1727869906013.jpg'"
               alt="프로필 이미지" class="w-full h-full object-cover" />
           </div>
         </div>

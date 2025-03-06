@@ -42,7 +42,7 @@ export default {
               <!-- 프로필 이미지 -->
               <div class="w-28 h-28 rounded-full overflow-hidden items-center">
                 <img
-                  :src="user.user.image_url"
+                  :src="'/image' + user.user.image_url"
                   alt="프로필 이미지"
                   class="w-full h-full object-cover"
                 />
