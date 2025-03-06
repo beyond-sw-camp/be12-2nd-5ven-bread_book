@@ -10,7 +10,7 @@ export const useMemberStore = defineStore('member', {
             email: "",
             nickname: "",
             provider: ""
-        }, isLogin: false}),
+        }, isLogin: true}),
     persist: {
         storage: sessionStorage,
     },

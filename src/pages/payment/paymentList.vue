@@ -24,9 +24,7 @@ const labelText = ref("상품명으로 검색");
 
 onMounted(async () => {
     loadingStore.startLoading(); //데이터 로드 전에 loadingStore.startLoading() 호출.
-    // await paymentStore.pays();
-    await paymentStore.orders(route.params.idx);
-    loadingStore.stopLoading(); // 데이터 로드 후 loadingStore.stopLoading()호출.
+    
 });
 
 

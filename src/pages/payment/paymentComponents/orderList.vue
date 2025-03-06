@@ -1,14 +1,21 @@
 <script setup>
 import { ref,watch,onMounted } from "vue";
 import { usePaymentStore } from "../../../stores/usePaymentStore";
-import { RouterLink } from "vue-router";
+import { RouterLink,useRoute } from "vue-router";
+import { useLoadingStore } from "../../../stores/useLoadingStore"
+
 
 const paymentStore = usePaymentStore();
 const option = ref("");
+const loadingStore = useLoadingStore(); //추가
+const route = useRoute();
 
 // onMounted에서 option 값 설정
-onMounted(() => {
+onMounted(async () => {
     option.value = "전체";  // 올바른 값 할당 방식
+    console.log(route.params.idx);
+    await paymentStore.orders(route.params.idx);
+    loadingStore.stopLoading(); 
 });
 
 watch(
@@ -20,7 +27,7 @@ watch(
 </script>
 
 <template>
-    <div v-for="order in paymentStore.ordersList" :key="order.productIdx">
+    <div v-for="order in paymentStore.ordersList" :key="order.orderIdx">
         <div class="product wrap" v-if="option==='전체' || option===order.orderStatus">
             <div class="product-main">
                 <div class="date wrap">
@@ -39,8 +46,8 @@ watch(
                 <div id="paymentStatus">{{ order.orderStatus }}</div>
 
                 <div class="product-details wrap">
-                    <router-link :to="`/paymentDetails/${order.orderIdx}`">
-                        <img :src="order.book_image" alt="">
+                    <router-link :to="`/order/orderDetails/${order.orderIdx}`">
+                        <img :src="order.bookImg" alt="">
                         <div class="product-details-information">
                             <strong>{{order.amount}}원</strong>
                             <div class="product-details-name">{{ order.title }}</div>

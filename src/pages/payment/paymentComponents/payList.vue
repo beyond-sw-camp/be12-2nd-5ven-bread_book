@@ -1,13 +1,16 @@
 <script setup>
 import { watch,onMounted,ref } from "vue";
 import { usePaymentStore } from "../../../stores/usePaymentStore";
+import { useRoute } from "vue-router";
 
 const paymentStore = usePaymentStore();
 const option = ref("");
+const route = useRoute();
 
 // onMounted에서 option 값 설정
-onMounted(() => {
+onMounted(async () => {
     option.value = "전체";  // 올바른 값 할당 방식
+    await paymentStore.pays(route.params.idx);
 });
 
 watch(
@@ -21,10 +24,10 @@ watch(
 
 <template>
     <div v-for="pay in paymentStore.paysList" :key="pay.id">
-        <div class="product wrap" v-if="option==='전체' || option===pay.product_status">
+        <div class="product wrap" v-if="option==='전체' || option===pay.productStatus">
             <div class="product-main">
                 <div class="date wrap">
-                    <strong>{{ pay.orders_created_at }}</strong>
+                    <strong>{{ pay.orderCreatedAt }}</strong>
                     <button style="margin-left: auto;">
                         <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img">
                             <path
@@ -36,11 +39,11 @@ watch(
 
                 <hr>
 
-                <div id="paymentStatus">{{ pay.product_status }}</div>
+                <div id="paymentStatus">{{ pay.productStatus }}</div>
 
                 <div class="product-details wrap">
-                    <router-link :to="`/paymentDetails/${pay.orders_id}`">
-                        <img :src="pay.book_image" alt="">
+                    <router-link :to="`/paymentDetails/${pay.orderIdx}`">
+                        <img :src="pay.bookImg" alt="">
                         <div class="product-details-information">
                             <strong>{{pay.amount}}원</strong>
                             <div class="product-details-name">{{ pay.title }}</div>

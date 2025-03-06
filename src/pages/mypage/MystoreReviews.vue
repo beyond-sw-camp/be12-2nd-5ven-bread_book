@@ -1,13 +1,35 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useProductReview } from "../../stores/useProductReview";
+import { useRoute } from "vue-router";
+import { formatDistanceToNow } from "date-fns";
+import { ko } from "date-fns/locale";
+
+
+const route = useRoute();
+const idx = route.params.idx;
 
 const review = useProductReview();
 const visibleReviewCount = ref(3);
 const showMoreCount = 3;
 
+// 리뷰를 idx 기준으로 내림차순 정렬
+const sortedReviews = computed(() => {
+  return review.reviews.slice().sort((a, b) => b.idx - a.idx);
+});
+
+// 시간차 
+// npm install date-fns
+// 으로 date-fns설치하고 코드 작성 해야함.
+const formatTimeAgo = (date) => {
+  return formatDistanceToNow(new Date(date), {
+    addSuffix: true, locale: ko
+  });
+};
+
+// 화면에 표시할 리뷰 계산
 const visibleReviews = computed(() => {
-  return review.reviews.slice(0, visibleReviewCount.value);
+  return sortedReviews.value.slice(0, visibleReviewCount.value);
 });
 
 const showMoreButton = computed(() => {
@@ -19,7 +41,7 @@ const showMoreReviews = () => {
 };
 
 onMounted(async () => {
-  await review.fetchstorereview();
+  await review.fetchstorereview(idx); // idx 전달
 });
 </script>
 
@@ -33,22 +55,19 @@ export default {
 <template>
   <div class="container mx-auto px-6">
     <div
-      v-for="(review, index) in visibleReviews"
-      :key="`review-${index}`"
-      :review="review"
-      class="review-item flex flex-col md:flex-row md:items-start mx-auto max-w-6xl"
-    >
+      v-for="(review, idx) in visibleReviews"
+      :key="`review-${idx}`" :review="review"
+      class="review-item flex flex-col md:flex-row md:items-start mx-auto max-w-6xl">
       <div class="w-full p-4 md:w-1/5">
-        <router-link to="/myproduct_home/myproductstores">
-          <a class="flex-shrink-0 mt-2 md:mt-4">
-            <div class="w-15 h-15 bg-gray-100 rounded-full overflow-hidden">
+        <router-link to="/myproduct_home/myproductstores"
+        class="flex-shrink-0 mt-2 md:mt-4">
+            <div class="w-20 h-20 bg-gray-100 rounded-full overflow-hidden">
               <img
-                src="https://cdn-icons-png.flaticon.com/512/2135/2135665.png"
+                :src="review.userimageurl"
                 alt="리뷰어 이미지"
                 class="w-full h-full object-cover"
               />
             </div>
-          </a>
         </router-link>
       </div>
 
@@ -57,10 +76,10 @@ export default {
           <router-link to="/myproduct_home/myproductstores" class="text-sm font-medium">{{
             review.userid
           }}</router-link>
-          <div class="text-xs text-gray-500">{{ review.reviewday8 }} 일 전</div>
+          <div class="text-xs text-gray-500">{{ formatTimeAgo(review.createtime) }}</div>
         </div>
 
-        <router-link :to="`/product_detail/${index+1}`" class="inline-block">
+        <router-link :to="`/product_detail/${idx+1}`" class="inline-block">
           <button
             class="flex items-center space-x-1 bg-gray-100 rounded px-2 mt-4 text-sm"
           >
@@ -72,7 +91,7 @@ export default {
         <div
           class="mt-4 text-gray-700 text-sm leading-relaxed rounded-lg p-3 max-h-32 overflow-y-auto"
         >
-          {{ review.comment }}
+          {{ review.content }}
         </div>
 
         <div class="border-t mt-4 pt-3 text-right">
