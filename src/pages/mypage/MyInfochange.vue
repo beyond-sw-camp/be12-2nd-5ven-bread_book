@@ -37,7 +37,7 @@ const submit = async () => {
   console.log(response);
   loadingStore.stopLoading();
   if(response.data.isSuccess) {
-    router.push(-1);
+    alert("수정이 완료되었습니다.");
   } else {
     alert(response.data.message);
   }
