@@ -17,6 +17,11 @@ const user = ref({});
 
 const memberStore = useMemberStore();
 const signup = async () => {
+    console.log(user, user.value.password, user.value.passwordre)
+    if(user.value.password !== user.value.passwordre) {
+        alert("비밀번호가 다릅니다.");
+        return;
+    }
     loadginStore.startLoading();
     const response = await memberStore.signup(user.value);
     loadginStore.stopLoading();

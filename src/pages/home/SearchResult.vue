@@ -4,7 +4,10 @@ import {useMainBookStore} from '/src/stores/useMainBookStore.js'// 책 관련 �
 
 import HomeSearchField from "/src/pages/home/HomeSearchField.vue";
 import SearchResultAside from "/src/pages/home/SearchResultAside.vue";
-import BookList from "/src/pages/common/BookList.vue";
+// [Test in progress] 백엔드 연동을 위해 임시 교체 시도중
+// import BookList from "/src/pages/common/BookList.vue";
+import BookList from "/src/pages/common/ProductList.vue";
+
 import {useLoadingStore} from "/src/stores/useLoadingStore";
 
 const loadingStore = useLoadingStore();
