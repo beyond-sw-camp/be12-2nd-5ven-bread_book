@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 import { useMemberStore } from '../../stores/useMemberStore';
 import { useLoadingStore } from '../../stores/useLoadingStore';
 
-const loadginStore = useLoadingStore();
+const loadingStore = useLoadingStore();
 const router = useRouter();
 
 const show = ref(false);
@@ -22,14 +22,22 @@ const signup = async () => {
         alert("비밀번호가 다릅니다.");
         return;
     }
-    loadginStore.startLoading();
-    const response = await memberStore.signup(user.value);
-    loadginStore.stopLoading();
-    if(response.data.isSuccess){
-        router.push('/signup_success');
-    } else {
-        alert(response.data.message);
+    loadingStore.startLoading();
+    try {
+        const response = await memberStore.signup(user.value);
+        if(response.data.isSuccess){
+            router.push('/signup_success');
+        } else {
+            alert(response.data.message);
+        }
+    } catch(error) {
+        console.log(error);
+        if(error.response.data.code == 404) {
+            alert(error.response.data.data);
+        }
     }
+    
+    loadingStore.stopLoading();
     
 }
 </script>
