@@ -116,6 +116,7 @@ onUnmounted(() => {
             >
               <span>마이페이지</span>
             </router-link>
+
             <router-link
               to="/wishlist"
               type="button"
@@ -192,16 +193,6 @@ onUnmounted(() => {
               exact-active-class="text-blue-500 font-bold"
             >
               채팅하기
-            </router-link>
-          </li>
-
-          <li>
-            <router-link
-              to="/wishlist"
-              type="button"
-              class="rounded mr-3 hidden border border-blue-700 bg-blue-700 py-1.5 px-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg"
-            >
-              <span>찜 목록</span>
             </router-link>
           </li>
         </ul>

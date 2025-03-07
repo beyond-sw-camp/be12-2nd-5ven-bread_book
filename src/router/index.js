@@ -208,7 +208,7 @@ const routes = [
     path: "/wishlist",
     name: "wishlist",
     component: WishList,
-    meta: { showHeader: true, showFooter: false },
+    meta: { showHeader: true, showFooter: true },
    }
 ]
 

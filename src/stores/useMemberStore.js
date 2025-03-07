@@ -13,7 +13,7 @@ export const useMemberStore = defineStore('member', {
             provider: ""
         }, 
         userInfo: {},
-        isLogin: true
+        isLogin: false
     }),
     persist: {
         storage: sessionStorage,
