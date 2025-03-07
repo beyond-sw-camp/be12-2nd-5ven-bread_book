@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import { useProductReview } from "../../stores/useProductReview";
+import { useReviewStore } from "../../stores/useReviewStore";
 import { useRoute } from "vue-router";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -9,7 +9,7 @@ import { ko } from "date-fns/locale";
 const route = useRoute();
 const idx = route.params.idx;
 
-const review = useProductReview();
+const review = useReviewStore();
 const visibleReviewCount = ref(3);
 const showMoreCount = 3;
 
@@ -56,7 +56,7 @@ export default {
 <template>
   <div class="container mx-auto px-6">
     <div
-      v-for="(review, idx) in visibleReviews"
+      v-for="(review, idx) in sortedReviews"
       :key="`review-${idx}`" :review="review"
       class="review-item flex flex-col md:flex-row md:items-start mx-auto max-w-6xl">
       <div class="w-full p-4 md:w-1/5">
@@ -64,7 +64,7 @@ export default {
         class="flex-shrink-0 mt-2 md:mt-4">
             <div class="w-20 h-20 bg-gray-100 rounded-full overflow-hidden">
               <img
-                :src="review.userimageurl"
+                :src="review.reviews"
                 alt="리뷰어 이미지"
                 class="w-full h-full object-cover"
               />

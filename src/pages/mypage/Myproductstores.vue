@@ -24,7 +24,7 @@ export default {
 };
 </script>
 
-  <template>
+<template>
   <div
     class="mx-auto grid max-w-6xl grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
   >
@@ -37,42 +37,56 @@ export default {
       <router-link :to="`/product_detail/${store.idx}`">
         <button
           class="w-full h-56 bg-cover rounded-md"
-          :style="{ backgroundImage: `url(${store.imageUrl})` }"
+          :style="{ backgroundImage: `url(${ store.firstImageUrl })` }"
         ></button>
       </router-link>
 
-      <div class="px-5 py-3">
-        <h3 class="text-gray-700 uppercase">{{ store.name }}</h3>
-        <span class="text-gray-500 mt-2">{{ store.price }}원</span>
-      </div>
-
       <template v-if="store.user_idx === currentUserId">
+        <div class="px-5 py-3">
+          <h3 class="text-gray-700 uppercase">
+            {{ store.title }}
+          </h3>
+
+          <span class="text-gray-500 mt-2"> {{ store.price }}원 </span>
+        </div>
+
         <div class="mt-1 p-2 flex items-end justify-between">
           <button
-            class="z-18 flex items-center space-x-1.5 rounded-lg bg-blue-400 px-2 py-1 text-white border-solid duration-100 hover:bg-blue-500"
+            class="z-18 flex items-center space-x-1.5 rounded-lg bg-blue-500 px-3 py-2 text-white border-solid duration-100 hover:bg-blue-500"
           >
-            <span class="text-sm truncate">수정</span>
+            <span class="text-sm truncate"> 수정 하기 </span>
           </button>
 
           <button
-            class="ml-0.5 z-18 flex items-center space-x-1.5 rounded-lg bg-blue-500 px-2 py-1 text-white duration-100 hover:bg-blue-600"
+            class="ml-1 z-18 flex items-center space-x-1.5 rounded-lg bg-blue-500 px-3 py-2 text-white duration-100 hover:bg-blue-600"
           >
-            <span class="text-sm truncate">삭제</span>
+            <span class="text-sm truncate"> 삭제 하기 </span>
           </button>
         </div>
       </template>
 
       <template v-else>
+        <div class="px-5 py-3">
+          <h3 class="text-gray-700 uppercase">
+            {{ store.name }}
+          </h3>
+        </div>
+
         <div class="flex items-end justify-between">
+          <p class="text-lg font-bold text-blue-500">
+            {{ store.price }}원
+          </p>
+
           <button
             v-if="book.wish"
             @click.prevent="onWishButton(book)"
             class="z-18 flex items-center space-x-1.5 rounded-lg bg-blue-500 px-2 py-1.5 text-white duration-100 hover:bg-blue-600"
           >
             <img id="starIcon" src="/src/assets/icon/white-star.svg" alt="찜" />
-            <span class="text-sm truncate">찜하기</span>
+
+            <span class="text-sm truncate"> 찜하기 </span>
           </button>
-          
+
           <button
             v-if="!book.wish"
             @click.prevent="onWishButton(book)"
@@ -83,11 +97,12 @@ export default {
               src="/src/assets/icon/yellow-star-filled.svg"
               alt="찜"
             />
-            <span class="text-sm truncate">해제하기</span>
+
+            <span class="text-sm truncate"> 해제하기 </span>
           </button>
         </div>
       </template>
-
+      
     </div>
   </div>
 </template>
