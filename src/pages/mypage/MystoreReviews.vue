@@ -18,6 +18,7 @@ const sortedReviews = computed(() => {
   return review.reviews.slice().sort((a, b) => b.idx - a.idx);
 });
 
+
 // 시간차 
 // npm install date-fns
 // 으로 date-fns설치하고 코드 작성 해야함.
@@ -76,7 +77,7 @@ export default {
           <router-link to="/myproduct_home/myproductstores" class="text-sm font-medium">{{
             review.userid
           }}</router-link>
-          <div class="text-xs text-gray-500">{{ formatTimeAgo(review.createtime) }}</div>
+          <div class=" text-xs text-gray-500" style="margin-left: 10px;">{{ formatTimeAgo(review.createtime) }}</div>
         </div>
 
         <router-link :to="`/product_detail/${idx+1}`" class="inline-block">
