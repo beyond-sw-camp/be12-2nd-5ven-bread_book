@@ -1,5 +1,5 @@
-<script setup>
-import { onMounted } from "vue";
+  <script setup>
+import { computed, onMounted } from "vue";
 import { useProductStore } from "../../stores/useProductStore";
 import { useRoute } from "vue-router";
 
@@ -7,25 +7,31 @@ const store = useProductStore();
 const route = useRoute();
 const idx = route.params.idx;
 
+const sortStore = computed(() => {
+  return store.products.slice().sort((a, b) => b.idx - a.idx);
+});
+
+const currentuserId = idx;
+
 onMounted(async () => {
   await store.fetchProducts(idx);
 });
 </script>
 
-<script>
+  <script>
 export default {
   name: "Myproductstores",
 };
 </script>
 
-<template>
+  <template>
   <div
     class="mx-auto grid max-w-6xl grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
   >
     <div
       class="p-3 w-full max-w-sm mx-auto rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl hover:transform hover:scale-105 duration-300"
-      v-for="(store, idx) in store.products"
-      :key="`store.products-${idx}`"
+      v-for="(store, idx) in sortStore"
+      :key="`store-${idx}`"
       :store="store"
     >
       <router-link :to="`/product_detail/${store.idx}`">
@@ -40,11 +46,24 @@ export default {
         <span class="text-gray-500 mt-2">{{ store.price }}원</span>
       </div>
 
-      <!-- <div class="mt-1 p-2">
-        <div class="mt-3 flex items-end justify-between">
-          
-          <p class="text-lg font-bold text-blue-500">{{ book.price }}원</p>
+      <template v-if="store.user_idx === currentUserId">
+        <div class="mt-1 p-2 flex items-end justify-between">
+          <button
+            class="z-18 flex items-center space-x-1.5 rounded-lg bg-blue-400 px-2 py-1 text-white border-solid duration-100 hover:bg-blue-500"
+          >
+            <span class="text-sm truncate">수정</span>
+          </button>
 
+          <button
+            class="ml-0.5 z-18 flex items-center space-x-1.5 rounded-lg bg-blue-500 px-2 py-1 text-white duration-100 hover:bg-blue-600"
+          >
+            <span class="text-sm truncate">삭제</span>
+          </button>
+        </div>
+      </template>
+
+      <template v-else>
+        <div class="flex items-end justify-between">
           <button
             v-if="book.wish"
             @click.prevent="onWishButton(book)"
@@ -53,7 +72,7 @@ export default {
             <img id="starIcon" src="/src/assets/icon/white-star.svg" alt="찜" />
             <span class="text-sm truncate">찜하기</span>
           </button>
-
+          
           <button
             v-if="!book.wish"
             @click.prevent="onWishButton(book)"
@@ -62,15 +81,15 @@ export default {
             <img
               id="starIcon"
               src="/src/assets/icon/yellow-star-filled.svg"
-              alt="찜"/>
-
+              alt="찜"
+            />
             <span class="text-sm truncate">해제하기</span>
           </button>
         </div>
-      </div> -->
+      </template>
 
     </div>
   </div>
 </template>
 
-<style scoped></style>
+  <style scoped></style>
