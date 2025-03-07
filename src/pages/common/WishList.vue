@@ -1,101 +1,95 @@
 <script setup>
+import { useRoute } from "vue-router";
+import { useLoadingStore } from "../../stores/useLoadingStore";
 
-</script>
+import { onMounted } from "vue";
+import { useWishListStore } from "../../stores/useWishListStore";
+
+const route = useRoute();
+const loadingStore = useLoadingStore();
+const wish = useWishListStore();
+
+onMounted(async () => {
+  await wish.wishList();
+});
+</script> 
 
 <template>
-  <div :class="cartOpen ? 'translate-x-0 ease-out' : 'translate-x-full ease-in'" class="fixed right-0 top-0 max-w-xs w-full h-full px-6 py-4 transition duration-300 transform overflow-y-auto bg-white border-l-2 border-gray-300 translate-x-full ease-in translate-x-0 ease-out">
-    <div class="flex items-center justify-between">
-      <h3 class="text-2xl font-medium text-gray-700">Your cart</h3>
-      <button @click="cartOpen = !cartOpen" class="text-gray-600 focus:outline-none">
-        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-          <path d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
-    </div>
-    <hr class="my-3">
-    <div class="flex justify-between mt-6">
-      <div class="flex">
-        <img class="h-20 w-20 object-cover rounded" src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1189&amp;q=80" alt="">
-        <div class="mx-3">
-          <h3 class="text-sm text-gray-600">Mac Book Pro</h3>
-          <div class="flex items-center mt-2">
-            <button class="text-gray-500 focus:outline-none focus:text-gray-600">
-              <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-            </button>
-            <span class="text-gray-700 mx-2">2</span>
-            <button class="text-gray-500 focus:outline-none focus:text-gray-600">
-              <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-            </button>
+  <div class="bg-gray-100 min-h-screen flex flex-col">
+    <div class=" flex-grow flex justify-center items-center">
+      <div class="bg-white w-full max-w-[800px] h-[500px] p-6 rounded-lg shadow-md">
+        <!-- 상단 타이틀 -->
+        <div class="flex items-center mb-4">
+          <h1 class="text-4xl font-bold mb-4">찜 목록</h1>
+        </div>      
+
+        <hr class="mb-2 border-0 border-t border-gray-300" />
+
+        <!-- 예시 -->
+        <div class="overflow-y-auto h-[350px]">
+
+          <div div class="flex justify-between mt-4 mr-4 border border-gray-300 rounded-lg p-4 mb-4 flex items-start">
+            <div class="flex mt-4">
+              <img
+                class="h-20 w-20 object-cover rounded"
+                src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1189&amp;q=80"
+                alt=""
+              />
+
+              <div class="mx-3">
+                <h3 class="text-sm text-gray-600">
+                  Mac Book Pro
+                </h3>
+              </div>
+            </div>
+
+            <span class="text-gray-600">20$</span>
           </div>
-        </div>
-      </div>
-      <span class="text-gray-600">20$</span>
-    </div>
-    <div class="flex justify-between mt-6">
-      <div class="flex">
-        <img class="h-20 w-20 object-cover rounded" src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1189&amp;q=80" alt="">
-        <div class="mx-3">
-          <h3 class="text-sm text-gray-600">Mac Book Pro</h3>
-          <div class="flex items-center mt-2">
-            <button class="text-gray-500 focus:outline-none focus:text-gray-600">
-              <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-            </button>
-            <span class="text-gray-700 mx-2">2</span>
-            <button class="text-gray-500 focus:outline-none focus:text-gray-600">
-              <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-            </button>
+          
+          <div div class="flex justify-between mt-4 mr-4 border border-gray-300 rounded-lg p-4 mb-4 flex items-start">
+            <div class="flex mt-4">
+              <img
+                class="h-20 w-20 object-cover rounded"
+                src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1189&amp;q=80"
+                alt=""
+              />
+
+              <div class="mx-3">
+                <h3 class="text-sm text-gray-600">
+                  Mac Book Pro
+                </h3>
+              </div>
+            </div>
+
+            <span class="text-gray-600">20$</span>
           </div>
-        </div>
+
       </div>
-      <span class="text-gray-600">20$</span>
-    </div>
-    <div class="flex justify-between mt-6">
-      <div class="flex">
-        <img class="h-20 w-20 object-cover rounded" src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1189&amp;q=80" alt="">
-        <div class="mx-3">
-          <h3 class="text-sm text-gray-600">Mac Book Pro</h3>
-          <div class="flex items-center mt-2">
-            <button class="text-gray-500 focus:outline-none focus:text-gray-600">
-              <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-            </button>
-            <span class="text-gray-700 mx-2">2</span>
-            <button class="text-gray-500 focus:outline-none focus:text-gray-600">
-              <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-            </button>
+
+        <!-- v-for문을 이용한 리스트 출력 -->
+        <router-link
+          v-for="(wish, idx) in wish.wishList"
+          :key="`wish-${idx}`"
+          :wish="wishList"
+          class="review-item flex flex-col md:flex-row md:items-start mx-auto max-w-6xl mt-10"
+          :to="`/paymentDetails/${1}`"
+        >
+          <div class="flex justify-between mt-2">
+            <img class="w-[48px] h-[60px] object-contain rounded-md" src="#" />
+
+            <div class="ml-[35px] font-semibold text-sm">
+            {{ wishList.title }}
+            </div>
+
+            <span class="text-gray-600">20$</span>
           </div>
-        </div>
+
+          <hr class="mb-2 border-0 border-t border-gray-300" />
+        </router-link>
       </div>
-      <span class="text-gray-600">20$</span>
     </div>
-    <div class="mt-8">
-      <form class="flex items-center justify-center">
-        <input class="form-input w-48" type="text" placeholder="Add promocode">
-        <button class="ml-3 flex items-center px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-          <span>Apply</span>
-        </button>
-      </form>
-    </div>
-    <a class="flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-      <span>Chechout</span>
-      <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-        <path d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-      </svg>
-    </a>
   </div>
 </template>
 
 <style scoped>
-
 </style>

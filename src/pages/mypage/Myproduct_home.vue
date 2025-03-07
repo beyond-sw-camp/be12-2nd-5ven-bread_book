@@ -2,22 +2,26 @@
 import { onBeforeMount } from "vue";
 import { useRoute } from 'vue-router';
 import mystoreReviews from "./MystoreReviews.vue";
-import { useProductReview } from "../../stores/useProductReview";
+import { useReviewStore } from "../../stores/useReviewStore";
 import { useProductStore } from "../../stores/useProductStore";
-
-const user = useProductReview();
+import { useMemberStore } from "../../stores/useMemberStore";
+import { usePaymentStore } from '../../stores/usePaymentStore';
 
 const route = useRoute();
 const idx = route.params.idx;
-console.log(idx);
+
 
 const product = useProductStore();
-const review = useProductReview();
+const review = useReviewStore();
+const userStore = useMemberStore();
+const paylistlength = usePaymentStore();
 
 onBeforeMount(async () => {
   await user.fetchproductuser();
   await review.fetchstorereview(idx);
   await product.fetchProducts(idx);
+  await userStore.fetchMember();
+  await paylistlength.pays(idx);
 });
 </script>
 
@@ -43,7 +47,7 @@ export default {
               <!-- 프로필 이미지 -->
               <div class="w-28 h-28 rounded-full overflow-hidden items-center">
                 <img
-                  :src="'/images' + user.user.image_url"
+                  :src="'/images' + userStore.userInfo.profileImgUrl"
                   alt="프로필 이미지"
                   class="w-full h-full object-cover"
                 />
@@ -53,7 +57,7 @@ export default {
               <div class="mt-2 md:mt-0 text-center md:text-center items-center">
                 <!-- 상점 이름 -->
                 <h1 class="text-2xl font-semibold text-black">
-                  {{ user.user.username }}
+                  {{ userStore.userInfo.nickname }}
                 </h1>
 
                 <div class="mt-4 md:mt-0 flex" style="margin-left: 15px">
@@ -83,19 +87,7 @@ export default {
             <!-- 상단 헤더 -->
             <div class="flex justify-between items-center border-b pb-2">
               <div class="text-xl font-bold text-gray-800">
-                {{ user.user.username }}
-              </div>
-
-              <div class="text-sm text-gray-500 flex items-center">
-                <input
-                  type="checkbox"
-                  disabled
-                  checked
-                  id="coding"
-                  name="interest"
-                  value="coding"
-                />
-                <label class="text-yellow-400 mr-1">본인인증 완료</label>
+                {{ userStore.userInfo.username }}
               </div>
             </div>
 
@@ -107,7 +99,14 @@ export default {
                   alt="아이콘"
                   class="w-4 h-4 mr-2"
                 />
-                <span>빵등급</span>
+
+                <span>
+                  빵등급 : 
+                  <!-- 추후 추가 해야함
+                  {{ userStore.userInfo.빵등급 }} 
+                  -->
+
+                </span>
               </div>
               
               <div class="flex items-center">
@@ -117,7 +116,9 @@ export default {
                   class="w-4 h-4 mr-2"
                 />
                 <span>상품 판매</span>
-                <span class="ml-auto text-gray-500">{{ user.user.sales }}회</span>
+                <span class="ml-auto text-gray-500">
+                  {{ paylistlength.paysList.length }} 회
+                </span>
               </div>
             </div>
 
