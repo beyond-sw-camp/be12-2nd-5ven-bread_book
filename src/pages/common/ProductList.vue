@@ -1,7 +1,7 @@
 <!-- 백엔드 연동을 위하여 BookList에서 수정된 새로운 파일 -->
 <!-- [Test in progress] 백엔드 연동을 위해 임시 교체 시도중 -->
 <script setup>
-import {onMounted, ref} from 'vue'; // 컴포넌트가 마운트되었을 때 response data를 갖고 오기 위해서 추가
+import {onMounted, ref, computed} from 'vue'; // 컴포넌트가 마운트되었을 때 response data를 갖고 오기 위해서 추가
 //import {useMainBookStore} from '/src/stores/useMainBookStore.js'; // 책 관련 데이터 상태를 관리하는 store 가져오기
 import {useProductReadStore} from "../../stores/useProductReadStore.js";
 import {useRoute} from "vue-router";
@@ -24,6 +24,12 @@ const isWideSection = ref(false);
 //const bookStore = useMainBookStore();
 const bookStore = useProductReadStore();
 const books = ref([]);
+const isFilterEmpty = computed(() => {
+  const filters = bookStore.filters;
+  return !filters.title && !filters.author && !filters.publisher && !filters.keyword;
+});
+
+
 onMounted(async () => {
   loadingStore.startLoading();
   if (route.name === 'Home') {
@@ -32,24 +38,10 @@ onMounted(async () => {
   }
   else if (route.name === 'SearchResult') {
     isWideSection.value = false;
-    await bookStore.fetchProducts();
+    if (bookStore.books.length === 0 || isFilterEmpty.value) {
+      await bookStore.fetchProducts();
+    }
   }
-  // if (route.name === 'Home') {
-  //   isWideSection.value = true;
-  //   await bookStore.fetchProducts();
-  //   books.value = bookStore.books.map((book) => ({
-  //     ...book,
-  //     wish: book.wish === 'true' || book.wish === true, // 문자열 "false"를 Boolean으로 변환
-  //   }));
-  // }
-  // else if (route.name === 'SearchResult') {
-  //   isWideSection.value = false;
-  //   await bookStore.fetchResult();
-  //   books.value = bookStore.books.map((book) => ({
-  //     ...book,
-  //     wish: book.wish === 'true' || book.wish === true, // 문자열 "false"를 Boolean으로 변환
-  //   }));
-  // }
   isLogin.value = memberStore.isLogin;
   isLogout.value = !isLogin.value;
   loadingStore.stopLoading();

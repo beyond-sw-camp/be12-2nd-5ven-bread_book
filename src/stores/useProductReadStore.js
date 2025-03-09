@@ -13,13 +13,20 @@ export const useProductReadStore = defineStore('productRead', {
         currentPage: 0,
         pageSize: 16,
         isLastPage: false,
+
+        filters: {
+            title: '',
+            author: '',
+            publisher: '',
+            keyword: '',
+        }
+
     }),
     actions: {
         async fetchProducts(page = 0, size = 24) {
             try {
-                const response = await axios.get(`/api/product/list`, {
-                    params: { page, size },
-                });
+                const params = { page, size, ...this.filters };
+                const response = await axios.get(`/api/product/list`, { params });
                 if (response.data.isSuccess) {
                     const data = response.data.data;
                     this.books = data.content.map((book) => ({
@@ -36,6 +43,11 @@ export const useProductReadStore = defineStore('productRead', {
                     console.log('책 목록을 성공적으로 불러왔습니다:', this.books);
                 } else { console.error('API 요청 실패:', response.data.message);}
             } catch (error) { console.error('책 목록을 불러오는 중 오류 발생:', error);}
+        },
+
+        updateFilters(newFilters) {
+            this.filters = { ...this.filters, ...newFilters };
+            // this.fetchProducts();
         },
         
         async fetchProductItem(productIdx) {

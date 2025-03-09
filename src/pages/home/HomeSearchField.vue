@@ -1,6 +1,40 @@
 <script setup>
+import {ref} from 'vue';
 import {useRouter} from "vue-router";
 const router = useRouter();
+import {useProductReadStore} from "/src/stores/useProductReadStore.js";
+
+const bookStore = useProductReadStore();
+
+const searchInput = ref('');
+const selectedFilter = ref('전체');
+
+function onSearchClick() {
+  const filterObj = {};
+  switch (selectedFilter.value) {
+    case '전체':
+    default:
+      filterObj.keyword = searchInput.value;
+      break;
+    case '제목':
+      filterObj.title = searchInput.value;
+      break;
+    case '저자':
+      filterObj.author = searchInput.value;
+      break;
+    case '출판사':
+      filterObj.publisher = searchInput.value;
+      break;
+    case '키워드':
+      filterObj.keyword = searchInput.value;
+      break;
+  }
+  bookStore.updateFilters(filterObj);
+  bookStore.fetchProducts(0, bookStore.pageSize);
+  if (router.currentRoute.value.path !== '/result'){
+    router.push({path: '/result'});
+  }
+}
 </script>
 
 <template>
@@ -9,7 +43,7 @@ const router = useRouter();
       <!-- 상단 버튼 -->
       <form action="/" class="flex flex-col items-start rounded-lg shadow-md max-w-md">
         <label for="book" class="text-sm font-medium text-gray-700"></label>
-        <select name="bookdetails" id="book"
+        <select v-model="selectedFilter" name="bookdetails" id="book"
                 class="block w-24 h-10 px-3 py-1.5 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
           <option value="전체">전체</option>
           <option value="제목">제목</option>
@@ -30,11 +64,12 @@ const router = useRouter();
                     clip-rule="evenodd"></path>
             </svg>
           </div>
-          <input type="text" id="simple-search"
+          <input v-model="searchInput" type="text" id="simple-search"
                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                  placeholder="Search" required>
         </div>
-        <button type="submit" @click="(function(){router.push({ path: '/result'});}());"
+<!--                        @click="(function(){router.push({ path: '/result'});}());"-->
+        <button type="submit" @click="onSearchClick"
                 class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                xmlns="http://www.w3.org/2000/svg">
