@@ -24,7 +24,7 @@ export const useProductReadStore = defineStore('productRead', {
                     const data = response.data.data;
                     this.books = data.content.map((book) => ({
                         ...book,
-                        firstImageUrl: `/api/images/${book.firstImageUrl}`,
+                        firstImageUrl: `/imgapi/images/${book.firstImageUrl}`,
                         wishCanceled: String(book.wishCanceled) === 'true',
                         bookCondition: book.bookCondition === "GOOD" ? "좋음" : book.bookCondition === "NORMAL" ? "보통" : "헌책",
                     }));

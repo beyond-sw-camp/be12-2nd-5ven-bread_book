@@ -21,6 +21,14 @@ export default defineConfig({
         // '/api' 부분 제거
         rewrite: (path) => path.replace(/^\/api/,""),
       },
+      "/imgapi": {
+        // 대상 서버
+        target: "http://localhost:80/",
+        // 대상 서버의 호스트 헤더 변경 여부
+        changeOrigin: true,
+        // '/api' 부분 제거
+        rewrite: (path) => path.replace(/^\/imgapi/,""),
+      },
       "/payapi": {
         // 대상 서버
         target: "https://open-api.kakaopay.com/",
