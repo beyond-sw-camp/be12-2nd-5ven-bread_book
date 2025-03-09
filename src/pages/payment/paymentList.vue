@@ -78,6 +78,7 @@ const selectItem = (item) => {
 </script>
 
 <template>
+    
     <div style="display: flex; justify-content: center; margin-top: 50px;">
         <div class="container">
             <div class="title">

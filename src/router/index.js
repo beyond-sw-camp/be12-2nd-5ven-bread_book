@@ -26,6 +26,7 @@ import ChangePw from '../pages/member/ChangePw.vue';
 import Terms from '../pages/member/Terms.vue';
 import MyInfochange from '../pages/mypage/MyInfochange.vue';
 import Report from '../pages/report/Report.vue';
+import WishList from '../pages/common/WishList.vue';
 
 
 const checkLogin = async (from, to, next) => {
@@ -202,6 +203,12 @@ const routes = [
     path: "/report", 
     name: "Report", 
     component: Report,
+   },
+   {
+    path: "/wishlist",
+    name: "wishlist",
+    component: WishList,
+    meta: { showHeader: true, showFooter: true },
    }
 ]
 

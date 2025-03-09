@@ -3,14 +3,18 @@ import axios from 'axios';
 
 export const useMemberStore = defineStore('member', {
     state: () => (
-        {member: {
+        {
+            member: {
             idx: -1,
             userid: "",
             username: "",
             email: "",
             nickname: "",
             provider: ""
-        }, isLogin: true}),
+        }, 
+        userInfo: {},
+        isLogin: false
+    }),
     persist: {
         storage: sessionStorage,
     },
@@ -24,6 +28,7 @@ export const useMemberStore = defineStore('member', {
         },
         async fetchMember() {
             const response = await axios.post("/api/user/info")
+            this.userInfo = response.data.data;
             return response;
         },
         async findId(user) {
@@ -78,6 +83,6 @@ export const useMemberStore = defineStore('member', {
         async logout() {
             this.isLogin = false;
             await axios.post("/api/logout");
-        }
+        },
     }
 })
