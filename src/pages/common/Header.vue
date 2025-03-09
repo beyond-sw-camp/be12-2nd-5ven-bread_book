@@ -112,7 +112,7 @@ onUnmounted(() => {
             <router-link
               to="/myproduct_home/myproductstores"
               type="button"
-              class="rounded mr-3 hidden border border-blue-700 bg-blue-700 py-1.5 px-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg"
+              class="rounded mr-3 hidden border border-blue-700 bg-blue-700 py-1.5 px-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-3 md:inline-block rounded-lg"
             >
               <span>마이페이지</span>
             </router-link>
@@ -120,10 +120,12 @@ onUnmounted(() => {
             <router-link
               to="/wishlist"
               type="button"
-              class="rounded mr-3 hidden border border-blue-700 bg-blue-700 py-1.5 px-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg"
+              class="flex items-center rounded mr-3 hidden border border-blue-700 bg-blue-700 py-1.5 px-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg"
             >
               <span>찜 목록</span>
+<!--              <div><img id="starIcon" src="/src/assets/icon/white-star.svg" alt="찜"/></div>-->
             </router-link>
+
           </div>
         </div>
         <!--  Toggle Button for Narrow Window    -->
