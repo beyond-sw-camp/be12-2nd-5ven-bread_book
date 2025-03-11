@@ -8,6 +8,7 @@ import { ko } from "date-fns/locale";
 
 const route = useRoute();
 const idx = route.params.idx;
+const page =ref(0);
 
 const review = useProductReview();
 const visibleReviewCount = ref(3);
@@ -19,14 +20,7 @@ const sortedReviews = computed(() => {
 });
 
 
-// 시간차 
-// npm install date-fns
-// 으로 date-fns설치하고 코드 작성 해야함.
-const formatTimeAgo = (date) => {
-  return formatDistanceToNow(new Date(date), {
-    addSuffix: true, locale: ko
-  });
-};
+
 
 // 화면에 표시할 리뷰 계산
 const visibleReviews = computed(() => {
@@ -42,7 +36,7 @@ const showMoreReviews = () => {
 };
 
 onMounted(async () => {
-  await review.fetchstorereview(idx); // idx 전달
+  await review.fetchstorereview(idx,page.value); // idx 전달
 });
 </script>
 
@@ -56,15 +50,14 @@ export default {
 <template>
   <div class="container mx-auto px-6">
     <div
-      v-for="(review, idx) in visibleReviews"
-      :key="`review-${idx}`" :review="review"
+      v-for="review in review.reviews" :key="review.reviewIdx" :review="review"
       class="review-item flex flex-col md:flex-row md:items-start mx-auto max-w-6xl">
       <div class="w-full p-4 md:w-1/5">
-        <router-link to="/myproduct_home/myproductstores"
+        <router-link :to="`/myproduct_home/myproductstores/${review.memberIdx}`"
         class="flex-shrink-0 mt-2 md:mt-4">
             <div class="w-20 h-20 bg-gray-100 rounded-full overflow-hidden">
               <img
-                :src="review.userimageurl"
+                :src="`${review.imageUrl}`"
                 alt="리뷰어 이미지"
                 class="w-full h-full object-cover"
               />
@@ -74,25 +67,24 @@ export default {
 
       <div class="w-full md:w-4/5 p-4">
         <div class="flex items-center pb-4">
-          <router-link to="/myproduct_home/myproductstores" class="text-sm font-medium">{{
+          <div class="text-sm font-medium">{{
             review.userid
-          }}</router-link>
-          <div class=" text-xs text-gray-500" style="margin-left: 10px;">{{ formatTimeAgo(review.createtime) }}</div>
+          }}</div>
+          <div class=" text-xs text-gray-500" style="margin-left: 10px;">{{ review.createdAt }}</div>
         </div>
 
         <router-link :to="`/product_detail/${idx+1}`" class="inline-block">
           <button
             class="flex items-center space-x-1 bg-gray-100 rounded px-2 mt-4 text-sm"
           >
-            <span>{{ review.itemname }}</span>
-            ←
+            <span>{{ review.title }}</span>
           </button>
         </router-link>
 
         <div
           class="mt-4 text-gray-700 text-sm leading-relaxed rounded-lg p-3 max-h-32 overflow-y-auto"
         >
-          {{ review.content }}
+          {{ review.reviewText }}
         </div>
 
         <div class="border-t mt-4 pt-3 text-right">

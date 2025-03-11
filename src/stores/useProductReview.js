@@ -21,10 +21,16 @@ export const useProductReview = defineStore('useProductReview', {
                 this.user = [];
             }
         },
-        async fetchstorereview(idx) {
+        async fetchstorereview(idx,page) {
             try {
-                const response = await axios.get(`/api/review/${idx}`);
-                this.reviews = response.data;
+                const dto ={
+                    page:page,
+                    memberIdx:idx
+                }
+                console.log(page);
+                const response = await axios.post("/api/review/find",dto);
+                this.reviews = response.data.data;
+                console.log(this.reviews);
               } catch (error) {
                 console.error("Error fetching reviews:", error);
               }
