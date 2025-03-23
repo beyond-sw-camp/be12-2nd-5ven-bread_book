@@ -90,7 +90,7 @@ async function confirmChat() {
   console.log(" 보낼 JSON 데이터:", JSON.stringify(requestData));
 
   try {
-    const response = await fetch("http://localhost:8080/chatting/room", {
+    const response = await fetch("/api/chatting/room", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
