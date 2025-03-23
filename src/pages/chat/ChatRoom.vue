@@ -61,7 +61,7 @@ function connectWebSocket(roomIdx) {
   }
 
   stompClient.value = new Client({
-    brokerURL: "ws://localhost:8080/ws",
+    brokerURL: "/ws",
     onConnect: () => {
       console.log(`WebSocket 연결됨: 채팅방 ${roomIdx}`);
 

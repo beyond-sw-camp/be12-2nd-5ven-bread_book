@@ -76,7 +76,7 @@ function connectWebSocket() {
   }
 
   stompClient = new Client({
-    brokerURL: "ws://localhost:8080/ws",
+    brokerURL: "/ws",
     reconnectDelay: 5000,
     onConnect: () => {
       console.log("ebSocket 연결됨");

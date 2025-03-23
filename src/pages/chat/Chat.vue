@@ -70,7 +70,7 @@ function setSelectedChatRoom(roomIdx) {
 
 function connectWebSocket(roomIdx) {
   stompClient.value = new Client({
-    brokerURL: "ws://localhost:8080/ws",
+    brokerURL: "/ws",
     reconnectDelay: 5000,
     onConnect: () => {
       console.log("WebSocket 연결 성공: 채팅방", roomIdx);
