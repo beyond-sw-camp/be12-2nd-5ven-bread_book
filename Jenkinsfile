@@ -17,6 +17,9 @@ pipeline {
         stage('Npm Run Build') {
             agent { label 'build' }  // 빌드 전용 Agent에서 실행
             steps{
+                echo "install"
+                sh 'npm install'
+                
                 echo "Build"
                 sh 'npm run build'
             }
