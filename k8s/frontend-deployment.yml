@@ -2,18 +2,18 @@ apiVersion: v1
 kind: Deployment
 metadata:
   namespace: breadbook
-  name: backend-deployment-COLOR
+  name: frontend-deployment-COLOR
 spec:
   replicas: 2
   selector:
     matchLabels:
       type: frontend
-      deployment: COLOR
+      deployment: front-COLOR
   template:
     metadata:
       labels:
         type: frontend
-        deployment: COLOR
+        deployment: front-COLOR
     spec:
       # initContainers:
       #   - name : init-html
