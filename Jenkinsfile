@@ -19,7 +19,7 @@ pipeline {
             steps{
                 echo "install"
                 sh 'npm install'
-                
+
                 echo "Build"
                 sh 'npm run build'
             }
@@ -48,5 +48,41 @@ pipeline {
         //         // 배포 관련 작업
         //     }
         // }
+        stage('SSH') {
+                    agent { label 'deploy' }
+                    steps{
+                        script{
+                            def color      = (BUILD_NUMBER.toInteger() % 2 == 0) ? 'green' : 'blue'
+                            def otherColor = (color == 'green') ? 'blue' : 'green'
+                            sshPublisher(
+                                publishers: [
+                                    sshPublisherDesc(
+                                        configName: 'k8s',
+                                        verbose: true,
+                                        transfers: [
+                                            sshTransfer(
+                                                sourceFiles: 'k8s/frontend-deployment.yml, k8s/frontend-external-service.yml',
+                                                remoteDirectory: '/ciu',
+                                                execCommand: """
+                                                    sed -i "s/LATEST/$BUILD_ID/g" /home/test/ciu/k8s/frontend-deployment.yml
+                                                    sed -i "s/COLOR/$color/g" /home/test/ciu/k8s/frontend-deployment.yml
+                                                    sed -i "s/COLOR/$color/g" /home/test/ciu/k8s/frontend-external-service.yml
+                                                """
+                                            ),
+                                            sshTransfer(
+                                                execCommand: """
+                                                    kubectl apply -f /home/test/ciu/k8s/frontend-deployment.yml
+                                                    kubectl rollout status deployment/backend-deployment-$color -n breadbook --timeout=120s
+                                                    kubectl apply -f /home/test/ciu/k8s/frontend-external-service.yml
+                                                    kubectl scale deployment/frontend-deployment-$otherColor -n breadbook --replicas=0 || true
+                                                """
+                                            )
+                                        ]
+                                    )
+                                ]
+                            )
+                        }
+                    }
+                }
     }
 }
