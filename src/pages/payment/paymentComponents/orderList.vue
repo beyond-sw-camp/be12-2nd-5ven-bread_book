@@ -71,7 +71,7 @@ watch(
 </script>
 
 <template>
-  <div style="min-height: 1000px;">
+  <div style="min-height: 550px;">
     <div v-for="order in paymentStore.ordersList" :key="order.orderIdx">
         <div class="product wrap" v-if="option === '전체' || option === order.orderStatus">
             <div class="product-main">
