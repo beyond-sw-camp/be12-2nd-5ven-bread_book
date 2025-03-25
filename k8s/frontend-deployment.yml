@@ -24,7 +24,7 @@ spec:
       #         mountPath: /usr/share/nginx/html
       containers:
         - name: front
-          image: iuch/breadbook-front:14
+          image: iuch/breadbook-front:LATEST
           volumeMounts:
             - name: image-upload
               mountPath: /mnt
