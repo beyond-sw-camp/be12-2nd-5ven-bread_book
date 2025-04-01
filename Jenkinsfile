@@ -11,7 +11,7 @@ pipeline {
             agent { label 'build' }  // 빌드 전용 Agent에서 실행
             steps{
                 echo "Cloneing Repository"
-                git branch: 'main', url: 'https://github.com/beyond-sw-camp/be12-2nd-5ven-bread_book'
+                git branch: 'feature/jenkinsfile/demo', url: 'https://github.com/beyond-sw-camp/be12-2nd-5ven-bread_book'
             }
         }
         stage('Npm Run Build') {

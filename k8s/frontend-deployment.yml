@@ -25,12 +25,12 @@ spec:
       containers:
         - name: front
           image: iuch/breadbook-front:LATEST
-          volumeMounts:
-            - name: image-upload
-              mountPath: /mnt
+          # volumeMounts:
+          #   - name: image-upload
+          #     mountPath: /mnt
           ports:
             - containerPort: 80
-      volumes:
-        - name: image-upload
-          persistentVolumeClaim:
-            claimName: image-pvc
+      # volumes:
+      #   - name: image-upload
+      #     persistentVolumeClaim:
+      #       claimName: image-pvc
