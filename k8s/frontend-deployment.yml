@@ -4,7 +4,7 @@ metadata:
   namespace: breadbook
   name: frontend-deployment-COLOR
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       type: frontend
