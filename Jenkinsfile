@@ -72,7 +72,7 @@ pipeline {
                                             sshTransfer(
                                                 execCommand: """
                                                     kubectl apply -f /home/test/ciu/k8s/frontend-deployment.yml
-                                                    kubectl rollout status deployment/backend-deployment-$color -n breadbook --timeout=120s
+                                                    kubectl rollout status deployment/frontend-deployment-$color -n breadbook --timeout=120s
                                                     kubectl apply -f /home/test/ciu/k8s/frontend-external-service.yml
                                                     kubectl scale deployment/frontend-deployment-$otherColor -n breadbook --replicas=0 || true
                                                 """
